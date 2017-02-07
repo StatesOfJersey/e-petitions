@@ -1,5 +1,5 @@
 <%= cache_for :home_page do %>
-  <h1 class="visuallyhidden">Petitions – UK Government and Parliament</h1>
+   <h1 class="visuallyhidden">Petitions – States of Jersey Government</h1>
 
   <% if no_petitions_yet? %>
     <div class="section-panel-borderless no-petitions-yet">
@@ -41,12 +41,12 @@
       <% if actioned[:with_response][:count].zero? %>
         <div class="threshold-panel threshold-panel-response">
           <h2 id="response-threshold-heading"><%= Site.formatted_threshold_for_response %></h2>
-          <p>If a petition gets <%= Site.formatted_threshold_for_response %> signatures, the government will respond</p>
+              <p>If a petition gets <%= Site.formatted_threshold_for_response %> signatures, the Government will respond</p>
         </div>
       <% else %>
         <%= link_to( petitions_path(state: :with_response), class: "threshold-panel threshold-panel-response" ) do %>
           <h2 id="response-threshold-heading"><%= Site.formatted_threshold_for_response %></h2>
-          <p>If a petition gets <%= Site.formatted_threshold_for_response %> signatures, the government will respond</p>
+              <p>If a petition gets <%= Site.formatted_threshold_for_response %> signatures, the States of Jersey will respond</p>
         <% end %>
       <% end %>
       <div class="section-panel-borderless">
@@ -58,12 +58,12 @@
       <% if actioned[:with_debated_outcome][:count].zero? %>
         <div class="threshold-panel threshold-panel-debate">
           <h2 id="debate-threshold-heading"><%= Site.formatted_threshold_for_debate %></h2>
-          <p>If a petition gets <%= Site.formatted_threshold_for_debate %> signatures, it will be considered for debate in Parliament</p>
+             <p>If a petition gets <%= Site.formatted_threshold_for_debate %> signatures, it will be considered for debate in the States Assembly</p>
         </div>
       <% else %>
         <%= link_to( petitions_path(state: :debated), class: "threshold-panel threshold-panel-debate" ) do %>
           <h2 id="debate-threshold-heading"><%= Site.formatted_threshold_for_debate %></h2>
-          <p>If a petition gets <%= Site.formatted_threshold_for_debate %> signatures, it will be considered for debate in Parliament</p>
+             <p>If a petition gets <%= Site.formatted_threshold_for_debate %> signatures, it will be considered for debate in the States Assembly</p>
         <% end %>
       <% end %>
       <div class="section-panel">
@@ -71,6 +71,7 @@
       </div>
     </section>
   <% end %>
+<!-- 
 
   <% unless no_petitions_yet? %>
     <section class="section-panel local-to-you" aria-labelledby="local-to-you-heading">
@@ -79,10 +80,11 @@
       <%= render 'local_search' %>
     </section>
   <% end %>
+-->
 
   <section class="section-panel-borderless start-petition" aria-labelledby="start-a-petition-heading">
     <h2 id="start-a-petition-heading">Start a petition</h2>
-    <p>Anyone can start a petition as long as they are a British citizen or UK resident</p>
+        <p>Anyone can start a petition as long as they are a Jersey resident.</p>
     <%= link_to "Start a petition", check_petitions_path, :class => 'button' %>
   </section>
 <% end %>
