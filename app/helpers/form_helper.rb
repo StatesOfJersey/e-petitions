@@ -7,7 +7,20 @@ module FormHelper
   end
 
   def countries_for_select
-    Location.menu
+    [
+      'St Helier',
+      'Grouville',
+      'St Brelade',
+      'St Clement',
+      'St John',
+      'St Lawrence',
+      'St Martin',
+      'St Mary',
+      'St Ouen',
+      'St Peter',
+      'St Saviour',
+      'Trinity'
+    ]
   end
 
   def error_messages_for_field(object, field_name, options = {})
