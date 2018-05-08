@@ -102,20 +102,20 @@ p {
 
 // Link styles
 a {
-  color: $link-colour;
+  color: $petitions-link-colour;
   text-decoration: none;
 }
 
 a:visited {
-  color: $link-colour;
+  color: $petitions-link-colour;
 }
 
 a:hover {
-  color: $link-hover-colour;
+  color: $petitions-link-hover-colour;
 }
 
 a:active {
-  color: $link-colour;
+  color: $petitions-link-colour;
 }
 
 .secondary, .inline-terms {

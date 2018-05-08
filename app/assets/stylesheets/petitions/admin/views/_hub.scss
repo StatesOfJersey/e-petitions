@@ -15,7 +15,7 @@
       @include box-sizing(border-box);
       width: 100%;
       height: 200px;
-      background-color: $house-of-commons-green;
+      background-color: $states-assembly-red;
       padding: $gutter-half;
       color: $white;
       @include bold-27;
@@ -40,7 +40,7 @@
     margin-right: $gutter-half;
 
     .queue-stable {
-      background-color: $house-of-commons-green;
+      background-color: $states-assembly-red;
     }
 
     .queue-caution {
