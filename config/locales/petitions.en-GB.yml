@@ -227,8 +227,8 @@ en-GB:
           other: "<span class=\"count\">%{formatted_count}</span> petitions are waiting to be considered for debate"
       with_debated_outcome:
         html:
-          one: "<span class=\"count\">%{formatted_count}</span> petition was debated in the House of Commons"
-          other: "<span class=\"count\">%{formatted_count}</span> petitions were debated in the House of Commons"
+          one: "<span class=\"count\">%{formatted_count}</span> petition was debated in the States Assembly"
+          other: "<span class=\"count\">%{formatted_count}</span> petitions were debated in the States Assembly"
       awaiting_response_explanation:
         html: "See all petitions waiting for a government response (%{formatted_count})"
       with_response_explanation:
@@ -236,9 +236,9 @@ en-GB:
       awaiting_debate_explanation:
         html: "See all petitions waiting for a debate (%{formatted_count})"
       debated_explanation:
-        html: "See all petitions debated in parliament (%{formatted_count})"
+        html: "See all petitions debated in the States Assembly (%{formatted_count})"
       not_debated_explanation:
-        html: "See all petitions not debated in parliament (%{formatted_count})"
+        html: "See all petitions not debated in the States Assembly (%{formatted_count})"
 
     action_counts:
       in_moderation:
