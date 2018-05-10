@@ -1,5 +1,5 @@
 <% if actioned[:awaiting_debate][:count].zero? && actioned[:with_debated_outcome][:count].zero? %>
-  <p>Parliament hasn’t debated any petitions yet</p>
+  <p>States Assembly hasn’t debated any petitions yet</p>
 <% else %>
   <ol class="threshold-petitions">
     <% actioned[:with_debated_outcome][:list].each.with_index do |petition, index| %>
@@ -15,10 +15,10 @@
           <% end -%>
         <% end -%>
         <% if petition.debate_outcome.video_url.present? %>
-          <p>Watch the debate on <%= link_to "parliamentlive.tv", petition.debate_outcome.video_url, rel: "external" %></p>
+          <p>Watch the debate on <%= link_to "statesassembly.public-i.tv", petition.debate_outcome.video_url, rel: "external" %></p>
         <% end %>
         <% if petition.debate_outcome.transcript_url.present? %>
-          <p>Read the transcript at <%= link_to "parliament.uk", petition.debate_outcome.transcript_url, rel: "external" %></p>
+          <p>Read the transcript at <%= link_to "statesassembly.gov.je", petition.debate_outcome.transcript_url, rel: "external" %></p>
         <% end %>
         <% if petition.debate_outcome.debate_pack_url.present? %>
           <p>Read the research at <%= link_to "parliament.uk", petition.debate_outcome.debate_pack_url, rel: "external" %></p>
