@@ -66,18 +66,17 @@ a.threshold-panel:hover, a.threshold-panel:focus {
   background-color: darken($petitions-panel-colour, 5%);
 }
 .threshold-panel-response {
-  background-image: image-url("graphics/graphic_crown-white.png");
+  background-image: image-url("graphics/graphic_states-assembly-white.png");
+  background-size: 26px;
   @include device-pixel-ratio() {
-    background-image: image-url("graphics/graphic_crown-white-2x.png");
-    background-size: 36px;
+    background-image: image-url("graphics/graphic_states-assembly-white-2x.png");
   }
 }
 .threshold-panel-debate {
-  background-position: 15px 12px;
-  background-image: image-url("graphics/graphic_portcullis-white.png");
+  background-image: image-url("graphics/graphic_states-assembly-white.png");
+  background-size: 26px;
   @include device-pixel-ratio() {
-    background-image: image-url("graphics/graphic_portcullis-white-2x.png");
-    background-size: 26px;
+    background-image: image-url("graphics/graphic_states-assembly-white-2x.png");
   }
 }
 

@@ -5,6 +5,7 @@
 // Graphics
 // .graphic .graphic-portcullis
 // .graphic .graphic-portcullis-white
+// .graphic .graphic-states-assembly-white
 // .graphic .graphic-portcullis-large-white
 // .graphic .graphic-portcullis-large-grey
 // .graphic .graphic-crown
@@ -132,6 +133,16 @@
   @include device-pixel-ratio() {
     background-image: image-url("graphics/graphic_open-government-licence-2x.png");
     background-size: 100%;
+  }
+}
+.graphic-states-assembly-white {
+  width: 26px;
+  height: 32px;
+  background-image: image-url("graphics/graphic_states-assembly-white.png");
+  background-size: 100%;
+
+  @include device-pixel-ratio() {
+    background-image: image-url("graphics/graphic_states-assembly-white-2x.png");
   }
 }
 .icon-share-facebook {
