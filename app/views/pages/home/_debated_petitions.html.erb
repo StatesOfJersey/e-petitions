@@ -1,5 +1,5 @@
 <% if actioned[:awaiting_debate][:count].zero? && actioned[:with_debated_outcome][:count].zero? %>
-  <p>States Assembly hasn’t debated any petitions yet</p>
+  <p>The States Assembly hasn’t debated any petitions yet</p>
 <% else %>
   <ol class="threshold-petitions">
     <% actioned[:with_debated_outcome][:list].each.with_index do |petition, index| %>

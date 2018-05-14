@@ -17,9 +17,9 @@ en-GB:
       published: "Published petitions"
       awaiting_response: "Petitions waiting for a Government response"
       with_response: "Petitions with a Government response"
-      debated: "Petitions debated in Parliament"
-      not_debated: "Petitions not debated in Parliament"
-      awaiting_debate: "Petitions waiting for a debate in Parliament"
+      debated: "Petitions debated in the States Assembly"
+      not_debated: "Petitions not debated in the States Assembly"
+      awaiting_debate: "Petitions waiting for a debate in the States Assembly"
 
     share_title: "Petition: %{petition}"
 
@@ -41,9 +41,9 @@ en-GB:
       rejected: "Rejected petitions (%{quantity})"
       awaiting_response: "Awaiting government response (%{quantity})"
       with_response: "Government responses (%{quantity})"
-      debated: "Debated in Parliament (%{quantity})"
-      not_debated: "Not debated in Parliament (%{quantity})"
-      awaiting_debate: "Awaiting a debate in Parliament (%{quantity})"
+      debated: "Debated in the States Assembly (%{quantity})"
+      not_debated: "Not debated in the States Assembly (%{quantity})"
+      awaiting_debate: "Awaiting a debate in the States Assembly (%{quantity})"
 
     list_headers:
       not_debated: "The Petitions Committee decided not to debate these petitions"
