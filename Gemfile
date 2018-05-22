@@ -5,7 +5,7 @@ ruby '~> 2.5.1'
 # Load environment variables
 gem 'dotenv-rails', :require => 'dotenv/rails-now'
 
-gem 'rails', '4.2.10'
+gem 'rails', '5.1.6'
 
 gem 'rake'
 gem 'pg'
@@ -37,9 +37,12 @@ gem 'paperclip'
 gem 'maxminddb'
 gem 'redcarpet'
 
-gem 'aws-sdk', '~> 2.0'
+gem 'aws-sdk-codedeploy'
+gem 'aws-sdk-s3'
 
 group :development, :test do
+  gem 'brakeman', require: false
+  gem 'bundler-audit'
   gem 'rspec-rails'
   gem 'jasmine-rails'
   gem 'pry'
@@ -58,6 +61,7 @@ group :test do
   gem 'email_spec'
   gem 'launchy'
   gem 'webmock'
+  gem 'rails-controller-testing'
 end
 
 group :production do

@@ -1,7 +1,7 @@
 class SponsorsController < SignaturesController
-  skip_before_filter :redirect_to_petition_page_if_rejected
-  skip_before_filter :redirect_to_petition_page_if_closed
-  skip_before_filter :redirect_to_petition_page_if_closed_for_signing
+  skip_before_action :redirect_to_petition_page_if_rejected
+  skip_before_action :redirect_to_petition_page_if_closed
+  skip_before_action :redirect_to_petition_page_if_closed_for_signing
 
   before_action :redirect_to_petition_page_if_moderated, except: [:thank_you, :signed]
   before_action :redirect_to_moderation_info_page_if_sponsored, except: [:thank_you, :signed]
