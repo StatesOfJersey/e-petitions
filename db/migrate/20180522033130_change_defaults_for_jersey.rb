@@ -1,4 +1,4 @@
-class ChangeDefaultsForJersey < ActiveRecord::Migration
+class ChangeDefaultsForJersey < ActiveRecord::Migration[4.2]
   def up
     change_column_default :sites, :title, 'Petition States Assembly'
     change_column_default :sites, :url, 'https://petitions.gov.je'
