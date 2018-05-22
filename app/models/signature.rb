@@ -48,7 +48,7 @@ class Signature < ActiveRecord::Base
   end
 
   before_destroy do
-    !creator?
+    throw :abort if creator?
   end
 
   after_destroy do
