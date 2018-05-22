@@ -15,7 +15,7 @@ details {
 
     @include media(desktop){
       &:hover {
-        color: $link-hover-colour;
+        color: $petitions-link-hover-colour;
       }
     }
 
