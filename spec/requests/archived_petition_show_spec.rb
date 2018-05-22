@@ -36,7 +36,7 @@ RSpec.describe "API request to show an archived petition", type: :request, show_
       get "/archived/petitions/#{petition.id}.json"
 
       expect(response).to be_success
-      expect(links).to include("self" => "https://petition.parliament.uk/archived/petitions/#{petition.id}.json")
+      expect(links).to include("self" => "https://petitions.gov.je/archived/petitions/#{petition.id}.json")
     end
   end
 

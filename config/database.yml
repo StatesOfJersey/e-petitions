@@ -6,13 +6,13 @@ default: &default
 
 development:
   <<: *default
-  database: epets_development
+  database: jpets_development
 
 test:
   <<: *default
-  database: epets_test
+  database: jpets_test
 
 production:
   <<: *default
-  database: epets_production
+  database: jpets_production
   pool: <%= ENV.fetch('WEB_CONCURRENCY_MAX_THREADS') { 32 }.to_i %>

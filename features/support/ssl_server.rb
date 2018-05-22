@@ -2,7 +2,7 @@ require 'fileutils'
 require 'webrick/https'
 require 'rack/handler/webrick'
 
-module Epets
+module Jpets
   class SSLServer
     class << self
       def build(app, port)
@@ -17,7 +17,7 @@ module Epets
           SSLVerifyClient: OpenSSL::SSL::VERIFY_NONE,
           SSLPrivateKey:   private_key,
           SSLCertificate:  ssl_certificate,
-          SSLCertName:     [['GB', 'petition.parliament.uk']],
+          SSLCertName:     [['JE', 'petitions.gov.je']],
           AccessLog:       [],
           Logger:          logger
         }
@@ -59,12 +59,12 @@ module Epets
         FileUtils.mkdir_p(ssl_dir) unless Dir.exist?(ssl_dir)
 
         details = []
-        details << 'C=GB'
-        details << 'ST=London'
-        details << 'L=London'
-        details << 'O=Houses of Parliament'
-        details << 'OU=Parliamentary ICT'
-        details << 'CN=petition.parliament.uk'
+        details << 'C=JE'
+        details << 'ST=CHANNEL ISLANDS'
+        details << 'L=Jersey'
+        details << 'O=States of Jersey'
+        details << 'OU=Chief Minister\'s Department'
+        details << 'CN=petitions.gov.je'
 
         args = %w[openssl req -x509]
         args.concat ['-newkey', 'rsa:2048']

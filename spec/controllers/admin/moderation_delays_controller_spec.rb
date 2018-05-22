@@ -11,7 +11,7 @@ RSpec.describe Admin::ModerationDelaysController, type: :controller, admin: true
         before { process action, method, params }
 
         it "redirects to the login page" do
-          expect(response).to redirect_to("https://moderate.petition.parliament.uk/admin/login")
+          expect(response).to redirect_to("https://moderate.petitions.gov.je/admin/login")
         end
       end
 
@@ -31,7 +31,7 @@ RSpec.describe Admin::ModerationDelaysController, type: :controller, admin: true
         before { process action, method, params }
 
         it "redirects to the admin profile page" do
-          expect(response).to redirect_to("https://moderate.petition.parliament.uk/admin/profile/#{moderator.id}/edit")
+          expect(response).to redirect_to("https://moderate.petitions.gov.je/admin/profile/#{moderator.id}/edit")
         end
       end
 
@@ -108,7 +108,7 @@ RSpec.describe Admin::ModerationDelaysController, type: :controller, admin: true
           end
 
           it "sends an email to the feedback address" do
-            expect(email).to deliver_to("petitionscommittee@parliament.uk")
+            expect(email).to deliver_to("petitions@gov.je")
           end
 
           it "sets the moderation_delay attributes in the session" do
@@ -188,7 +188,7 @@ RSpec.describe Admin::ModerationDelaysController, type: :controller, admin: true
           end
 
           it "redirects to the overdue petitions page" do
-            expect(response).to redirect_to("https://moderate.petition.parliament.uk/admin/petitions?state=overdue_in_moderation")
+            expect(response).to redirect_to("https://moderate.petitions.gov.je/admin/petitions?state=overdue_in_moderation")
           end
 
           it "sets the flash notice message" do

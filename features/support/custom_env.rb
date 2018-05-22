@@ -7,7 +7,7 @@ Capybara.javascript_driver = :poltergeist
 Capybara.default_max_wait_time = 5
 Capybara.server_port = 3443
 Capybara.app_host = "https://127.0.0.1:3443"
-Capybara.default_host = "https://petition.parliament.uk"
+Capybara.default_host = "https://petitions.gov.je"
 Capybara.default_selector = :xpath
 Capybara.automatic_label_click = true
 
@@ -22,11 +22,11 @@ Capybara.register_driver :poltergeist do |app|
   )
 end
 
-Capybara.register_server :epets do |app, port|
-  Epets::SSLServer.build(app, port)
+Capybara.register_server :jpets do |app, port|
+  Jpets::SSLServer.build(app, port)
 end
 
-Capybara.server = :epets
+Capybara.server = :jpets
 
 pid = Process.spawn('bin/local_proxy', out: 'log/proxy.log', err: 'log/proxy.log')
 Process.detach(pid)

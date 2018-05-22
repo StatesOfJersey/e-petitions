@@ -111,12 +111,12 @@ RSpec.describe ApplicationController, type: :controller do
 
     before do
       allow(request).to receive(:format).and_return(nil)
-      allow(request).to receive(:original_url).and_return("https://petition.parliament.uk/petitions.json]")
+      allow(request).to receive(:original_url).and_return("https://petitions.gov.je/petitions.json]")
     end
 
     it "redirects to the home page" do
       get :index
-      expect(response).to redirect_to("https://petition.parliament.uk/")
+      expect(response).to redirect_to("https://petitions.gov.je/")
     end
   end
 end

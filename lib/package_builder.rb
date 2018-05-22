@@ -77,7 +77,7 @@ class PackageBuilder
   private
 
   def application_name
-    "#{ENV.fetch('AWS_DEPLOYMENT_APP_NAME', 'epetitions')}-#{environment}"
+    "#{ENV.fetch('AWS_DEPLOYMENT_APP_NAME', 'jpetitions')}-#{environment}"
   end
 
   def archive_file
@@ -225,7 +225,7 @@ class PackageBuilder
   end
 
   def profile
-    ENV.fetch('AWS_PROFILE', 'epetitions')
+    ENV.fetch('AWS_PROFILE', 'jpetitions')
   end
 
   def deploy_release?
@@ -286,7 +286,7 @@ class PackageBuilder
   end
 
   def slack_options
-    { channel: '#epetitions', username: 'deploy', icon_emoji: ':tada:' }
+    { channel: '#jpetitions', username: 'deploy', icon_emoji: ':tada:' }
   end
 
   def pull_request?
@@ -298,7 +298,7 @@ class PackageBuilder
   end
 
   def release_bucket
-    "epetitions-#{environment}-releases"
+    "jpetitions-#{environment}-releases"
   end
 
   def release_key
@@ -335,9 +335,9 @@ class PackageBuilder
 
   def website_url
     if environment == "production"
-      "https://petition.parliament.uk/"
+      "https://petitions.gov.je/"
     else
-      "https://#{environment}.epetitions.website/"
+      "https://#{environment}.jpets.net/"
     end
   end
 
@@ -436,7 +436,7 @@ class PackageBuilder
       os: linux
       files:
         - source: ./source
-          destination: /home/deploy/epetitions/releases/#{release}
+          destination: /home/deploy/jpetitions/releases/#{release}
 
       hooks:
         ApplicationStop:
@@ -462,7 +462,7 @@ class PackageBuilder
   def application_start_script
     <<-SCRIPT.strip_heredoc
       #!/usr/bin/env bash
-      /etc/init.d/epetitions start
+      /etc/init.d/jpetitions start
     SCRIPT
   end
 
@@ -473,7 +473,7 @@ class PackageBuilder
   def application_stop_script
     <<-SCRIPT.strip_heredoc
       #!/usr/bin/env bash
-      /etc/init.d/epetitions stop || true
+      /etc/init.d/jpetitions stop || true
     SCRIPT
   end
 
@@ -484,24 +484,24 @@ class PackageBuilder
   def after_install_script
     <<-SCRIPT.strip_heredoc
       #!/usr/bin/env bash
-      chown -R deploy:deploy /home/deploy/epetitions/releases/#{release}
+      chown -R deploy:deploy /home/deploy/jpetitions/releases/#{release}
 
-      if [ ! -e /home/deploy/epetitions/releases/#{release}/tmp ]; then
-        su - deploy -c 'mkdir /home/deploy/epetitions/releases/#{release}/tmp'
+      if [ ! -e /home/deploy/jpetitions/releases/#{release}/tmp ]; then
+        su - deploy -c 'mkdir /home/deploy/jpetitions/releases/#{release}/tmp'
       fi
 
-      su - deploy -c 'ln -nfs /home/deploy/epetitions/shared/log /home/deploy/epetitions/releases/#{release}/log'
-      su - deploy -c 'ln -nfs /home/deploy/epetitions/shared/bundle /home/deploy/epetitions/releases/#{release}/vendor/bundle'
-      su - deploy -c 'ln -nfs /home/deploy/epetitions/shared/assets /home/deploy/epetitions/releases/#{release}/public/assets'
-      su - deploy -c 'ln -s /home/deploy/epetitions/releases/#{release} /home/deploy/epetitions/current_#{release}'
-      su - deploy -c 'mv -Tf /home/deploy/epetitions/current_#{release} /home/deploy/epetitions/current'
-      su - deploy -c 'cd /home/deploy/epetitions/current && bundle install --without development test --deployment --quiet'
-      su - deploy -c 'cd /home/deploy/epetitions/current && bundle exec rake db:migrate'
-      su - deploy -c 'cd /home/deploy/epetitions/current && bundle exec rake assets:precompile'
+      su - deploy -c 'ln -nfs /home/deploy/jpetitions/shared/log /home/deploy/jpetitions/releases/#{release}/log'
+      su - deploy -c 'ln -nfs /home/deploy/jpetitions/shared/bundle /home/deploy/jpetitions/releases/#{release}/vendor/bundle'
+      su - deploy -c 'ln -nfs /home/deploy/jpetitions/shared/assets /home/deploy/jpetitions/releases/#{release}/public/assets'
+      su - deploy -c 'ln -s /home/deploy/jpetitions/releases/#{release} /home/deploy/jpetitions/current_#{release}'
+      su - deploy -c 'mv -Tf /home/deploy/jpetitions/current_#{release} /home/deploy/jpetitions/current'
+      su - deploy -c 'cd /home/deploy/jpetitions/current && bundle install --without development test --deployment --quiet'
+      su - deploy -c 'cd /home/deploy/jpetitions/current && bundle exec rake db:migrate'
+      su - deploy -c 'cd /home/deploy/jpetitions/current && bundle exec rake assets:precompile'
 
       # Run cron jobs only on workers, as webservers autoscale up and down.
       # ${SERVER_TYPE} is pre-populated for the deploy user by the build scripts
-      su - deploy -c 'if [ ${SERVER_TYPE} = "worker" ] ; then cd /home/deploy/epetitions/current && bundle exec whenever -w ; else echo not running whenever ; fi'
+      su - deploy -c 'if [ ${SERVER_TYPE} = "worker" ] ; then cd /home/deploy/jpetitions/current && bundle exec whenever -w ; else echo not running whenever ; fi'
     SCRIPT
   end
 
