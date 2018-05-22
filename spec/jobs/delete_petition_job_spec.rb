@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe DeletePetitionJob, type: :job do
   before do
     FactoryBot.create(:constituency, :london_and_westminster)
-    FactoryBot.create(:location, code: "GB", name: "United Kingdom")
   end
 
   context "with a stopped petition" do
@@ -20,7 +19,6 @@ RSpec.describe DeletePetitionJob, type: :job do
 
   context "with a closed petition" do
     let!(:petition) { FactoryBot.create(:validated_petition, sponsors_signed: true, state: "closed", closed_at: 4.weeks.ago) }
-    let!(:country_petition_journal) { FactoryBot.create(:country_petition_journal, petition: petition) }
     let!(:constituency_petition_journal) { FactoryBot.create(:constituency_petition_journal, petition: petition) }
 
     it "destroys the petition" do
@@ -37,14 +35,6 @@ RSpec.describe DeletePetitionJob, type: :job do
       }.to change {
         Signature.count
       }.from(6).to(0)
-    end
-
-    it "destroys the country journals" do
-      expect {
-        described_class.perform_now(petition)
-      }.to change {
-        CountryPetitionJournal.count
-      }.from(1).to(0)
     end
 
     it "destroys the constituency journals" do

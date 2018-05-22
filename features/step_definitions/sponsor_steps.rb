@@ -21,7 +21,6 @@ When(/^a sponsor supports my petition$/) do
     And I fill in "Email" with "#{sponsor_email}"
     And I check "I am a British citizen or UK resident"
     And I fill in my postcode with "SW1A 1AA"
-    And I select "United Kingdom" from "Location"
     And I try to sign
     And I say I am happy with my email address
     And "#{sponsor_email}" opens the email with subject "Please confirm your email address"
@@ -90,7 +89,6 @@ When(/^I fill in my details as a sponsor(?: with email "(.*?)")?$/) do |email_ad
     And I fill in "Email" with "#{email_address}"
     And I check "I am a British citizen or UK resident"
     And I fill in my postcode with "AB10 1AA"
-    And I select "United Kingdom" from "Location"
     And I check "Email me whenever there’s an update about this petition"
   }
 end

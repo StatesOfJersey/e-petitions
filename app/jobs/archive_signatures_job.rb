@@ -24,7 +24,6 @@ class ArchiveSignaturesJob < ApplicationJob
                 s.name = signature.name
                 s.email = signature.email
                 s.postcode = signature.postcode
-                s.location_code = signature.location_code
                 s.constituency_id = signature.constituency_id
                 s.ip_address = signature.ip_address
                 s.perishable_token = signature.perishable_token

@@ -375,8 +375,7 @@ RSpec.describe 'Requests for pages when we do not support the format on that pag
           'additional_details' => 'Global warming is upon us',
           'creator' => {
             'name' => 'John Mcenroe', 'email' => 'john@example.com',
-            'postcode' => 'SE3 4LL', 'location_code' => 'GB',
-            'uk_citizenship' => '1'
+            'postcode' => 'SE3 4LL', 'uk_citizenship' => '1'
           }
         }
       }
@@ -395,7 +394,7 @@ RSpec.describe 'Requests for pages when we do not support the format on that pag
         'petition_id' => "#{petition.id}",
         'signature' => {
           'name' => 'John Mcenroe', 'email' => 'john@example.com',
-          'postcode' => 'SE3 4LL', 'location_code' => 'GB'
+          'postcode' => 'SE3 4LL'
         }
       }
     }

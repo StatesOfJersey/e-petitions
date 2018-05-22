@@ -47,8 +47,7 @@ RSpec.describe PetitionsController, type: :controller do
         background: "Limit temperature rise at two degrees",
         additional_details: "Global warming is upon us",
         name: "John Mcenroe", email: "john@example.com",
-        postcode: "SE3 4LL", location_code: "GB",
-        uk_citizenship: "1"
+        postcode: "SE3 4LL", uk_citizenship: "1"
       }
     end
 
@@ -220,14 +219,6 @@ RSpec.describe PetitionsController, type: :controller do
         it "has stage of 'creator' if there is an error on postcode" do
           perform_enqueued_jobs do
             post :create, params: { stage: "replay_email", petition_creator: params.merge(postcode: "") }
-          end
-
-          expect(assigns[:new_petition].stage).to eq "creator"
-        end
-
-        it "has stage of 'creator' if there is an error on location_code" do
-          perform_enqueued_jobs do
-            post :create, params: { stage: "replay_email", petition_creator: params.merge(location_code: "") }
           end
 
           expect(assigns[:new_petition].stage).to eq "creator"

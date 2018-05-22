@@ -98,11 +98,6 @@ class ArchivePetitionJob < ApplicationJob
         unless constituencies.empty?
           p.signatures_by_constituency = Hash[constituencies.map { |c| [c.constituency_id, c.signature_count] }]
         end
-
-        locations = petition.signatures_by_country
-        unless locations.empty?
-          p.signatures_by_country = Hash[locations.map { |l| [l.location_code, l.signature_count] }]
-        end
       end
 
       ArchiveSignaturesJob.perform_later(petition, archived_petition)

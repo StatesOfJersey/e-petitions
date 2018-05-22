@@ -23,11 +23,6 @@ RSpec.describe ArchivePetitionJob, type: :job do
     FactoryBot.create(:constituency_petition_journal, constituency_id: "3427", signature_count: 123, petition: petition)
     FactoryBot.create(:constituency_petition_journal, constituency_id: "3320", signature_count: 456, petition: petition)
 
-    gb = FactoryBot.create(:location, code: "GB", name: "United Kingdom")
-    us = FactoryBot.create(:location, code: "US", name: "United States")
-    FactoryBot.create(:country_petition_journal, location: gb, signature_count: 1234, petition: petition)
-    FactoryBot.create(:country_petition_journal, location: us, signature_count: 56, petition: petition)
-
     described_class.perform_now(petition)
   end
 
@@ -79,10 +74,6 @@ RSpec.describe ArchivePetitionJob, type: :job do
 
     it "copies the constituency_petition_journal data" do
       expect(signatures_by_constituency).to eq("3427" => 123, "3320" => 456)
-    end
-
-    it "copies the country_petition_journal data" do
-      expect(signatures_by_country).to eq("GB" => 1234, "US" => 56)
     end
   end
 

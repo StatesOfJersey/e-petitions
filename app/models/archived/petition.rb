@@ -370,19 +370,5 @@ module Archived
         }
       end
     end
-
-    def locations(codes)
-      Location.where(code: codes).order(:name)
-    end
-
-    def calculate_signatures_by_country(hash)
-      locations(hash.keys).map do |location|
-        {
-          name: location.name,
-          code: location.code,
-          signature_count: hash[location.code]
-        }
-      end
-    end
   end
 end

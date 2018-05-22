@@ -6,10 +6,6 @@ module FormHelper
     content_tag :div, capture(&block), :class => css_classes.join(' ')
   end
 
-  def countries_for_select
-    Location.menu
-  end
-
   def error_messages_for_field(object, field_name, options = {})
     if errors = object && object.errors[field_name].presence
       content_tag :span, errors.first, { class: 'error-message' }.merge(options)

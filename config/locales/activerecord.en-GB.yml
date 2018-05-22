@@ -107,8 +107,6 @@ en-GB:
         blank: "Comments must be completed"
       name:
         blank: "Name must be completed"
-      location_code:
-        blank: "Location must be completed"
       postcode:
         blank: "Postcode must be completed"
         invalid: "Postcode not recognised"
