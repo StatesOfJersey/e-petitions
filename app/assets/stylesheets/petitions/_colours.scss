@@ -1,7 +1,12 @@
-
 $house-of-commons-green: #080;
-$petitions-brand: $house-of-commons-green;
+$states-assembly-red: #9e132c;
+$petitions-brand: $states-assembly-red;
 $petitions-header-colour: $petitions-brand;
 $petitions-panel-colour: $petitions-brand;
 $petitions-button-colour: $petitions-brand;
 $petitions-footer-colour: $grey-3;
+
+$petitions-link-colour: $states-assembly-red;
+$petitions-link-active-colour: #392f2b;
+$petitions-link-hover-colour: #392f2b;
+$petitions-link-visited-colour: $states-assembly-red;

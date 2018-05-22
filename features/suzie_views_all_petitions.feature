@@ -64,7 +64,7 @@ Feature: Suzy Signer views all petitions
     And a petition "Spend more money on Defence" has been debated 18 days ago
     And a petition "Force supermarkets to give unsold food to charities" has been debated 234 days ago
     And a petition "Make every monday bank holiday" exists
-    When I browse to see only "Debated in Parliament" petitions
+    When I browse to see only "Debated in the States Assembly" petitions
     Then I should see "4 petitions"
     Then I should see the following ordered list of petitions:
      | Free the wombles                                    |
@@ -78,7 +78,7 @@ Feature: Suzy Signer views all petitions
     And a petition "Conquer the Moon" passed the threshold for a debate less than a day ago and has no debate date set
     And a petition "Free the wombles" passed the threshold for a debate 10 days ago and has no debate date set
     And a petition "Travel to the stars" passed the threshold for a debate 2 days ago and has a debate in 2 days
-    When I browse to see only "Awaiting a debate in Parliament" petitions
+    When I browse to see only "Awaiting a debate in the States Assembly" petitions
     Then I should see the following ordered list of petitions:
       | Travel to the stars |
       | Free the wombles    |

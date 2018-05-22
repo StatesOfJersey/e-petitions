@@ -90,7 +90,7 @@ When(/^I search for petitions local to me in "(.*?)"$/) do |postcode|
   end
 
   within :css, '.local-to-you' do
-    fill_in "UK postcode", with: postcode
+    fill_in "Jersey postcode", with: postcode
     click_on "Search"
   end
 end
