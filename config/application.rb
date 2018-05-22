@@ -26,7 +26,7 @@ module Jpets
     # Configure the cache store
     config.cache_store = :atomic_dalli_store, nil, {
       namespace: 'jpets', expires_in: 1.day, compress: true,
-      pool_size: ENV.fetch('WEB_CONCURRENCY_MAX_THREADS') { 32 }.to_i
+      pool_size: ENV.fetch('RAILS_MAX_THREADS') { 32 }.to_i
     }
 
     # Configure Active Job queue adapter
