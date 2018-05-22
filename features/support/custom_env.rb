@@ -13,7 +13,7 @@ Capybara.automatic_label_click = true
 
 Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(app,
-    phantomjs_logger: "/dev/null",
+    phantomjs_logger: File.open(File::NULL, 'w'),
     phantomjs_options: [
       '--ignore-ssl-errors=yes',
       '--local-to-remote-url-access=yes',
