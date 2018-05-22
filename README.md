@@ -7,7 +7,7 @@ We hope you enjoy it!
 
 A few things to know:
 
-* You will need `ruby 2.2.2`
+* You will need `ruby 2.5.1`
 * You will need PostgreSQL and Memcached
 
 ## Set up your development environment
