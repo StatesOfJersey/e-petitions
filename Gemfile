@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '~> 2.5.1'
+
 # Load environment variables
 gem 'dotenv-rails', :require => 'dotenv/rails-now'
 
