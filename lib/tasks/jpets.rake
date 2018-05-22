@@ -1,4 +1,4 @@
-namespace :epets do
+namespace :jpets do
   desc "Add sysadmin user"
   task :add_sysadmin_user => :environment do
     if AdminUser.find_by(email: 'admin@example.com').nil?
@@ -11,7 +11,7 @@ namespace :epets do
 
   desc "Email threshold users with a list of threshold petitions"
   task :threshold_email_reminder => :environment do
-    Task.run("epets:threshold_email_reminder") do
+    Task.run("jpets:threshold_email_reminder") do
       EmailThresholdReminderJob.perform_later
     end
   end
@@ -27,7 +27,7 @@ namespace :epets do
       Whenever::CommandLine.execute(
         :update => true,
         :set => "environment=#{RAILS_ENV}",
-        :identifier => 'Epets_primary_server'
+        :identifier => 'Jpets_primary_server'
       )
     end
 
@@ -36,7 +36,7 @@ namespace :epets do
       Whenever::CommandLine.execute(
         :update => true,
         :set => "environment=#{RAILS_ENV}",
-        :identifier => 'Epets_all_servers',
+        :identifier => 'Jpets_all_servers',
         :file => 'config/schedule_all_servers.rb'
       )
     end

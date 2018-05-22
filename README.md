@@ -1,6 +1,6 @@
 # Petitions
 
-This is the code base for the UK Government's petitions service (https://petition.parliament.uk).
+This is the code base for the Jersey States Assembly petitions service (https://petitions.gov.je).
 We have open sourced the code for you to use under the terms of licence contained in this repository.
 
 We hope you enjoy it!
@@ -17,14 +17,14 @@ A few things to know:
 	* If you like you can add postgres to your LaunchAgent. Follow instructions at end of console output
 * Set up your dev and test databases
 	* `$ psql postgres`
-	* `# CREATE DATABASE epets_development;`
-	* `# CREATE DATABASE epets_test;`
-	* `# CREATE USER epets;`
-	* `# GRANT all privileges ON database epets_development TO epets;`
-	* `# GRANT all privileges ON database epets_test TO epets;`
-	* `# ALTER USER epets WITH PASSWORD 'replace_me';`
+	* `# CREATE DATABASE jpets_development;`
+	* `# CREATE DATABASE jpets_test;`
+	* `# CREATE USER jpets;`
+	* `# GRANT all privileges ON database jpets_development TO jpets;`
+	* `# GRANT all privileges ON database jpets_test TO jpets;`
+	* `# ALTER USER jpets WITH PASSWORD 'replace_me';`
 	* `# \q` to quit
-* You will need to set up the `config/database.yml`. Copy what is in `config/database.example.yml` and add the password you used earlier for the `epets` postgres user
+* You will need to set up the `config/database.yml`. Copy what is in `config/database.example.yml` and add the password you used earlier for the `jpets` postgres user
 * `$ rake db:structure:load` - load the sql structure into your new databases
 
 ## Run the app
@@ -35,5 +35,5 @@ A few things to know:
 
 * If you want jobs (like emails) to be run, use `$ rake jobs:work`
 * For setting up a sysadmin user
-	* `rake epets:add_sysadmin_user` - to set up an admin user with email 'admin@example.com' and password 'Letmein1!'
+	* `rake jpets:add_sysadmin_user` - to set up an admin user with email 'admin@example.com' and password 'Letmein1!'
 	* go to `/admin` and log in. You will be asked to change your password. Remember, the password must contain a mix of upper and lower case letters, numbers and special characters.

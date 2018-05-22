@@ -11,8 +11,8 @@ RSpec.describe FeedbackSignature, type: :model do
   end
 
   describe "#email" do
-    it "returns 'petitionscommittee@parliament.uk'" do
-      expect(signature.email).to eq("petitionscommittee@parliament.uk")
+    it "returns 'petitions@gov.je'" do
+      expect(signature.email).to eq("petitions@gov.je")
     end
   end
 

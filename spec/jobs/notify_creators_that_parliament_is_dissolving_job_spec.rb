@@ -7,7 +7,7 @@ RSpec.describe NotifyCreatorsThatParliamentIsDissolvingJob, type: :job do
   let(:notify_creator_job) do
     {
       job: NotifyCreatorThatParliamentIsDissolvingJob,
-      args: [{ "_aj_globalid" => "gid://epets/Signature/#{signature.id}" }],
+      args: [{ "_aj_globalid" => "gid://jpets/Signature/#{signature.id}" }],
       queue: "low_priority"
     }
   end

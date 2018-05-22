@@ -6,7 +6,7 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module Epets
+module Jpets
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -28,7 +28,7 @@ module Epets
 
     # Configure the cache store
     config.cache_store = :atomic_dalli_store, nil, {
-      namespace: 'epets', expires_in: 1.day, compress: true,
+      namespace: 'jpets', expires_in: 1.day, compress: true,
       pool_size: ENV.fetch('WEB_CONCURRENCY_MAX_THREADS') { 32 }.to_i
     }
 

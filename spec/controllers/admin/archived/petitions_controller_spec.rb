@@ -9,14 +9,14 @@ RSpec.describe Admin::Archived::PetitionsController, type: :controller, admin: t
     describe "GET /admin/archived/petitions" do
       it "redirects to the login page" do
         get :index
-        expect(response).to redirect_to("https://moderate.petition.parliament.uk/admin/login")
+        expect(response).to redirect_to("https://moderate.petitions.gov.je/admin/login")
       end
     end
 
     describe "GET /admin/archived/petitions/:id" do
       it "redirects to the login page" do
         get :show, id: "100000"
-        expect(response).to redirect_to("https://moderate.petition.parliament.uk/admin/login")
+        expect(response).to redirect_to("https://moderate.petitions.gov.je/admin/login")
       end
     end
   end
@@ -28,14 +28,14 @@ RSpec.describe Admin::Archived::PetitionsController, type: :controller, admin: t
     describe "GET /admin/archived/petitions" do
       it "redirects to the edit profile page" do
         get :index
-        expect(response).to redirect_to("https://moderate.petition.parliament.uk/admin/profile/#{user.id}/edit")
+        expect(response).to redirect_to("https://moderate.petitions.gov.je/admin/profile/#{user.id}/edit")
       end
     end
 
     describe "GET /admin/archived/petitions/:id" do
       it "redirects to the edit profile page" do
         get :show, id: "100000"
-        expect(response).to redirect_to("https://moderate.petition.parliament.uk/admin/profile/#{user.id}/edit")
+        expect(response).to redirect_to("https://moderate.petitions.gov.je/admin/profile/#{user.id}/edit")
       end
     end
   end
@@ -82,7 +82,7 @@ RSpec.describe Admin::Archived::PetitionsController, type: :controller, admin: t
         before { get :index, q: "100000" }
 
         it "redirects to the admin petition page" do
-          expect(response).to redirect_to("https://moderate.petition.parliament.uk/admin/archived/petitions/100000")
+          expect(response).to redirect_to("https://moderate.petitions.gov.je/admin/archived/petitions/100000")
         end
       end
     end
@@ -92,7 +92,7 @@ RSpec.describe Admin::Archived::PetitionsController, type: :controller, admin: t
         before { get :show, id: "999999" }
 
         it "redirects to the admin dashboard page" do
-          expect(response).to redirect_to("https://moderate.petition.parliament.uk/admin")
+          expect(response).to redirect_to("https://moderate.petitions.gov.je/admin")
         end
 
         it "sets the flash alert message" do

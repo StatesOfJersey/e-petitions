@@ -1,4 +1,4 @@
-namespace :epets do
+namespace :jpets do
   namespace :signatures do
     desc "Backfill signature UUIDs"
     task :backfill_uuids => :environment do

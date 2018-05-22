@@ -22,29 +22,29 @@
 env :PATH, ENV['PATH']
 
 every :weekday, at: '6.30am' do
-  rake "epets:threshold_email_reminder", output: nil
+  rake "jpets:threshold_email_reminder", output: nil
 end
 
 every :day, at: '1.15am' do
-  rake "epets:countries:fetch", output: nil
+  rake "jpets:countries:fetch", output: nil
 end
 
 every :day, at: '1.45am' do
-  rake "epets:constituencies:refresh", output: nil
+  rake "jpets:constituencies:refresh", output: nil
 end
 
 every :day, at: '2.15am' do
-  rake "epets:constituencies:refresh_party", output: nil
+  rake "jpets:constituencies:refresh_party", output: nil
 end
 
 every :day, at: '2.30am' do
-  rake "epets:petitions:count", output: nil
+  rake "jpets:petitions:count", output: nil
 end
 
 every :day, at: '7.00am' do
-  rake "epets:petitions:close", output: nil
+  rake "jpets:petitions:close", output: nil
 end
 
 every :day, at: '7.15am' do
-  rake "epets:petitions:debated", output: nil
+  rake "jpets:petitions:debated", output: nil
 end

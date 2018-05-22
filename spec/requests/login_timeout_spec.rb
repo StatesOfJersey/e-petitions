@@ -5,20 +5,20 @@ RSpec.describe "login timeout", type: :request, csrf: false do
     {
       first_name: "System",
       last_name: "Administrator",
-      email: "admin@petition.parliament.uk",
+      email: "admin@petitions.gov.je",
       password: "L3tme1n!",
       password_confirmation: "L3tme1n!"
     }
   end
 
   let(:login_params) do
-    { email: "admin@petition.parliament.uk", password: "L3tme1n!" }
+    { email: "admin@petitions.gov.je", password: "L3tme1n!" }
   end
 
   let!(:user) { FactoryBot.create(:sysadmin_user, user_attributes) }
 
   before do
-    host! "moderate.petition.parliament.uk"
+    host! "moderate.petitions.gov.je"
     https!
   end
 
