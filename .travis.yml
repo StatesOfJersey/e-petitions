@@ -15,9 +15,6 @@ addons:
     packages:
     - postgresql-10
     - postgresql-client-10
-env:
-  global:
-  - PGPORT=5433
 before_install:
 - gem install bundler
 - |
@@ -32,6 +29,6 @@ before_install:
     phantomjs -v
 before_script:
 - bundle install
-- psql -c 'create database jpets_test;' -U postgres
+- sudo -u postgres createdb jpets_test
 - RAILS_ENV=test bundle exec rake db:structure:load
 script: RAILS_ENV=test bundle exec rake
