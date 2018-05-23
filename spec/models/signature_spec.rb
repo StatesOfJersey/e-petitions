@@ -168,7 +168,7 @@ RSpec.describe Signature, type: :model do
           name: "Suzy Signer",
           email: email,
           postcode: postcode,
-          uk_citizenship: "1"
+          jersey_resident: "1"
         }
       end
 
@@ -246,7 +246,7 @@ RSpec.describe Signature, type: :model do
     end
 
     describe "postcode" do
-      it "requires a postcode for a UK address" do
+      it "requires a postcode" do
         expect(FactoryBot.build(:signature, :postcode => 'SW1A 1AA')).to be_valid
         expect(FactoryBot.build(:signature, :postcode => '')).not_to be_valid
       end
@@ -269,17 +269,17 @@ RSpec.describe Signature, type: :model do
       end
     end
 
-    describe "uk_citizenship" do
-      it "requires acceptance of uk_citizenship for a new record" do
-        expect(FactoryBot.build(:signature, :uk_citizenship => '1')).to be_valid
-        expect(FactoryBot.build(:signature, :uk_citizenship => '0')).not_to be_valid
-        expect(FactoryBot.build(:signature, :uk_citizenship => nil)).not_to be_valid
+    describe "jersey_resident" do
+      it "requires acceptance of jersey_resident for a new record" do
+        expect(FactoryBot.build(:signature, :jersey_resident => '1')).to be_valid
+        expect(FactoryBot.build(:signature, :jersey_resident => '0')).not_to be_valid
+        expect(FactoryBot.build(:signature, :jersey_resident => nil)).not_to be_valid
       end
 
-      it "does not require acceptance of uk_citizenship for old records" do
+      it "does not require acceptance of jersey_resident for old records" do
         sig = FactoryBot.create(:signature)
         sig.reload
-        sig.uk_citizenship = '0'
+        sig.jersey_resident = '0'
         expect(sig).to be_valid
       end
     end
@@ -1090,7 +1090,7 @@ RSpec.describe Signature, type: :model do
         name: "Suzy Signer",
         email: "suzy@example.com",
         postcode: postcode,
-        uk_citizenship: "1",
+        jersey_resident: "1",
         created_at: 2.days.ago,
         updated_at: 2.days.ago
       }
@@ -1158,7 +1158,7 @@ RSpec.describe Signature, type: :model do
         expect{ signature.validate! }.to raise_error(PG::InFailedSqlTransaction)
       end
 
-      context "and the signer is from the UK" do
+      context "and the signer is from Jersey" do
         context "and the postcode is valid" do
           let(:postcode) { "SW1A 1AA" }
 
@@ -1629,7 +1629,7 @@ RSpec.describe Signature, type: :model do
         name: name,
         email: email,
         postcode: postcode,
-        uk_citizenship: "1"
+        jersey_resident: "1"
       }
     end
 
@@ -1645,7 +1645,7 @@ RSpec.describe Signature, type: :model do
           name: "Suzy Signer",
           email: "foo@example.com",
           postcode: "SW1A 1AA",
-          uk_citizenship: "1"
+          jersey_resident: "1"
         )
       end
 
@@ -1719,14 +1719,14 @@ RSpec.describe Signature, type: :model do
           name: "Suzy Signer",
           email: "foo@example.com",
           postcode: "SW1A 1AA",
-          uk_citizenship: "1"
+          jersey_resident: "1"
         )
 
         petition.signatures.create!(
           name: "Sam Signer",
           email: "foo@example.com",
           postcode: "SW1A 1AA",
-          uk_citizenship: "1"
+          jersey_resident: "1"
         )
       end
 
@@ -1755,7 +1755,7 @@ RSpec.describe Signature, type: :model do
         name: "Suzy Signer",
         email: "foo@example.com",
         postcode: "SW1A 1AA",
-        uk_citizenship: "1"
+        jersey_resident: "1"
       }
     end
 

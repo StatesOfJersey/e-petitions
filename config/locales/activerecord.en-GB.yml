@@ -110,5 +110,5 @@ en-GB:
       postcode:
         blank: "Postcode must be completed"
         invalid: "Postcode not recognised"
-      uk_citizenship:
-        accepted: "You must be a British citizen or normally live in the UK to create or sign petitions"
+      jersey_resident:
+        accepted: "You must be a Jersey resident and aged 16 or over to create or sign petitions"

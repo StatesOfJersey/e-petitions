@@ -117,7 +117,7 @@ Scenario: Charlie tries to submit an invalid petition
   When I press "Continue"
   Then I should see "Name must be completed"
   And I should see "Email must be completed"
-  And I should see "You must be a British citizen"
+  And I should see "You must be a Jersey resident"
   And I should see "Postcode must be completed"
 
   When I fill in my details

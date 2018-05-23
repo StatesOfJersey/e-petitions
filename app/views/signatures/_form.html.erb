@@ -1,11 +1,11 @@
-<%= form_row for: [signature, :uk_citizenship], class: "uk-citizen" do %>
+<%= form_row for: [signature, :jersey_resident], class: "jersey-resident" do %>
   <span class="form-label">
-    Only British citizens or UK residents have the right to sign
+    Only Jersey residents aged 16 or over have the right to sign
   </span>
-  <%= error_messages_for_field signature, :uk_citizenship %>
+  <%= error_messages_for_field signature, :jersey_resident %>
   <div class="multiple-choice">
-    <%= form.check_box :uk_citizenship, tabindex: increment %>
-    <%= form.label :uk_citizenship, "I am a British citizen or UK resident" %>
+    <%= form.check_box :jersey_resident, tabindex: increment %>
+    <%= form.label :jersey_resident, "I am a Jersey resident and aged 16 or over" %>
   </div>
 <% end %>
 

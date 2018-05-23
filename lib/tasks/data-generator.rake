@@ -34,7 +34,7 @@ namespace :data do
           background: Faker::Lorem.sentence(rand(7..22)).first(200),
           additional_details: Faker::Lorem.paragraph(rand(2..20)).first(500),
           creator: Signature.new({
-            uk_citizenship: '1',
+            jersey_resident: '1',
             name: Faker::Name.name,
             email: Faker::Internet.safe_email,
             state: 'validated',
@@ -47,7 +47,7 @@ namespace :data do
         # Create the sponsor signatures
         5.times do
           petition.sponsors.create!(
-            uk_citizenship: '1',
+            jersey_resident: '1',
             name: Faker::Name.name,
             email: Faker::Internet.safe_email("#{Faker::Lorem.characters(rand(10..40))}-#{rand(1..999999)}"),
             state: 'validated',
@@ -86,7 +86,7 @@ namespace :data do
 
         @signature_count.to_i.times do
           signature = petition.signatures.create!(
-            uk_citizenship: '1',
+            jersey_resident: '1',
             name: Faker::Name.name,
             email: Faker::Internet.safe_email("#{Faker::Lorem.characters(rand(10..40))}-#{rand(1..999999)}"),
             postcode: POSTCODES.sample

@@ -15,7 +15,7 @@ Given(/^there is a signature already from this IP address$/) do
     When I go to the new signature page for "Do something!"
     And I fill in "Name" with "Existing Signer"
     And I fill in "Email" with "existing@example.com"
-    And I check "I am a British citizen or UK resident"
+    And I check "I am a Jersey resident and aged 16 or over"
     And I fill in my postcode with "SW14 9RQ"
     And I try to sign
     And I say I am happy with my email address
