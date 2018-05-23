@@ -175,7 +175,7 @@ class SignaturesController < ApplicationController
   end
 
   def signature_params_for_new
-    { location_code: "GB" }
+    {}
   end
 
   def signature_params
@@ -187,6 +187,6 @@ class SignaturesController < ApplicationController
   end
 
   def signature_attributes
-    %i[name email email_confirmation postcode location_code uk_citizenship notify_by_email]
+    %i[name email email_confirmation postcode uk_citizenship notify_by_email]
   end
 end

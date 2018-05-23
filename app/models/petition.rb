@@ -79,7 +79,6 @@ class Petition < ActiveRecord::Base
 
   has_many :signatures
   has_many :sponsors, -> { sponsors }, class_name: 'Signature'
-  has_many :country_petition_journals, dependent: :destroy
   has_many :constituency_petition_journals, dependent: :destroy
   has_many :emails, dependent: :destroy
   has_many :invalidations
@@ -517,10 +516,6 @@ class Petition < ActiveRecord::Base
     if debate_threshold_reached_at?
       signature_count <= Site.threshold_for_debate
     end
-  end
-
-  def signatures_by_country
-    country_petition_journals.joins(:location).preload(:location).to_a.sort_by(&:name)
   end
 
   def signatures_by_constituency

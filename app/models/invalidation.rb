@@ -16,7 +16,7 @@ class Invalidation < ActiveRecord::Base
 
   CONDITIONS = %i[
     petition_id name postcode ip_address
-    email constituency_id location_code
+    email constituency_id
     created_before created_after
   ]
 
@@ -28,7 +28,6 @@ class Invalidation < ActiveRecord::Base
   validates :ip_address, length: { maximum: 20 }, format: { with: /\A\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/ }, allow_blank: true
   validates :email, length: { maximum: 255, allow_blank: true }
   validates :constituency_id, length: { maximum: 30, allow_blank: true }
-  validates :location_code, length: { maximum: 30, allow_blank: true }
 
   validate do
     if applied_conditions.empty?
@@ -41,10 +40,6 @@ class Invalidation < ActiveRecord::Base
 
     if constituency_id?
       errors.add :constituency_id, "Constituency doesn't exist" unless Constituency.exists?(external_id: constituency_id)
-    end
-
-    if location_code?
-      errors.add :location_code, "Location doesn't exist" unless Location.exists?(code: location_code)
     end
 
     if created_before? && created_after?
@@ -153,7 +148,6 @@ class Invalidation < ActiveRecord::Base
     scope = ip_address_scope(scope) if ip_address?
     scope = email_scope(scope) if email?
     scope = constituency_id_scope(scope) if constituency_id?
-    scope = location_code_scope(scope) if location_code?
     scope = date_range_scope(scope) if date_range?
 
     scope
@@ -206,10 +200,6 @@ class Invalidation < ActiveRecord::Base
 
   def constituency_id_scope(scope)
     scope.where(constituency_id: constituency_id)
-  end
-
-  def location_code_scope(scope)
-    scope.where(location_code: location_code)
   end
 
   def date_range?

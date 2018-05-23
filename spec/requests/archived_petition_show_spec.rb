@@ -190,34 +190,5 @@ RSpec.describe "API request to show an archived petition", type: :request, show_
         )
       )
     end
-
-    it "includes the signatures by country data" do
-      FactoryBot.create :location, name: "United Kingdom", code: "gb"
-      FactoryBot.create :location, name: "France", code: "fr"
-
-      petition = \
-        FactoryBot.create :archived_petition,
-          signatures_by_country: { "gb" => 123456, "fr" => 789 }
-
-      get "/archived/petitions/#{petition.id}.json"
-      expect(response).to be_success
-
-      expect(attributes).to match(
-        a_hash_including(
-          "signatures_by_country" => a_collection_containing_exactly(
-            {
-              "name" => "United Kingdom",
-              "code" => "gb",
-              "signature_count" => 123456
-            },
-            {
-              "name" => "France",
-              "code" => "fr",
-              "signature_count" => 789
-            }
-          )
-        )
-      )
-    end
   end
 end

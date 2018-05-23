@@ -57,7 +57,6 @@ json.attributes do
   end
 
   if archived_petition_page?
-    json.signatures_by_country petition.signatures_by_country
     json.signatures_by_constituency petition.signatures_by_constituency
   end
 end

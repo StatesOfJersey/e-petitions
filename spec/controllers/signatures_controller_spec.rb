@@ -60,10 +60,6 @@ RSpec.describe SignaturesController, type: :controller do
         expect(assigns[:signature]).not_to be_persisted
       end
 
-      it "sets the signature's location_code to 'GB'" do
-        expect(assigns[:signature].location_code).to eq("GB")
-      end
-
       it "renders the signatures/new template" do
         expect(response).to render_template("signatures/new")
       end
@@ -76,8 +72,7 @@ RSpec.describe SignaturesController, type: :controller do
         name: "Ted Berry",
         email: "ted@example.com",
         uk_citizenship: "1",
-        postcode: "SW1A 1AA",
-        location_code: "GB"
+        postcode: "SW1A 1AA"
       }
     end
 
@@ -139,7 +134,6 @@ RSpec.describe SignaturesController, type: :controller do
         expect(assigns[:signature].email).to eq("ted@example.com")
         expect(assigns[:signature].uk_citizenship).to eq("1")
         expect(assigns[:signature].postcode).to eq("SW1A1AA")
-        expect(assigns[:signature].location_code).to eq("GB")
       end
 
       it "records the IP address on the signature" do
@@ -156,8 +150,7 @@ RSpec.describe SignaturesController, type: :controller do
             name: "Ted Berry",
             email: "",
             uk_citizenship: "1",
-            postcode: "12345",
-            location_code: "GB"
+            postcode: "12345"
           }
         end
 
@@ -174,8 +167,7 @@ RSpec.describe SignaturesController, type: :controller do
         name: "Ted Berry",
         email: "ted@example.com",
         uk_citizenship: "1",
-        postcode: "SW1A 1AA",
-        location_code: "GB"
+        postcode: "SW1A 1AA"
       }
     end
 
@@ -240,7 +232,6 @@ RSpec.describe SignaturesController, type: :controller do
           expect(assigns[:signature].email).to eq("ted@example.com")
           expect(assigns[:signature].uk_citizenship).to eq("1")
           expect(assigns[:signature].postcode).to eq("SW1A1AA")
-          expect(assigns[:signature].location_code).to eq("GB")
         end
 
         it "records the IP address on the signature" do
@@ -262,8 +253,7 @@ RSpec.describe SignaturesController, type: :controller do
               name: "Ted Berry",
               email: "",
               uk_citizenship: "1",
-              postcode: "SW1A 1AA",
-              location_code: "GB"
+              postcode: "SW1A 1AA"
             }
           end
 

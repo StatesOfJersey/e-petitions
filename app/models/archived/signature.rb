@@ -25,7 +25,6 @@ module Archived
 
     validates :constituency_id, length: { maximum: 255 }
     validates :email, presence: true
-    validates :location_code, presence: true
     validates :name, presence: true, length: { maximum: 255 }
     validates :state, presence: true, inclusion: { in: STATES }
 

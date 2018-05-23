@@ -50,12 +50,6 @@
   <%= form.text_field :constituency_id, tabindex: increment, maxlength: 30, class: 'form-control', placeholder: 'The constituency ID returned by the parliament API for the postcode' %>
 <% end %>
 
-<%= form_row for: [form.object, :location_code] do %>
-  <%= form.label :location_code, "Location", class: 'form-label' %>
-  <%= error_messages_for_field @invalidation, :location_code %>
-  <%= form.text_field :location_code, tabindex: increment, maxlength: 30, class: 'form-control', placeholder: 'The location code used when signing - typically it would be GB' %>
-<% end %>
-
 <%= form_row for: [form.object, :created_after] do %>
   <%= form.label :created_after, "Starting at", class: 'form-label' %>
   <%= error_messages_for_field @invalidation, :created_after %>

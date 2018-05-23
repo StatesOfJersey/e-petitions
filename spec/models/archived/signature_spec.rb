@@ -20,7 +20,6 @@ RSpec.describe Archived::Signature, type: :model do
     it { is_expected.to have_db_column(:constituency_id).of_type(:string) }
     it { is_expected.to have_db_column(:validated_at).of_type(:datetime) }
     it { is_expected.to have_db_column(:number).of_type(:integer) }
-    it { is_expected.to have_db_column(:location_code).of_type(:string).with_options(limit: 30) }
     it { is_expected.to have_db_column(:invalidated_at).of_type(:datetime) }
     it { is_expected.to have_db_column(:invalidation_id).of_type(:integer) }
     it { is_expected.to have_db_column(:government_response_email_at).of_type(:datetime) }
@@ -45,7 +44,6 @@ RSpec.describe Archived::Signature, type: :model do
     it { is_expected.to have_db_index([:email, :petition_id, :name]).unique }
     it { is_expected.to have_db_index([:invalidation_id]) }
     it { is_expected.to have_db_index([:ip_address, :petition_id]) }
-    it { is_expected.to have_db_index([:petition_id, :location_code]) }
     it { is_expected.to have_db_index([:petition_id]) }
     it { is_expected.to have_db_index([:state, :petition_id]) }
     it { is_expected.to have_db_index([:updated_at]) }
@@ -56,7 +54,6 @@ RSpec.describe Archived::Signature, type: :model do
   describe "validations" do
     it { is_expected.to validate_presence_of(:name).with_message(/must be completed/) }
     it { is_expected.to validate_presence_of(:email).with_message(/must be completed/) }
-    it { is_expected.to validate_presence_of(:location_code).with_message(/must be completed/) }
     it { is_expected.to validate_length_of(:name).is_at_most(255) }
     it { is_expected.to validate_length_of(:constituency_id).is_at_most(255) }
     it { is_expected.to allow_values(*Archived::Signature::STATES).for(:state) }

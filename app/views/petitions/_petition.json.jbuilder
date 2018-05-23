@@ -63,12 +63,6 @@ json.attributes do
   end
 
   if petition_page?
-    json.signatures_by_country petition.signatures_by_country do |country|
-      json.name country.name
-      json.code country.code
-      json.signature_count country.signature_count
-    end
-
     json.signatures_by_constituency petition.signatures_by_constituency do |constituency|
       json.name constituency.name
       json.ons_code constituency.ons_code

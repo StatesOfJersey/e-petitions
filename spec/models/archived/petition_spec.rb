@@ -699,41 +699,6 @@ RSpec.describe Archived::Petition, type: :model do
     end
   end
 
-  describe "#signatures_by_country" do
-    let(:petition) { FactoryBot.create(:archived_petition, signatures_by_country: signatures_by_country) }
-
-    let(:signatures_by_country) do
-      { "GB" => 1234, "US" => 56 }
-    end
-
-    before do
-      FactoryBot.create(:location, code: "GB", name: "United Kingdom")
-      FactoryBot.create(:location, code: "US", name: "United States")
-    end
-
-    it "returns an array of country signature details" do
-      expect(petition.signatures_by_country).to eq [
-        {
-          name: "United Kingdom",
-          code: "GB",
-          signature_count: 1234
-        },
-        {
-          name: "United States",
-          code: "US",
-          signature_count: 56
-        }
-      ]
-    end
-
-    it "only finds the countries once" do
-      expect(Location).to receive(:where).with(code: %w[GB US]).once.and_call_original
-
-      petition.signatures_by_country
-      petition.signatures_by_country
-    end
-  end
-
   describe "#get_email_requested_at_for" do
     let(:requested_at) { Time.current }
 

@@ -187,7 +187,6 @@ FactoryBot.define do
     sequence(:name)   { |n| "Jo Public #{n}" }
     sequence(:email)  { |n| "jo#{n}@public.com" }
     postcode            "SW1A 1AA"
-    location_code       "GB"
     state               Archived::Signature::VALIDATED_STATE
     unsubscribe_token { Authlogic::Random.friendly_token }
     notify_by_email     true
@@ -424,7 +423,6 @@ FactoryBot.define do
     sequence(:name)  {|n| "Jo Public #{n}" }
     sequence(:email) {|n| "jo#{n}@public.com" }
     postcode              "SW1A 1AA"
-    location_code         "GB"
     uk_citizenship        "1"
     notify_by_email       "1"
     state                 Signature::VALIDATED_STATE
@@ -568,11 +566,6 @@ FactoryBot.define do
     association :petition
   end
 
-  factory :country_petition_journal do
-    location_code "GB"
-    association :petition
-  end
-
   factory :debate_outcome do
     association :petition, factory: :open_petition
     debated_on { 1.month.from_now.to_date }
@@ -617,19 +610,6 @@ FactoryBot.define do
 
   factory :email_requested_receipt do
     association :petition, factory: :open_petition
-  end
-
-  factory :location do
-    code { Faker::Address.country_code }
-    name { Faker::Address.country }
-
-    trait :pending do
-      start_date { 3.months.from_now }
-    end
-
-    trait :expired do
-      end_date { 2.years.ago }
-    end
   end
 
   factory :feedback do

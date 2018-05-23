@@ -203,35 +203,5 @@ RSpec.describe "API request to show a petition", type: :request, show_exceptions
         )
       )
     end
-
-    it "includes the signatures by country data" do
-      petition = FactoryBot.create :open_petition
-
-      gb = FactoryBot.create :location, name: "United Kingdom", code: "gb"
-      fr = FactoryBot.create :location, name: "France", code: "fr"
-
-      FactoryBot.create :country_petition_journal, location: gb, signature_count: 123456, petition: petition
-      FactoryBot.create :country_petition_journal, location: fr, signature_count: 789, petition: petition
-
-      get "/petitions/#{petition.id}.json"
-      expect(response).to be_success
-
-      expect(attributes).to match(
-        a_hash_including(
-          "signatures_by_country" => a_collection_containing_exactly(
-            {
-              "name" => "United Kingdom",
-              "code" => "gb",
-              "signature_count" => 123456
-            },
-            {
-              "name" => "France",
-              "code" => "fr",
-              "signature_count" => 789
-            }
-          )
-        )
-      )
-    end
   end
 end

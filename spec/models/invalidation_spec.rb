@@ -44,7 +44,6 @@ RSpec.describe Invalidation, type: :model do
     it { is_expected.to validate_length_of(:ip_address).is_at_most(20) }
     it { is_expected.to validate_length_of(:email).is_at_most(255) }
     it { is_expected.to validate_length_of(:constituency_id).is_at_most(30) }
-    it { is_expected.to validate_length_of(:location_code).is_at_most(30) }
 
     it { is_expected.not_to allow_value("foo").for(:ip_address) }
     it { is_expected.to allow_value("123.123.123.123").for(:ip_address) }
@@ -94,18 +93,6 @@ RSpec.describe Invalidation, type: :model do
 
       it "adds an error to :constituency_id" do
         expect(subject.errors[:constituency_id]).to include("Constituency doesn't exist")
-      end
-    end
-
-    context "when a location doesn't exist" do
-      subject { FactoryBot.build(:invalidation, location_code: "XX") }
-
-      before do
-        subject.valid?
-      end
-
-      it "adds an error to :location_code" do
-        expect(subject.errors[:location_code]).to include("Location doesn't exist")
       end
     end
 
@@ -834,39 +821,6 @@ RSpec.describe Invalidation, type: :model do
         let!(:signature_5) { FactoryBot.create(:fraudulent_signature, constituency_id: "3427", petition: petition) }
 
         subject { FactoryBot.create(:invalidation, constituency_id: "3427") }
-
-        it "includes validated signatures that match" do
-          expect(subject.matching_signatures).to include(signature_1)
-        end
-
-        it "includes pending signatures that match" do
-          expect(subject.matching_signatures).to include(signature_3)
-        end
-
-        it "excludes invalidated signatures that match" do
-          expect(subject.matching_signatures).not_to include(signature_4)
-        end
-
-        it "excludes fraudulent signatures that match" do
-          expect(subject.matching_signatures).not_to include(signature_5)
-        end
-
-        it "excludes signatures that don't match" do
-          expect(subject.matching_signatures).not_to include(signature_2)
-        end
-      end
-
-      context "when filtering by location_code" do
-        let!(:petition) { FactoryBot.create(:open_petition) }
-        let!(:united_kingdom) { FactoryBot.create(:location, code: "GB", name: "United Kingdom") }
-        let!(:australia) { FactoryBot.create(:location, code: "AU", name: "Australia") }
-        let!(:signature_1) { FactoryBot.create(:validated_signature, location_code: "GB", petition: petition) }
-        let!(:signature_2) { FactoryBot.create(:validated_signature, location_code: "AU", petition: petition) }
-        let!(:signature_3) { FactoryBot.create(:pending_signature, location_code: "GB", petition: petition) }
-        let!(:signature_4) { FactoryBot.create(:invalidated_signature, location_code: "GB", petition: petition) }
-        let!(:signature_5) { FactoryBot.create(:fraudulent_signature, location_code: "GB", petition: petition) }
-
-        subject { FactoryBot.create(:invalidation, location_code: "GB") }
 
         it "includes validated signatures that match" do
           expect(subject.matching_signatures).to include(signature_1)

@@ -349,7 +349,6 @@ CREATE TABLE archived_signatures (
     constituency_id character varying,
     validated_at timestamp without time zone,
     number integer,
-    location_code character varying(30),
     invalidated_at timestamp without time zone,
     invalidation_id integer,
     government_response_email_at timestamp without time zone,
@@ -451,39 +450,6 @@ CREATE SEQUENCE constituency_petition_journals_id_seq
 --
 
 ALTER SEQUENCE constituency_petition_journals_id_seq OWNED BY constituency_petition_journals.id;
-
-
---
--- Name: country_petition_journals; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE country_petition_journals (
-    id integer NOT NULL,
-    petition_id integer NOT NULL,
-    signature_count integer DEFAULT 0 NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    location_code character varying(30)
-);
-
-
---
--- Name: country_petition_journals_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE country_petition_journals_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: country_petition_journals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE country_petition_journals_id_seq OWNED BY country_petition_journals.id;
 
 
 --
@@ -716,7 +682,6 @@ CREATE TABLE invalidations (
     created_after timestamp without time zone,
     created_before timestamp without time zone,
     constituency_id character varying(30),
-    location_code character varying(30),
     matching_count integer DEFAULT 0 NOT NULL,
     invalidated_count integer DEFAULT 0 NOT NULL,
     enqueued_at timestamp without time zone,
@@ -746,40 +711,6 @@ CREATE SEQUENCE invalidations_id_seq
 --
 
 ALTER SEQUENCE invalidations_id_seq OWNED BY invalidations.id;
-
-
---
--- Name: locations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE locations (
-    id integer NOT NULL,
-    code character varying(30) NOT NULL,
-    name character varying(100) NOT NULL,
-    start_date date,
-    end_date date,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: locations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE locations_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: locations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE locations_id_seq OWNED BY locations.id;
 
 
 --
@@ -1052,7 +983,6 @@ CREATE TABLE signatures (
     validated_at timestamp without time zone,
     number integer,
     seen_signed_confirmation_page boolean DEFAULT false NOT NULL,
-    location_code character varying(30),
     invalidated_at timestamp without time zone,
     invalidation_id integer,
     government_response_email_at timestamp without time zone,
@@ -1272,13 +1202,6 @@ ALTER TABLE ONLY constituency_petition_journals ALTER COLUMN id SET DEFAULT next
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY country_petition_journals ALTER COLUMN id SET DEFAULT nextval('country_petition_journals_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY debate_outcomes ALTER COLUMN id SET DEFAULT nextval('debate_outcomes_id_seq'::regclass);
 
 
@@ -1322,13 +1245,6 @@ ALTER TABLE ONLY holidays ALTER COLUMN id SET DEFAULT nextval('holidays_id_seq':
 --
 
 ALTER TABLE ONLY invalidations ALTER COLUMN id SET DEFAULT nextval('invalidations_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY locations ALTER COLUMN id SET DEFAULT nextval('locations_id_seq'::regclass);
 
 
 --
@@ -1490,14 +1406,6 @@ ALTER TABLE ONLY constituency_petition_journals
 
 
 --
--- Name: country_petition_journals_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY country_petition_journals
-    ADD CONSTRAINT country_petition_journals_pkey PRIMARY KEY (id);
-
-
---
 -- Name: debate_outcomes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1551,14 +1459,6 @@ ALTER TABLE ONLY holidays
 
 ALTER TABLE ONLY invalidations
     ADD CONSTRAINT invalidations_pkey PRIMARY KEY (id);
-
-
---
--- Name: locations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY locations
-    ADD CONSTRAINT locations_pkey PRIMARY KEY (id);
 
 
 --
@@ -1852,13 +1752,6 @@ CREATE INDEX index_archived_signatures_on_petition_id ON archived_signatures USI
 
 
 --
--- Name: index_archived_signatures_on_petition_id_and_location_code; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_archived_signatures_on_petition_id_and_location_code ON archived_signatures USING btree (petition_id, location_code);
-
-
---
 -- Name: index_archived_signatures_on_petition_id_where_creator_is_true; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1912,13 +1805,6 @@ CREATE UNIQUE INDEX index_constituencies_on_external_id ON constituencies USING 
 --
 
 CREATE UNIQUE INDEX index_constituencies_on_slug ON constituencies USING btree (slug);
-
-
---
--- Name: index_country_petition_journals_on_petition_and_location; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_country_petition_journals_on_petition_and_location ON country_petition_journals USING btree (petition_id, location_code);
 
 
 --
@@ -2010,27 +1896,6 @@ CREATE INDEX index_invalidations_on_petition_id ON invalidations USING btree (pe
 --
 
 CREATE INDEX index_invalidations_on_started_at ON invalidations USING btree (started_at);
-
-
---
--- Name: index_locations_on_code; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_locations_on_code ON locations USING btree (code);
-
-
---
--- Name: index_locations_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_locations_on_name ON locations USING btree (name);
-
-
---
--- Name: index_locations_on_start_date_and_end_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_locations_on_start_date_and_end_date ON locations USING btree (start_date, end_date);
 
 
 --
@@ -2206,13 +2071,6 @@ CREATE INDEX index_signatures_on_name ON signatures USING btree (lower((name)::t
 --
 
 CREATE INDEX index_signatures_on_petition_id ON signatures USING btree (petition_id);
-
-
---
--- Name: index_signatures_on_petition_id_and_location_code; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_signatures_on_petition_id_and_location_code ON signatures USING btree (petition_id, location_code);
 
 
 --
@@ -2545,6 +2403,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180329062433'),
 ('20180510122656'),
 ('20180510131346'),
-('20180522033130');
+('20180522033130'),
+('20180522145833');
 
 

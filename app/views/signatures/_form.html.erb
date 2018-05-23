@@ -21,12 +21,6 @@
   <%= form.text_field :email, type: "email", tabindex: increment, class: "form-control" %>
 <% end %>
 
-<%= form_row for: [signature, :location_code] do %>
-  <%= form.label :location_code, "Location", class: "form-label" %>
-  <%= error_messages_for_field signature, :location_code %>
-  <%= form.select :location_code, countries_for_select, {}, tabindex: increment, class: "form-control" %>
-<% end %>
-
 <%= form_row for: [signature, :postcode] do %>
   <%= form.label :postcode, class: "form-label" %>
   <%= error_messages_for_field signature, :postcode %>

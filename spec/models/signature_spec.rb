@@ -13,7 +13,6 @@ RSpec.describe Signature, type: :model do
 
   before do
     FactoryBot.create(:constituency, :london_and_westminster)
-    FactoryBot.create(:location, code: "GB", name: "United Kingdom")
   end
 
   context "defaults" do
@@ -103,15 +102,13 @@ RSpec.describe Signature, type: :model do
       end
 
       context "when the signature is not the creator" do
-        let(:country_journal) { CountryPetitionJournal.for(petition, "GB") }
         let(:constituency_journal) { ConstituencyPetitionJournal.for(petition, "3415") }
 
         let(:signature) {
           FactoryBot.create(
             :pending_signature,
             petition: petition,
-            constituency_id: "3415",
-            location_code: "GB"
+            constituency_id: "3415"
           )
         }
 
@@ -125,11 +122,6 @@ RSpec.describe Signature, type: :model do
           expect{ signature.destroy }.to change{ petition.reload.signature_count }.by(-1)
         end
 
-        it "decrements the country journal signature count" do
-          expect(petition.signature_count).to eq(7)
-          expect{ signature.destroy }.to change{ country_journal.reload.signature_count }.by(-1)
-        end
-
         it "decrements the constituency journal signature count" do
           expect(petition.signature_count).to eq(7)
           expect{ signature.destroy }.to change{ constituency_journal.reload.signature_count }.by(-1)
@@ -137,15 +129,13 @@ RSpec.describe Signature, type: :model do
       end
 
       context "when the signature is invalidated" do
-        let(:country_journal) { CountryPetitionJournal.for(petition, "GB") }
         let(:constituency_journal) { ConstituencyPetitionJournal.for(petition, "3415") }
 
         let(:signature) {
           FactoryBot.create(
             :pending_signature,
             petition: petition,
-            constituency_id: "3415",
-            location_code: "GB"
+            constituency_id: "3415"
           )
         }
 
@@ -160,11 +150,6 @@ RSpec.describe Signature, type: :model do
           expect{ signature.destroy }.not_to change{ petition.reload.signature_count }
         end
 
-        it "doesn't decrement the country journal signature count" do
-          expect(petition.signature_count).to eq(6)
-          expect{ signature.destroy }.not_to change{ country_journal.reload.signature_count }
-        end
-
         it "doesn't decrement the constituency journal signature count" do
           expect(petition.signature_count).to eq(6)
           expect{ signature.destroy }.not_to change{ constituency_journal.reload.signature_count }
@@ -176,7 +161,6 @@ RSpec.describe Signature, type: :model do
       let!(:petition) { FactoryBot.create(:open_petition) }
       let!(:signature) { petition.signatures.build(attributes) }
       let(:email) { "foo@example.com" }
-      let(:location_code) { "GB" }
       let(:postcode) { "SW1A 1AA" }
 
       let(:attributes) do
@@ -184,7 +168,6 @@ RSpec.describe Signature, type: :model do
           name: "Suzy Signer",
           email: email,
           postcode: postcode,
-          location_code: location_code,
           uk_citizenship: "1"
         }
       end
@@ -228,7 +211,6 @@ RSpec.describe Signature, type: :model do
   context "validations" do
     it { is_expected.to validate_presence_of(:name).with_message(/must be completed/) }
     it { is_expected.to validate_presence_of(:email).with_message(/must be completed/) }
-    it { is_expected.to validate_presence_of(:location_code).with_message(/must be completed/) }
     it { is_expected.to validate_length_of(:name).is_at_most(255) }
     it { is_expected.to validate_length_of(:constituency_id).is_at_most(255) }
 
@@ -267,10 +249,6 @@ RSpec.describe Signature, type: :model do
       it "requires a postcode for a UK address" do
         expect(FactoryBot.build(:signature, :postcode => 'SW1A 1AA')).to be_valid
         expect(FactoryBot.build(:signature, :postcode => '')).not_to be_valid
-      end
-      it "does not require a postcode for non-UK addresses" do
-        expect(FactoryBot.build(:signature, :location_code => "GB", :postcode => '')).not_to be_valid
-        expect(FactoryBot.build(:signature, :location_code => "US", :postcode => '')).to be_valid
       end
       it "checks the format of postcode" do
         s = FactoryBot.build(:signature, :postcode => 'SW1A1AA')
@@ -721,15 +699,13 @@ RSpec.describe Signature, type: :model do
     end
 
     context "when the signature is not the creator" do
-      let(:country_journal) { CountryPetitionJournal.for(petition, "GB") }
       let(:constituency_journal) { ConstituencyPetitionJournal.for(petition, "3415") }
 
       let(:signature) {
         FactoryBot.create(
           :pending_signature,
           petition: petition,
-          constituency_id: "3415",
-          location_code: "GB"
+          constituency_id: "3415"
         )
       }
 
@@ -744,14 +720,6 @@ RSpec.describe Signature, type: :model do
         }.to change {
           petition.reload.signature_count
         }.from(7).to(6)
-      end
-
-      it "decrements the country journal signature count" do
-        expect {
-          described_class.destroy!([signature.id])
-        }.to change {
-          country_journal.reload.signature_count
-        }.by(-1)
       end
 
       it "decrements the constituency journal signature count" do
@@ -794,8 +762,7 @@ RSpec.describe Signature, type: :model do
   describe ".missing_constituency_id" do
     let!(:signature_1) { FactoryBot.create(:validated_signature, validated_at: 2.weeks.ago) }
     let!(:signature_2) { FactoryBot.create(:validated_signature, constituency_id: "3415") }
-    let!(:signature_3) { FactoryBot.create(:validated_signature, location_code: "US") }
-    let!(:signature_4) { FactoryBot.create(:validated_signature) }
+    let!(:signature_3) { FactoryBot.create(:validated_signature) }
 
     subject { described_class.missing_constituency_id(since: 1.week.ago) }
 
@@ -807,12 +774,8 @@ RSpec.describe Signature, type: :model do
       expect(subject).not_to include(signature_2)
     end
 
-    it "doesn't include signatures that are not in the UK" do
-      expect(subject).not_to include(signature_3)
-    end
-
     it "includes signatures that need their constituency_id set" do
-      expect(subject).to include(signature_4)
+      expect(subject).to include(signature_3)
     end
 
     context "when not supplying the cut-off date" do
@@ -1119,7 +1082,6 @@ RSpec.describe Signature, type: :model do
 
   describe '#validate!' do
     let(:signature) { FactoryBot.create(:pending_signature, attributes) }
-    let(:location_code) { "GB" }
     let(:postcode) { "SW1A 1AA" }
 
     let (:attributes) do
@@ -1128,7 +1090,6 @@ RSpec.describe Signature, type: :model do
         name: "Suzy Signer",
         email: "suzy@example.com",
         postcode: postcode,
-        location_code: location_code,
         uk_citizenship: "1",
         created_at: 2.days.ago,
         updated_at: 2.days.ago
@@ -1183,17 +1144,6 @@ RSpec.describe Signature, type: :model do
         signature.validate!
       end
 
-      it 'tells the relevant country petition journal to record a new signature' do
-        expect(CountryPetitionJournal).to receive(:record_new_signature_for).with(signature)
-        signature.validate!
-      end
-
-      it 'does not talk to the country petition journal if the signature is not pending' do
-        expect(CountryPetitionJournal).not_to receive(:record_new_signature_for)
-        signature.update_columns(state: Signature::VALIDATED_STATE)
-        signature.validate!
-      end
-
       it "retries if the schema has changed" do
         expect(signature).to receive(:lock!).once.and_raise(PG::InFailedSqlTransaction)
         expect(signature).to receive(:lock!).once.and_call_original
@@ -1209,8 +1159,6 @@ RSpec.describe Signature, type: :model do
       end
 
       context "and the signer is from the UK" do
-        let(:location_code) { "GB" }
-
         context "and the postcode is valid" do
           let(:postcode) { "SW1A 1AA" }
 
@@ -1229,36 +1177,6 @@ RSpec.describe Signature, type: :model do
 
           it "calls the Constituency API but doesn't set constituency_id" do
             expect(Constituency).to receive(:find_by_postcode).with("SW149RQ").and_call_original
-
-            signature.validate!
-
-            expect(signature).to be_validated
-            expect(signature.constituency_id).to be_nil
-          end
-        end
-      end
-
-      context "and the signer is not from the UK" do
-        let(:location_code) { "US" }
-
-        context "and the postcode is set" do
-          let(:postcode) { "12345" }
-
-          it "doesn't call the Constituency API and doesn't set constituency_id" do
-            expect(Constituency).not_to receive(:find_by_postcode)
-
-            signature.validate!
-
-            expect(signature).to be_validated
-            expect(signature.constituency_id).to be_nil
-          end
-        end
-
-        context "and the postcode is blank" do
-          let(:postcode) { "" }
-
-          it "doesn't call the Constituency API and doesn't set constituency_id" do
-            expect(Constituency).not_to receive(:find_by_postcode)
 
             signature.validate!
 
@@ -1319,17 +1237,6 @@ RSpec.describe Signature, type: :model do
 
     it 'does not talk to the constituency petition journal if the signature is not validated' do
       expect(ConstituencyPetitionJournal).not_to receive(:invalidate_signature_for)
-      signature.update_columns(state: Signature::INVALIDATED_STATE)
-      signature.invalidate!
-    end
-
-    it 'tells the relevant country petition journal to invalidate the signature' do
-      expect(CountryPetitionJournal).to receive(:invalidate_signature_for).with(signature, now)
-      signature.invalidate!(now)
-    end
-
-    it 'does not talk to the country petition journal if the signature is not validated' do
-      expect(CountryPetitionJournal).not_to receive(:invalidate_signature_for)
       signature.update_columns(state: Signature::INVALIDATED_STATE)
       signature.invalidate!
     end
@@ -1510,7 +1417,6 @@ RSpec.describe Signature, type: :model do
   describe "#constituency" do
     let(:signature) { FactoryBot.build(:signature, attributes) }
     let(:constituency) { signature.constituency }
-    let(:location_code) { "GB" }
 
     let(:attributes) do
       { postcode: postcode, constituency_id: constituency_id }
@@ -1518,16 +1424,6 @@ RSpec.describe Signature, type: :model do
 
     context "when the constituency_id is not set" do
       let(:constituency_id) { nil }
-
-      context "and the signature is not from the UK" do
-        let(:postcode) { "12345" }
-
-        it "returns nil" do
-          expect(signature).to receive(:united_kingdom?).and_return(false)
-          expect(Constituency).not_to receive(:find_by_postcode)
-          expect(signature.constituency).to be_nil
-        end
-      end
 
       context "and the API returns a single result" do
         let(:postcode) { "N1 1TY" }
@@ -1733,7 +1629,6 @@ RSpec.describe Signature, type: :model do
         name: name,
         email: email,
         postcode: postcode,
-        location_code: "GB",
         uk_citizenship: "1"
       }
     end
@@ -1750,7 +1645,6 @@ RSpec.describe Signature, type: :model do
           name: "Suzy Signer",
           email: "foo@example.com",
           postcode: "SW1A 1AA",
-          location_code: "GB",
           uk_citizenship: "1"
         )
       end
@@ -1825,7 +1719,6 @@ RSpec.describe Signature, type: :model do
           name: "Suzy Signer",
           email: "foo@example.com",
           postcode: "SW1A 1AA",
-          location_code: "GB",
           uk_citizenship: "1"
         )
 
@@ -1833,7 +1726,6 @@ RSpec.describe Signature, type: :model do
           name: "Sam Signer",
           email: "foo@example.com",
           postcode: "SW1A 1AA",
-          location_code: "GB",
           uk_citizenship: "1"
         )
       end
@@ -1863,7 +1755,6 @@ RSpec.describe Signature, type: :model do
         name: "Suzy Signer",
         email: "foo@example.com",
         postcode: "SW1A 1AA",
-        location_code: "GB",
         uk_citizenship: "1"
       }
     end

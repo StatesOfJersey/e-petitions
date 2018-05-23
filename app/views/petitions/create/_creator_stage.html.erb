@@ -33,12 +33,6 @@
   <%= form.text_field :email, type: "email", tabindex: increment, class: "form-control" %>
 <% end %>
 
-<%= form_row for: [petition, :location_code] do %>
-  <%= form.label :location_code, "Location", class: "form-label" %>
-  <%= error_messages_for_field petition, :location_code %>
-  <%= form.select :location_code, countries_for_select, {}, tabindex: increment, class: "form-control" %>
-<% end %>
-
 <%= form_row for: [petition, :postcode] do %>
   <%= form.label :postcode, class: "form-label" %>
   <%= error_messages_for_field petition, :postcode %>

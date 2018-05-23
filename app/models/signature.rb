@@ -30,8 +30,7 @@ class Signature < ActiveRecord::Base
   validates :state, inclusion: { in: STATES }
   validates :name, presence: true, length: { maximum: 255 }
   validates :email, presence: true, email: { allow_blank: true }, on: :create
-  validates :location_code, presence: true
-  validates :postcode, presence: true, postcode: true, if: :united_kingdom?
+  validates :postcode, presence: true, postcode: true
   validates :uk_citizenship, acceptance: true, unless: :persisted?, allow_nil: false
   validates :constituency_id, length: { maximum: 255 }
 
@@ -55,7 +54,6 @@ class Signature < ActiveRecord::Base
     if validated?
       now = Time.current
       ConstituencyPetitionJournal.invalidate_signature_for(self, now)
-      CountryPetitionJournal.invalidate_signature_for(self, now)
       petition.decrement_signature_count!(now)
     end
   end
@@ -138,9 +136,9 @@ class Signature < ActiveRecord::Base
 
     def missing_constituency_id(since: nil)
       if since
-        uk.validated(since: since).where(constituency_id: nil)
+        validated(since: since).where(constituency_id: nil)
       else
-        uk.validated.where(constituency_id: nil)
+        validated.where(constituency_id: nil)
       end
     end
 
@@ -205,10 +203,6 @@ class Signature < ActiveRecord::Base
       order("COUNT(*) DESC").
       limit(limit).
       count(:all)
-    end
-
-    def uk
-      where(location_code: "GB")
     end
 
     def unarchived
@@ -338,7 +332,7 @@ class Signature < ActiveRecord::Base
     new_constituency_id = nil
 
     unless constituency_id?
-      if united_kingdom? && postcode?
+      if postcode?
         new_constituency_id = constituency.try(:external_id)
       end
     end
@@ -387,7 +381,6 @@ class Signature < ActiveRecord::Base
 
     if update_signature_counts
       ConstituencyPetitionJournal.invalidate_signature_for(self, now)
-      CountryPetitionJournal.invalidate_signature_for(self, now)
       petition.decrement_signature_count!(now)
     end
   end
@@ -427,7 +420,7 @@ class Signature < ActiveRecord::Base
   def constituency
     if constituency_id?
       @constituency ||= Constituency.find_by_external_id(constituency_id)
-    elsif united_kingdom?
+    else
       @constituency ||= Constituency.find_by_postcode(postcode)
     end
   end
@@ -457,10 +450,6 @@ class Signature < ActiveRecord::Base
 
   def email_threshold_reached?
     email_count >= 5
-  end
-
-  def united_kingdom?
-    location_code == 'GB'
   end
 
   def update_all(updates)

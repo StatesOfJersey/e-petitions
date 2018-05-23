@@ -69,7 +69,6 @@ RSpec.describe ArchiveSignaturesJob, type: :job do
       expect(archived_signature.name).to eq(signature.name)
       expect(archived_signature.email).to eq(signature.email)
       expect(archived_signature.postcode).to eq(signature.postcode)
-      expect(archived_signature.location_code).to eq(signature.location_code)
       expect(archived_signature.constituency_id).to eq(signature.constituency_id)
       expect(archived_signature.ip_address).to eq(signature.ip_address)
       expect(archived_signature.perishable_token).to eq(signature.perishable_token)
@@ -197,7 +196,7 @@ RSpec.describe ArchiveSignaturesJob, type: :job do
     let!(:signature) { FactoryBot.create(:validated_signature, petition: petition) }
 
     before do
-      signature.update_column(:location_code, nil)
+      signature.update_column(:name, "")
       signature.reload
 
       described_class.perform_now(petition, archived_petition)
