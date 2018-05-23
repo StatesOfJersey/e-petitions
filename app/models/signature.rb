@@ -31,7 +31,7 @@ class Signature < ActiveRecord::Base
   validates :name, presence: true, length: { maximum: 255 }
   validates :email, presence: true, email: { allow_blank: true }, on: :create
   validates :postcode, presence: true, postcode: true
-  validates :uk_citizenship, acceptance: true, unless: :persisted?, allow_nil: false
+  validates :jersey_resident, acceptance: true, unless: :persisted?, allow_nil: false
   validates :constituency_id, length: { maximum: 255 }
 
   attr_readonly :sponsor, :creator
@@ -258,7 +258,7 @@ class Signature < ActiveRecord::Base
     end
   end
 
-  attr_accessor :uk_citizenship
+  attr_accessor :jersey_resident
 
   def find_duplicate
     return nil unless petition

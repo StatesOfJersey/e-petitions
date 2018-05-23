@@ -47,7 +47,7 @@ RSpec.describe PetitionsController, type: :controller do
         background: "Limit temperature rise at two degrees",
         additional_details: "Global warming is upon us",
         name: "John Mcenroe", email: "john@example.com",
-        postcode: "SE3 4LL", uk_citizenship: "1"
+        postcode: "SE3 4LL", jersey_resident: "1"
       }
     end
 
@@ -167,9 +167,9 @@ RSpec.describe PetitionsController, type: :controller do
           expect(response).to be_success
         end
 
-        it "should not create a new petition if UK citizenship is not confirmed" do
+        it "should not create a new petition if Jersey resident is not confirmed" do
           perform_enqueued_jobs do
-            post :create, params: { stage: "replay_email", petition_creator: params.merge(uk_citizenship: "0") }
+            post :create, params: { stage: "replay_email", petition_creator: params.merge(jersey_resident: "0") }
           end
 
           expect(petition).to be_nil
@@ -208,9 +208,9 @@ RSpec.describe PetitionsController, type: :controller do
           expect(assigns[:new_petition].stage).to eq "creator"
         end
 
-        it "has stage of 'creator' if there is an error on uk_citizenship" do
+        it "has stage of 'creator' if there is an error on jersey_resident" do
           perform_enqueued_jobs do
-            post :create, params: { stage: "replay_email", petition_creator: params.merge(uk_citizenship: "0") }
+            post :create, params: { stage: "replay_email", petition_creator: params.merge(jersey_resident: "0") }
           end
 
           expect(assigns[:new_petition].stage).to eq "creator"
