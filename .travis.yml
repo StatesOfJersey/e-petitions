@@ -10,11 +10,7 @@ services:
 - memcached
 - postgresql
 addons:
-  postgresql: "10"
-  apt:
-    packages:
-    - postgresql-10
-    - postgresql-client-10
+  postgresql: "9.6"
 before_install:
 - gem install bundler
 - |
