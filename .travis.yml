@@ -29,6 +29,6 @@ before_install:
     phantomjs -v
 before_script:
 - bundle install
-- sudo -u postgres createdb jpets_test
+- RAILS_ENV=test bundle exec rake db:create
 - RAILS_ENV=test bundle exec rake db:structure:load
 script: RAILS_ENV=test bundle exec rake
