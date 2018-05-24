@@ -50,10 +50,7 @@ module PageTitleHelper
 
         if petition?
           opts[:petition] = petition.action
-
-          unless petition.is_a?(Archived::Petition)
-            opts[:creator] = petition.creator.name
-          end
+          opts[:creator] = petition.creator.name
         end
       end
     end

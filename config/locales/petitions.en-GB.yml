@@ -79,7 +79,6 @@ en-GB:
         - :closed
         - :rejected
         - :hidden
-        - :stopped
         - :awaiting_response
         - :with_response
         - :awaiting_debate_date
@@ -90,7 +89,6 @@ en-GB:
         - :published
         - :rejected
         - :hidden
-        - :stopped
         - :awaiting_response
         - :with_response
         - :awaiting_debate_date
@@ -110,7 +108,6 @@ en-GB:
           closed: "Closed (%{quantity})"
           rejected: "Rejected (%{quantity})"
           hidden: "Hidden (%{quantity})"
-          stopped: "Stopped (%{quantity})"
           awaiting_response: "Awaiting a government response (%{quantity})"
           with_response: "With a government response (%{quantity})"
           awaiting_debate_date: "Awaiting a debate in parliament (%{quantity})"
@@ -121,7 +118,6 @@ en-GB:
           published: "Published (%{quantity})"
           rejected: "Rejected (%{quantity})"
           hidden: "Hidden (%{quantity})"
-          stopped: "Stopped (%{quantity})"
           awaiting_response: "Awaiting a government response (%{quantity})"
           with_response: "With a government response (%{quantity})"
           awaiting_debate_date: "Awaiting a debate in parliament (%{quantity})"
@@ -175,12 +171,6 @@ en-GB:
         # Re-send confirmation emails
         special_resend_of_email_confirmation_for_signer: |-
           Please confirm your email address
-        notify_creator_of_closing_date_change: |-
-          We’re closing your petition early
-        notify_creator_of_sponsored_petition_being_stopped: |-
-          We’ve stopped your petition early
-        notify_creator_of_validated_petition_being_stopped: |-
-          We’ve stopped your petition early
       signoff_prefix: "The Petitions team"
       signoff_suffix: "Jersey States Assembly"
 

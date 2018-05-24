@@ -38,7 +38,7 @@ RSpec.describe SponsorsController, type: :controller do
       end
     end
 
-    %w[flagged hidden stopped].each do |state|
+    %w[flagged hidden].each do |state|
       context "when the petition is #{state}" do
         let(:petition) { FactoryBot.create(:"#{state}_petition") }
 
@@ -135,7 +135,7 @@ RSpec.describe SponsorsController, type: :controller do
       end
     end
 
-    %w[flagged hidden stopped].each do |state|
+    %w[flagged hidden].each do |state|
       context "when the petition is #{state}" do
         let(:petition) { FactoryBot.create(:"#{state}_petition") }
 
@@ -258,7 +258,7 @@ RSpec.describe SponsorsController, type: :controller do
       end
     end
 
-    %w[flagged hidden stopped].each do |state|
+    %w[flagged hidden].each do |state|
       context "when the petition is #{state}" do
         let(:petition) { FactoryBot.create(:"#{state}_petition") }
 
@@ -447,7 +447,7 @@ RSpec.describe SponsorsController, type: :controller do
       end
     end
 
-    %w[flagged hidden stopped].each do |state|
+    %w[flagged hidden].each do |state|
       context "when the petition is #{state}" do
         let(:petition) { FactoryBot.create(:"#{state}_petition") }
 
@@ -567,7 +567,7 @@ RSpec.describe SponsorsController, type: :controller do
       end
     end
 
-    %w[flagged hidden stopped].each do |state|
+    %w[flagged hidden].each do |state|
       context "when the petition is #{state}" do
         let(:petition) { FactoryBot.create(:"#{state}_petition") }
         let(:signature) { FactoryBot.create(:pending_signature, petition: petition, sponsor: true) }
@@ -713,7 +713,7 @@ RSpec.describe SponsorsController, type: :controller do
       end
     end
 
-    %w[flagged hidden stopped].each do |state|
+    %w[flagged hidden].each do |state|
       context "when the petition is #{state}" do
         let(:petition) { FactoryBot.create(:"#{state}_petition") }
         let(:signature) { FactoryBot.create(:validated_signature, :just_signed, petition: petition, sponsor: true) }

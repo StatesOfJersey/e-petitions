@@ -70,14 +70,6 @@ Rails.application.routes.draw do
         end
       end
     end
-
-    namespace :archived do
-      resources :petitions, only: %i[index show]
-
-      resources :signatures, only: [] do
-        get 'unsubscribe', on: :member
-      end
-    end
   end
 
   constraints Site.constraints_for_moderation do
@@ -135,24 +127,6 @@ Rails.application.routes.draw do
       end
 
       resources :tags, except: %i[show]
-
-      namespace :archived do
-        root to: redirect('/admin/archived/petitions')
-
-        resources :petitions, only: %i[show index] do
-          resources :emails, controller: 'petition_emails', except: %i[index show]
-          resource  :lock, only: %i[show create update destroy]
-
-          scope only: %i[show update] do
-            resource :debate_outcome, path: 'debate-outcome'
-            resource :government_response, path: 'government-response', controller: 'government_response'
-            resource :notes
-            resource :details, controller: 'petition_details'
-            resource :schedule_debate, path: 'schedule-debate', controller: 'schedule_debate'
-            resource :tags, controller: 'petition_tags'
-          end
-        end
-      end
 
       scope 'stats', controller: 'statistics' do
         get '/', action: 'index', as: :stats
