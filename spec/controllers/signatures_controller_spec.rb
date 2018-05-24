@@ -15,7 +15,7 @@ RSpec.describe SignaturesController, type: :controller do
       end
     end
 
-    %w[pending validated sponsored flagged hidden stopped].each do |state|
+    %w[pending validated sponsored flagged hidden].each do |state|
       context "when the petition is #{state}" do
         let(:petition) { FactoryBot.create(:"#{state}_petition") }
 
@@ -84,7 +84,7 @@ RSpec.describe SignaturesController, type: :controller do
       end
     end
 
-    %w[pending validated sponsored flagged hidden stopped].each do |state|
+    %w[pending validated sponsored flagged hidden].each do |state|
       context "when the petition is #{state}" do
         let(:petition) { FactoryBot.create(:"#{state}_petition") }
 
@@ -179,7 +179,7 @@ RSpec.describe SignaturesController, type: :controller do
       end
     end
 
-    %w[pending validated sponsored flagged hidden stopped].each do |state|
+    %w[pending validated sponsored flagged hidden].each do |state|
       context "when the petition is #{state}" do
         let(:petition) { FactoryBot.create(:"#{state}_petition") }
 
@@ -328,7 +328,7 @@ RSpec.describe SignaturesController, type: :controller do
       end
     end
 
-    %w[pending validated sponsored flagged hidden stopped].each do |state|
+    %w[pending validated sponsored flagged hidden].each do |state|
       context "when the petition is #{state}" do
         let(:petition) { FactoryBot.create(:"#{state}_petition") }
 
@@ -462,7 +462,7 @@ RSpec.describe SignaturesController, type: :controller do
       end
     end
 
-    %w[pending validated sponsored flagged hidden stopped].each do |state|
+    %w[pending validated sponsored flagged hidden].each do |state|
       context "when the petition is #{state}" do
         let(:petition) { FactoryBot.create(:"#{state}_petition") }
         let(:signature) { FactoryBot.create(:pending_signature, petition: petition) }
@@ -634,7 +634,7 @@ RSpec.describe SignaturesController, type: :controller do
       end
     end
 
-    %w[pending validated sponsored flagged hidden stopped].each do |state|
+    %w[pending validated sponsored flagged hidden].each do |state|
       context "when the petition is #{state}" do
         let(:petition) { FactoryBot.create(:"#{state}_petition") }
         let(:signature) { FactoryBot.create(:pending_signature, petition: petition) }
@@ -806,7 +806,7 @@ RSpec.describe SignaturesController, type: :controller do
       end
     end
 
-    %w[pending validated sponsored flagged hidden stopped].each do |state|
+    %w[pending validated sponsored flagged hidden].each do |state|
       context "when the petition is #{state}" do
         let(:petition) { FactoryBot.create(:"#{state}_petition") }
         let(:signature) { FactoryBot.create(:pending_signature, petition: petition) }
