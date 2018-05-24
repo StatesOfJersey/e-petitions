@@ -86,4 +86,12 @@ class ApplicationController < ActionController::Base
   def do_not_cache
     response.headers['Cache-Control'] = 'no-store, no-cache'
   end
+
+  def ip_blocked?
+    !rate_limit.permitted?(request.ip)
+  end
+
+  def rate_limit
+    @rate_limit ||= RateLimit.first_or_create!
+  end
 end

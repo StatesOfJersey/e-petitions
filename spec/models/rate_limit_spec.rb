@@ -294,6 +294,99 @@ RSpec.describe RateLimit, type: :model do
     end
   end
 
+  describe "#permitted?" do
+    let(:allowed_ips) { "" }
+    let(:blocked_ips) { "" }
+    let(:countries) { "" }
+    let(:geoblocking_enabled) { false }
+    let(:ip_address) { "192.168.1.128" }
+
+    let(:geoip_db_path) { "/path/to/GeoLite2-Country.mmdb" }
+    let(:geoip_db) { double(:geoip_db) }
+    let(:geoip_result) { double(:geoip_result) }
+    let(:country) { double(:country) }
+
+    subject do
+      described_class.create!(
+        allowed_ips: allowed_ips, blocked_ips: blocked_ips,
+        countries: countries, geoblocking_enabled: geoblocking_enabled
+      )
+    end
+
+    before do
+      allow(MaxMindDB).to receive(:new).with(geoip_db_path).and_return(geoip_db)
+      allow(geoip_db).to receive(:lookup).with("192.168.1.128").and_return(geoip_result)
+      allow(geoip_result).to receive(:found?).and_return(true)
+      allow(geoip_result).to receive(:country).and_return(country)
+      allow(country).to receive(:name).and_return("United Kingdom")
+    end
+
+    context "when there is no blocking" do
+      it "returns true" do
+        expect(subject.permitted?(ip_address)).to eq(true)
+      end
+
+      context "and an ip address is explicitly allowed" do
+        let(:allowed_ips) { "192.168.1.128/32" }
+
+        it "returns true" do
+          expect(subject.permitted?(ip_address)).to eq(true)
+        end
+      end
+    end
+
+    context "when there is an ip block" do
+      let(:blocked_ips) { "192.168.1.0/24" }
+
+      it "returns false" do
+        expect(subject.permitted?(ip_address)).to eq(false)
+      end
+
+      context "and an ip address is explicitly allowed" do
+        let(:allowed_ips) { "192.168.1.128/32" }
+
+        it "returns true" do
+          expect(subject.permitted?(ip_address)).to eq(true)
+        end
+      end
+    end
+
+    context "when there is a geoip block" do
+      let(:geoblocking_enabled) { true }
+      let(:countries) { "Jersey" }
+
+      it "returns false" do
+        expect(subject.permitted?(ip_address)).to eq(false)
+      end
+
+      context "and an ip address is explicitly allowed" do
+        let(:allowed_ips) { "192.168.1.128/32" }
+
+        it "returns true" do
+          expect(subject.permitted?(ip_address)).to eq(true)
+        end
+      end
+    end
+
+    context "when there is both an ip block and a geoip block" do
+      let(:blocked_ips) { "192.168.1.0/24" }
+      let(:geoblocking_enabled) { true }
+      let(:countries) { "Jersey" }
+
+      it "returns false" do
+        expect(subject.permitted?(ip_address)).to eq(false)
+      end
+
+      context "and an ip address is explicitly allowed" do
+        let(:allowed_ips) { "192.168.1.128/32" }
+
+        it "returns true" do
+          expect(subject.permitted?(ip_address)).to eq(true)
+        end
+      end
+    end
+  end
+
   describe "#allowed_domains=" do
     subject do
       described_class.new(allowed_domains: " foo.com\r\nbar.com\r\n")

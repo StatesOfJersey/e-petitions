@@ -3,6 +3,7 @@ class SignaturesController < ApplicationController
   before_action :retrieve_signature, only: [:verify, :unsubscribe, :signed]
   before_action :verify_token, only: [:verify, :signed]
   before_action :verify_unsubscribe_token, only: [:unsubscribe]
+  before_action :respond_with_forbidden_if_ip_blocked, only: [:new, :confirm, :create, :thank_you, :verify, :signed]
   before_action :redirect_to_petition_page_if_rejected, only: [:new, :confirm, :create, :thank_you, :verify, :signed]
   before_action :redirect_to_petition_page_if_closed, only: [:new, :confirm, :create, :thank_you]
   before_action :redirect_to_petition_page_if_closed_for_signing, only: [:verify, :signed]
@@ -83,6 +84,12 @@ class SignaturesController < ApplicationController
     end
   end
 
+  def blocked
+    respond_to do |format|
+      format.html { render :blocked, status: :forbidden }
+    end
+  end
+
   private
 
   def petition_id
@@ -136,6 +143,12 @@ class SignaturesController < ApplicationController
 
   def verify_url
     verify_signature_url(@signature, token: @signature.perishable_token)
+  end
+
+  def respond_with_forbidden_if_ip_blocked
+    if ip_blocked?
+      render :blocked, status: :forbidden
+    end
   end
 
   def redirect_to_petition_page_if_rejected

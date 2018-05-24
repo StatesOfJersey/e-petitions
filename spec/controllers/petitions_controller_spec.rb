@@ -16,6 +16,25 @@ RSpec.describe PetitionsController, type: :controller do
       get :new, params: { q: "my fancy new action" }
       expect(assigns[:new_petition].action).to eq("my fancy new action")
     end
+
+    context "when the ip address is blocked" do
+      let(:rate_limit) { double(:rate_limit) }
+
+      before do
+        allow(RateLimit).to receive(:first_or_create!).and_return(rate_limit)
+        allow(rate_limit).to receive(:permitted?).and_return(false)
+      end
+
+      it "responds with a '403 Forbidden' response" do
+        get :new
+        expect(response).to have_http_status(:forbidden)
+      end
+
+      it "renders the 'petitions/blocked' template" do
+        get :new
+        expect(response).to render_template("petitions/blocked")
+      end
+    end
   end
 
   describe "POST /petitions/new" do
@@ -219,6 +238,25 @@ RSpec.describe PetitionsController, type: :controller do
         end
       end
     end
+
+    context "when the ip address is blocked" do
+      let(:rate_limit) { double(:rate_limit) }
+
+      before do
+        allow(RateLimit).to receive(:first_or_create!).and_return(rate_limit)
+        allow(rate_limit).to receive(:permitted?).and_return(false)
+      end
+
+      it "responds with a '403 Forbidden' response" do
+        post :create, params: { petition: {} }
+        expect(response).to have_http_status(:forbidden)
+      end
+
+      it "renders the 'petitions/blocked' template" do
+        post :create, params: { petition: {} }
+        expect(response).to render_template("petitions/blocked")
+      end
+    end
   end
 
   describe "GET /petitions/:id" do
@@ -239,6 +277,31 @@ RSpec.describe PetitionsController, type: :controller do
         allow(Petition).to receive_message_chain(:visible, :find).and_raise ActiveRecord::RecordNotFound
         get :show, params: { id: 1 }
       }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    context "when the ip address is blocked" do
+      let(:rate_limit) { double(:rate_limit) }
+
+      before do
+        allow(RateLimit).to receive(:first_or_create!).and_return(rate_limit)
+        allow(rate_limit).to receive(:permitted?).and_return(false)
+
+        allow(petition).to receive(:stopped?).and_return(false)
+        allow(petition).to receive(:collecting_sponsors?).and_return(false)
+        allow(petition).to receive(:in_moderation?).and_return(false)
+        allow(petition).to receive(:moderated?).and_return(true)
+        allow(Petition).to receive_message_chain(:show, find: petition)
+      end
+
+      it "responds with a '200 OK' response" do
+        get :show, params: { id: 1 }
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "renders the 'petitions/show' template" do
+        get :show, params: { id: 1 }
+        expect(response).to render_template("petitions/show")
+      end
     end
   end
 
@@ -280,6 +343,25 @@ RSpec.describe PetitionsController, type: :controller do
         end
       end
     end
+
+    context "when the ip address is blocked" do
+      let(:rate_limit) { double(:rate_limit) }
+
+      before do
+        allow(RateLimit).to receive(:first_or_create!).and_return(rate_limit)
+        allow(rate_limit).to receive(:permitted?).and_return(false)
+      end
+
+      it "responds with a '200 OK' response" do
+        get :index
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "renders the 'petitions/index' template" do
+        get :index
+        expect(response).to render_template("petitions/index")
+      end
+    end
   end
 
   describe "GET /petitions/check" do
@@ -287,12 +369,50 @@ RSpec.describe PetitionsController, type: :controller do
       get :check
       expect(response).to be_success
     end
+
+    context "when the ip address is blocked" do
+      let(:rate_limit) { double(:rate_limit) }
+
+      before do
+        allow(RateLimit).to receive(:first_or_create!).and_return(rate_limit)
+        allow(rate_limit).to receive(:permitted?).and_return(false)
+      end
+
+      it "responds with a '403 Forbidden' response" do
+        get :check
+        expect(response).to have_http_status(:forbidden)
+      end
+
+      it "renders the 'petitions/blocked' template" do
+        get :check
+        expect(response).to render_template("petitions/blocked")
+      end
+    end
   end
 
   describe "GET /petitions/check_results" do
     it "is successful" do
       get :check_results, params: { q: "action" }
       expect(response).to be_success
+    end
+
+    context "when the ip address is blocked" do
+      let(:rate_limit) { double(:rate_limit) }
+
+      before do
+        allow(RateLimit).to receive(:first_or_create!).and_return(rate_limit)
+        allow(rate_limit).to receive(:permitted?).and_return(false)
+      end
+
+      it "responds with a '403 Forbidden' response" do
+        get :check_results, params: { q: "action" }
+        expect(response).to have_http_status(:forbidden)
+      end
+
+      it "renders the 'petitions/blocked' template" do
+        get :check_results, params: { q: "action" }
+        expect(response).to render_template("petitions/blocked")
+      end
     end
   end
 end

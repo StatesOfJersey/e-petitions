@@ -1,9 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe SignaturesController, type: :controller do
+  let(:rate_limit) { double(:rate_limit) }
+  let(:ip_blocked) { false }
+
   before do
     constituency = FactoryBot.create(:constituency, :london_and_westminster)
     allow(Constituency).to receive(:find_by_postcode).with("SW1A1AA").and_return(constituency)
+    allow(RateLimit).to receive(:first_or_create!).and_return(rate_limit)
+    allow(rate_limit).to receive(:permitted?).and_return(!ip_blocked)
+    allow(rate_limit).to receive(:exceeded?).and_return(false)
   end
 
   describe "GET /petitions/:petition_id/signatures/new" do
@@ -56,12 +62,30 @@ RSpec.describe SignaturesController, type: :controller do
         expect(assigns[:petition]).to eq(petition)
       end
 
-      it "assigns the @signature instance variable with a new signature" do
-        expect(assigns[:signature]).not_to be_persisted
+      context "and the ip address is not blocked" do
+        it "responds with a '200 OK' response" do
+          expect(response).to have_http_status(:ok)
+        end
+
+        it "assigns the @signature instance variable with a new signature" do
+          expect(assigns[:signature]).not_to be_persisted
+        end
+
+        it "renders the signatures/new template" do
+          expect(response).to render_template("signatures/new")
+        end
       end
 
-      it "renders the signatures/new template" do
-        expect(response).to render_template("signatures/new")
+      context "and the ip address is blocked" do
+        let(:ip_blocked) { true }
+
+        it "responds with a '403 Forbidden' response" do
+          expect(response).to have_http_status(:forbidden)
+        end
+
+        it "renders the 'petitions/blocked' template" do
+          expect(response).to render_template("signatures/blocked")
+        end
       end
     end
   end
@@ -121,41 +145,55 @@ RSpec.describe SignaturesController, type: :controller do
         post :confirm, params: { petition_id: petition.id, signature: params }
       end
 
-      it "assigns the @petition instance variable" do
-        expect(assigns[:petition]).to eq(petition)
-      end
-
-      it "assigns the @signature instance variable with a new signature" do
-        expect(assigns[:signature]).not_to be_persisted
-      end
-
-      it "sets the signature's params" do
-        expect(assigns[:signature].name).to eq("Ted Berry")
-        expect(assigns[:signature].email).to eq("ted@example.com")
-        expect(assigns[:signature].jersey_resident).to eq("1")
-        expect(assigns[:signature].postcode).to eq("SW1A1AA")
-      end
-
-      it "records the IP address on the signature" do
-        expect(assigns[:signature].ip_address).to eq("0.0.0.0")
-      end
-
-      it "renders the signatures/confirm template" do
-        expect(response).to render_template("signatures/confirm")
-      end
-
-      context "and the params are invalid" do
-        let(:params) do
-          {
-            name: "Ted Berry",
-            email: "",
-            jersey_resident: "1",
-            postcode: "12345"
-          }
+      context "and the ip address is not blocked" do
+        it "assigns the @petition instance variable" do
+          expect(assigns[:petition]).to eq(petition)
         end
 
-        it "renders the signatures/new template" do
-          expect(response).to render_template("signatures/new")
+        it "assigns the @signature instance variable with a new signature" do
+          expect(assigns[:signature]).not_to be_persisted
+        end
+
+        it "sets the signature's params" do
+          expect(assigns[:signature].name).to eq("Ted Berry")
+          expect(assigns[:signature].email).to eq("ted@example.com")
+          expect(assigns[:signature].jersey_resident).to eq("1")
+          expect(assigns[:signature].postcode).to eq("SW1A1AA")
+        end
+
+        it "records the IP address on the signature" do
+          expect(assigns[:signature].ip_address).to eq("0.0.0.0")
+        end
+
+        it "renders the signatures/confirm template" do
+          expect(response).to render_template("signatures/confirm")
+        end
+
+        context "and the params are invalid" do
+          let(:params) do
+            {
+              name: "Ted Berry",
+              email: "",
+              jersey_resident: "1",
+              postcode: "12345"
+            }
+          end
+
+          it "renders the signatures/new template" do
+            expect(response).to render_template("signatures/new")
+          end
+        end
+      end
+
+      context "and the ip address is blocked" do
+        let(:ip_blocked) { true }
+
+        it "responds with a '403 Forbidden' response" do
+          expect(response).to have_http_status(:forbidden)
+        end
+
+        it "renders the 'petitions/blocked' template" do
+          expect(response).to render_template("signatures/blocked")
         end
       end
     end
@@ -219,46 +257,60 @@ RSpec.describe SignaturesController, type: :controller do
           }
         end
 
-        it "assigns the @petition instance variable" do
-          expect(assigns[:petition]).to eq(petition)
-        end
-
-        it "assigns the @signature instance variable with a saved signature" do
-          expect(assigns[:signature]).to be_persisted
-        end
-
-        it "sets the signature's params" do
-          expect(assigns[:signature].name).to eq("Ted Berry")
-          expect(assigns[:signature].email).to eq("ted@example.com")
-          expect(assigns[:signature].jersey_resident).to eq("1")
-          expect(assigns[:signature].postcode).to eq("SW1A1AA")
-        end
-
-        it "records the IP address on the signature" do
-          expect(assigns[:signature].ip_address).to eq("0.0.0.0")
-        end
-
-        it "sends a confirmation email" do
-          expect(last_email_sent).to deliver_to("ted@example.com")
-          expect(last_email_sent).to have_subject("Please confirm your email address")
-        end
-
-        it "redirects to the thank you page" do
-          expect(response).to redirect_to("/petitions/#{petition.id}/signatures/thank-you")
-        end
-
-        context "and the params are invalid" do
-          let(:params) do
-            {
-              name: "Ted Berry",
-              email: "",
-              jersey_resident: "1",
-              postcode: "SW1A 1AA"
-            }
+        context "and the ip address is not blocked" do
+          it "assigns the @petition instance variable" do
+            expect(assigns[:petition]).to eq(petition)
           end
 
-          it "renders the signatures/new template" do
-            expect(response).to render_template("signatures/new")
+          it "assigns the @signature instance variable with a saved signature" do
+            expect(assigns[:signature]).to be_persisted
+          end
+
+          it "sets the signature's params" do
+            expect(assigns[:signature].name).to eq("Ted Berry")
+            expect(assigns[:signature].email).to eq("ted@example.com")
+            expect(assigns[:signature].jersey_resident).to eq("1")
+            expect(assigns[:signature].postcode).to eq("SW1A1AA")
+          end
+
+          it "records the IP address on the signature" do
+            expect(assigns[:signature].ip_address).to eq("0.0.0.0")
+          end
+
+          it "sends a confirmation email" do
+            expect(last_email_sent).to deliver_to("ted@example.com")
+            expect(last_email_sent).to have_subject("Please confirm your email address")
+          end
+
+          it "redirects to the thank you page" do
+            expect(response).to redirect_to("/petitions/#{petition.id}/signatures/thank-you")
+          end
+
+          context "and the params are invalid" do
+            let(:params) do
+              {
+                name: "Ted Berry",
+                email: "",
+                jersey_resident: "1",
+                postcode: "SW1A 1AA"
+              }
+            end
+
+            it "renders the signatures/new template" do
+              expect(response).to render_template("signatures/new")
+            end
+          end
+        end
+
+        context "and the ip address is blocked" do
+          let(:ip_blocked) { true }
+
+          it "responds with a '403 Forbidden' response" do
+            expect(response).to have_http_status(:forbidden)
+          end
+
+          it "renders the 'petitions/blocked' template" do
+            expect(response).to render_template("signatures/blocked")
           end
         end
       end
@@ -410,12 +462,26 @@ RSpec.describe SignaturesController, type: :controller do
         get :thank_you, params: { petition_id: petition.id }
       end
 
-      it "assigns the @petition instance variable" do
-        expect(assigns[:petition]).to eq(petition)
+      context "and the ip address is not blocked" do
+        it "assigns the @petition instance variable" do
+          expect(assigns[:petition]).to eq(petition)
+        end
+
+        it "renders the signatures/thank_you template" do
+          expect(response).to render_template("signatures/thank_you")
+        end
       end
 
-      it "renders the signatures/thank_you template" do
-        expect(response).to render_template("signatures/thank_you")
+      context "and the ip address is blocked" do
+        let(:ip_blocked) { true }
+
+        it "responds with a '403 Forbidden' response" do
+          expect(response).to have_http_status(:forbidden)
+        end
+
+        it "renders the 'petitions/blocked' template" do
+          expect(response).to render_template("signatures/blocked")
+        end
       end
     end
   end
@@ -562,31 +628,45 @@ RSpec.describe SignaturesController, type: :controller do
         get :verify, params: { id: signature.id, token: signature.perishable_token }
       end
 
-      it "assigns the @signature instance variable" do
-        expect(assigns[:signature]).to eq(signature)
+      context "and the ip address is not blocked" do
+        it "assigns the @signature instance variable" do
+          expect(assigns[:signature]).to eq(signature)
+        end
+
+        it "assigns the @petition instance variable" do
+          expect(assigns[:petition]).to eq(petition)
+        end
+
+        it "validates the signature" do
+          expect(assigns[:signature]).to be_validated
+        end
+
+        it "records the constituency id on the signature" do
+          expect(assigns[:signature].constituency_id).to eq("3415")
+        end
+
+        it "redirects to the signed signature page" do
+          expect(response).to redirect_to("/signatures/#{signature.id}/signed?token=#{signature.perishable_token}")
+        end
+
+        context "and the signature has already been validated" do
+          let(:signature) { FactoryBot.create(:validated_signature, petition: petition) }
+
+          it "sets the flash :notice message" do
+            expect(flash[:notice]).to eq("You’ve already signed this petition")
+          end
+        end
       end
 
-      it "assigns the @petition instance variable" do
-        expect(assigns[:petition]).to eq(petition)
-      end
+      context "and the ip address is blocked" do
+        let(:ip_blocked) { true }
 
-      it "validates the signature" do
-        expect(assigns[:signature]).to be_validated
-      end
+        it "responds with a '403 Forbidden' response" do
+          expect(response).to have_http_status(:forbidden)
+        end
 
-      it "records the constituency id on the signature" do
-        expect(assigns[:signature].constituency_id).to eq("3415")
-      end
-
-      it "redirects to the signed signature page" do
-        expect(response).to redirect_to("/signatures/#{signature.id}/signed?token=#{signature.perishable_token}")
-      end
-
-      context "and the signature has already been validated" do
-        let(:signature) { FactoryBot.create(:validated_signature, petition: petition) }
-
-        it "sets the flash :notice message" do
-          expect(flash[:notice]).to eq("You’ve already signed this petition")
+        it "renders the 'petitions/blocked' template" do
+          expect(response).to render_template("signatures/blocked")
         end
       end
     end
@@ -730,35 +810,49 @@ RSpec.describe SignaturesController, type: :controller do
         get :signed, params: { id: signature.id, token: signature.perishable_token }
       end
 
-      it "assigns the @signature instance variable" do
-        expect(assigns[:signature]).to eq(signature)
-      end
+      context "and the ip address is not blocked" do
+        it "assigns the @signature instance variable" do
+          expect(assigns[:signature]).to eq(signature)
+        end
 
-      it "assigns the @petition instance variable" do
-        expect(assigns[:petition]).to eq(petition)
-      end
+        it "assigns the @petition instance variable" do
+          expect(assigns[:petition]).to eq(petition)
+        end
 
-      it "marks the signature has having seen the confirmation page" do
-        expect(assigns[:signature].seen_signed_confirmation_page).to eq(true)
-      end
+        it "marks the signature has having seen the confirmation page" do
+          expect(assigns[:signature].seen_signed_confirmation_page).to eq(true)
+        end
 
-      it "renders the signatures/signed template" do
-        expect(response).to render_template("signatures/signed")
-      end
+        it "renders the signatures/signed template" do
+          expect(response).to render_template("signatures/signed")
+        end
 
-      context "and the signature has not been validated" do
-        let(:signature) { FactoryBot.create(:pending_signature, petition: petition) }
+        context "and the signature has not been validated" do
+          let(:signature) { FactoryBot.create(:pending_signature, petition: petition) }
 
-        it "redirects to the verify page" do
-          expect(response).to redirect_to("/signatures/#{signature.id}/verify?token=#{signature.perishable_token}")
+          it "redirects to the verify page" do
+            expect(response).to redirect_to("/signatures/#{signature.id}/verify?token=#{signature.perishable_token}")
+          end
+        end
+
+        context "and the signature has already seen the confirmation page" do
+          let(:signature) { FactoryBot.create(:validated_signature, petition: petition) }
+
+          it "redirects to the petition page" do
+            expect(response).to redirect_to("/petitions/#{petition.id}")
+          end
         end
       end
 
-      context "and the signature has already seen the confirmation page" do
-        let(:signature) { FactoryBot.create(:validated_signature, petition: petition) }
+      context "and the ip address is blocked" do
+        let(:ip_blocked) { true }
 
-        it "redirects to the petition page" do
-          expect(response).to redirect_to("/petitions/#{petition.id}")
+        it "responds with a '403 Forbidden' response" do
+          expect(response).to have_http_status(:forbidden)
+        end
+
+        it "renders the 'petitions/blocked' template" do
+          expect(response).to render_template("signatures/blocked")
         end
       end
     end

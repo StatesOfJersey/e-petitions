@@ -4,6 +4,8 @@ class PetitionsController < ApplicationController
   before_action :redirect_to_valid_state, only: [:index]
   before_action :do_not_cache, except: [:index, :show]
 
+  before_action :respond_with_forbidden_if_ip_blocked, only: [:new, :check, :check_results, :create]
+
   before_action :retrieve_petitions, only: [:index]
   before_action :retrieve_petition, only: [:show, :count, :gathering_support, :moderation_info]
   before_action :build_petition_creator, only: [:check, :check_results, :new, :create]
@@ -80,6 +82,12 @@ class PetitionsController < ApplicationController
 
   def petition_id
     params[:id].to_i
+  end
+
+  def respond_with_forbidden_if_ip_blocked
+    if ip_blocked?
+      render :blocked, status: :forbidden
+    end
   end
 
   def retrieve_petitions

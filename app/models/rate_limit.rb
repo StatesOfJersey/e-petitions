@@ -65,6 +65,10 @@ class RateLimit < ActiveRecord::Base
     burst_rate_exceeded?(signature) || sustained_rate_exceeded?(signature)
   end
 
+  def permitted?(ip_address)
+    ip_allowed?(ip_address) || !(ip_blocked?(ip_address) || ip_geoblocked?(ip_address))
+  end
+
   def allowed_domains=(value)
     @allowed_domains_list = nil
     super(normalize_lines(value))
