@@ -4,9 +4,7 @@ en-GB:
       site_name: "Petitions - Jersey States Assembly"
       default_title: "Petitions - Jersey States Assembly"
       title: "Petition: %{petition}"
-      archived_title: "Archived Petition: %{petition}"
 
     twitter:
       default_title: "Petitions - Jersey States Assembly"
       title: "Petition: %{petition}"
-      archived_title: "Archived Petition: %{petition}"
