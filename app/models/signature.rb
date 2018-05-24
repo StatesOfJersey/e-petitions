@@ -205,10 +205,6 @@ class Signature < ActiveRecord::Base
       count(:all)
     end
 
-    def unarchived
-      where(archived_at: nil)
-    end
-
     def unsubscribe!(signature_ids)
       signatures = find(signature_ids)
 

@@ -4,17 +4,12 @@ class PetitionsController < ApplicationController
   before_action :redirect_to_valid_state, only: [:index]
   before_action :do_not_cache, except: [:index, :show]
 
-  before_action :redirect_to_home_page_if_dissolved, only: [:new, :check, :check_results, :create]
-  before_action :redirect_to_home_page_unless_opened, only: [:index, :new, :check, :check_results, :create]
-  before_action :redirect_to_archived_petition_if_archived, only: [:show]
-
   before_action :respond_with_forbidden_if_ip_blocked, only: [:new, :check, :check_results, :create]
 
   before_action :retrieve_petitions, only: [:index]
   before_action :retrieve_petition, only: [:show, :count, :gathering_support, :moderation_info]
   before_action :build_petition_creator, only: [:check, :check_results, :new, :create]
 
-  before_action :redirect_to_stopped_page, if: :stopped?, only: [:moderation_info, :show]
   before_action :redirect_to_gathering_support_url, if: :collecting_sponsors?, only: [:moderation_info, :show]
   before_action :redirect_to_moderation_info_url, if: :in_moderation?, only: [:gathering_support, :show]
   before_action :redirect_to_petition_url, if: :moderated?, only: [:gathering_support, :moderation_info]
@@ -95,20 +90,6 @@ class PetitionsController < ApplicationController
     end
   end
 
-  def redirect_to_home_page_if_dissolved
-    redirect_to home_url if Parliament.dissolved?
-  end
-
-  def redirect_to_home_page_unless_opened
-    redirect_to home_url unless Parliament.opened?
-  end
-
-  def redirect_to_archived_petition_if_archived
-    if petition = Archived::Petition.find_by(id: petition_id)
-      redirect_to archived_petition_url(petition_id) if petition.parliament.archived?
-    end
-  end
-
   def retrieve_petitions
     @petitions = Petition.visible.search(params)
   end
@@ -157,14 +138,6 @@ class PetitionsController < ApplicationController
 
   def moderated?
     @petition.moderated?
-  end
-
-  def stopped?
-    @petition.stopped?
-  end
-
-  def redirect_to_stopped_page
-    redirect_to home_url
   end
 
   def redirect_to_petition_url

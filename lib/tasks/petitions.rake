@@ -25,7 +25,7 @@ namespace :jpets do
 
     desc "Backfill moderation lag"
     task :backfill_moderation_lag => :environment do
-      %w[petitions archived_petitions].each do |table_name|
+      %w[petitions].each do |table_name|
         klass = Class.new(ActiveRecord::Base) do
           self.table_name = table_name
 
