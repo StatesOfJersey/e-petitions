@@ -291,9 +291,39 @@ FactoryBot.define do
 
   sequence(:mp_id) { |n| (4321 + n).to_s }
   sequence(:ons_code) { |n| '%08d' % n }
+  sequence(:parish_id) { |n| (1234 + n).to_s }
+
+  factory :parish do
+    trait(:coventry_north_east) do
+      name "Coventry North East"
+      slug "coventry-north-east"
+    end
+
+    trait(:bethnal_green_and_bow) do
+      name "Bethnal Green and Bow"
+      slug "bethnal-green-and-bow"
+    end
+
+    trait(:romford) do
+      name "Romford"
+      slug "romford"
+    end
+
+    trait(:sheffield_brightside_and_hillsborough) do
+      name "Sheffield, Brightside and Hillsborough"
+      slug "sheffield-brightside-and-hillsborough"
+    end
+
+    trait(:london_and_westminster) do
+      name "Cities of London and Westminster"
+      slug "cities-of-london-and-westminster"
+    end
+
+    name { Faker::Address.county }
+  end
 
   factory :constituency_petition_journal do
-    constituency_id "3415"
+    parish_id "3415"
     association :petition
   end
 

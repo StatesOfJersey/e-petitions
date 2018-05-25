@@ -16,7 +16,7 @@ class Invalidation < ActiveRecord::Base
 
   CONDITIONS = %i[
     petition_id name postcode ip_address
-    email constituency_id
+    email parish_id
     created_before created_after
   ]
 
@@ -27,7 +27,7 @@ class Invalidation < ActiveRecord::Base
   validates :postcode, length: { maximum: 255, allow_blank: true }
   validates :ip_address, length: { maximum: 20 }, format: { with: /\A\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/ }, allow_blank: true
   validates :email, length: { maximum: 255, allow_blank: true }
-  validates :constituency_id, length: { maximum: 30, allow_blank: true }
+  validates :parish_id, length: { maximum: 30, allow_blank: true }
 
   validate do
     if applied_conditions.empty?
@@ -38,8 +38,8 @@ class Invalidation < ActiveRecord::Base
       errors.add :petition_id, "Petition doesn't exist" unless Petition.exists?(petition_id)
     end
 
-    if constituency_id?
-      errors.add :constituency_id, "Constituency doesn't exist" unless Constituency.exists?(external_id: constituency_id)
+    if parish_id?
+      errors.add :parish_id, "Parish doesn't exist" unless Parish.exists?(parish_id)
     end
 
     if created_before? && created_after?
@@ -147,7 +147,7 @@ class Invalidation < ActiveRecord::Base
     scope = postcode_scope(scope) if postcode?
     scope = ip_address_scope(scope) if ip_address?
     scope = email_scope(scope) if email?
-    scope = constituency_id_scope(scope) if constituency_id?
+    scope = parish_id_scope(scope) if parish_id?
     scope = date_range_scope(scope) if date_range?
 
     scope
@@ -198,8 +198,8 @@ class Invalidation < ActiveRecord::Base
     scope.where("email LIKE ?", email)
   end
 
-  def constituency_id_scope(scope)
-    scope.where(constituency_id: constituency_id)
+  def parish_id_scope(scope)
+    scope.where(parish_id: parish_id)
   end
 
   def date_range?

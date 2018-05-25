@@ -43,6 +43,7 @@ RSpec.describe Invalidation, type: :model do
     it { is_expected.to validate_length_of(:postcode).is_at_most(255) }
     it { is_expected.to validate_length_of(:ip_address).is_at_most(20) }
     it { is_expected.to validate_length_of(:email).is_at_most(255) }
+    it { is_expected.to validate_length_of(:parish_id).is_at_most(30) }
 
     it { is_expected.not_to allow_value("foo").for(:ip_address) }
     it { is_expected.to allow_value("123.123.123.123").for(:ip_address) }
@@ -68,6 +69,30 @@ RSpec.describe Invalidation, type: :model do
 
       it "adds an error to :petition_id" do
         expect(subject.errors[:petition_id]).to include("Petition doesn't exist")
+      end
+    end
+
+    context "when a parish doesn't exist" do
+      subject { FactoryBot.build(:invalidation, parish_id: "1234") }
+
+      before do
+        subject.valid?
+      end
+
+      it "adds an error to :parish_id" do
+        expect(subject.errors[:parish_id]).to include("Parish doesn't exist")
+      end
+    end
+
+    context "when a parish doesn't exist" do
+      subject { FactoryBot.build(:invalidation, parish_id: "1234") }
+
+      before do
+        subject.valid?
+      end
+
+      it "adds an error to :parish_id" do
+        expect(subject.errors[:parish_id]).to include("Parish doesn't exist")
       end
     end
 
@@ -777,6 +802,39 @@ RSpec.describe Invalidation, type: :model do
           it "excludes signatures that don't match" do
             expect(subject.matching_signatures).not_to include(signature_2)
           end
+        end
+      end
+
+      context "when filtering by parish_id" do
+        let!(:petition) { FactoryBot.create(:open_petition) }
+        let!(:coventry) { FactoryBot.create(:parish, :coventry_north_east, id: 3427) }
+        let!(:bethnal) { FactoryBot.create(:parish, :bethnal_green_and_bow, id: 3320) }
+        let!(:signature_1) { FactoryBot.create(:validated_signature, parish_id: "3427", petition: petition) }
+        let!(:signature_2) { FactoryBot.create(:validated_signature, parish_id: "3320", petition: petition) }
+        let!(:signature_3) { FactoryBot.create(:pending_signature, parish_id: "3427", petition: petition) }
+        let!(:signature_4) { FactoryBot.create(:invalidated_signature, parish_id: "3427", petition: petition) }
+        let!(:signature_5) { FactoryBot.create(:fraudulent_signature, parish_id: "3427", petition: petition) }
+
+        subject { FactoryBot.create(:invalidation, parish_id: "3427") }
+
+        it "includes validated signatures that match" do
+          expect(subject.matching_signatures).to include(signature_1)
+        end
+
+        it "includes pending signatures that match" do
+          expect(subject.matching_signatures).to include(signature_3)
+        end
+
+        it "excludes invalidated signatures that match" do
+          expect(subject.matching_signatures).not_to include(signature_4)
+        end
+
+        it "excludes fraudulent signatures that match" do
+          expect(subject.matching_signatures).not_to include(signature_5)
+        end
+
+        it "excludes signatures that don't match" do
+          expect(subject.matching_signatures).not_to include(signature_2)
         end
       end
     end
