@@ -484,12 +484,12 @@ RSpec.describe Petition, type: :model do
       let!(:constituency_1) { FactoryBot.generate(:parish_id) }
       let!(:constituency_2) { FactoryBot.generate(:parish_id) }
 
-      let!(:petition_1_journal_1) { FactoryBot.create(:constituency_petition_journal, petition: petition_1, parish_id: constituency_1, signature_count: 6) }
-      let!(:petition_1_journal_2) { FactoryBot.create(:constituency_petition_journal, petition: petition_1, parish_id: constituency_2, signature_count: 4) }
-      let!(:petition_2_journal_2) { FactoryBot.create(:constituency_petition_journal, petition: petition_2, parish_id: constituency_2, signature_count: 20) }
-      let!(:petition_3_journal_1) { FactoryBot.create(:constituency_petition_journal, petition: petition_3, parish_id: constituency_1, signature_count: 30) }
-      let!(:petition_4_journal_1) { FactoryBot.create(:constituency_petition_journal, petition: petition_4, parish_id: constituency_1, signature_count: 0) }
-      let!(:petition_4_journal_2) { FactoryBot.create(:constituency_petition_journal, petition: petition_4, parish_id: constituency_2, signature_count: 40) }
+      let!(:petition_1_journal_1) { FactoryBot.create(:parish_petition_journal, petition: petition_1, parish_id: parish_1, signature_count: 6) }
+      let!(:petition_1_journal_2) { FactoryBot.create(:parish_petition_journal, petition: petition_1, parish_id: parish_2, signature_count: 4) }
+      let!(:petition_2_journal_2) { FactoryBot.create(:parish_petition_journal, petition: petition_2, parish_id: parish_2, signature_count: 20) }
+      let!(:petition_3_journal_1) { FactoryBot.create(:parish_petition_journal, petition: petition_3, parish_id: parish_1, signature_count: 30) }
+      let!(:petition_4_journal_1) { FactoryBot.create(:parish_petition_journal, petition: petition_4, parish_id: parish_1, signature_count: 0) }
+      let!(:petition_4_journal_2) { FactoryBot.create(:parish_petition_journal, petition: petition_4, parish_id: parish_2, signature_count: 40) }
 
       it 'excludes petitions that have no journal for the supplied parish_id' do
         popular = Petition.popular_in_constituency(constituency_1, 4)
@@ -544,12 +544,12 @@ RSpec.describe Petition, type: :model do
       let!(:constituency_1) { FactoryBot.generate(:parish_id) }
       let!(:constituency_2) { FactoryBot.generate(:parish_id) }
 
-      let!(:petition_1_journal_1) { FactoryBot.create(:constituency_petition_journal, petition: petition_1, parish_id: constituency_1, signature_count: 6) }
-      let!(:petition_1_journal_2) { FactoryBot.create(:constituency_petition_journal, petition: petition_1, parish_id: constituency_2, signature_count: 4) }
-      let!(:petition_2_journal_2) { FactoryBot.create(:constituency_petition_journal, petition: petition_2, parish_id: constituency_2, signature_count: 20) }
-      let!(:petition_3_journal_1) { FactoryBot.create(:constituency_petition_journal, petition: petition_3, parish_id: constituency_1, signature_count: 30) }
-      let!(:petition_4_journal_1) { FactoryBot.create(:constituency_petition_journal, petition: petition_4, parish_id: constituency_1, signature_count: 0) }
-      let!(:petition_4_journal_2) { FactoryBot.create(:constituency_petition_journal, petition: petition_4, parish_id: constituency_2, signature_count: 40) }
+      let!(:petition_1_journal_1) { FactoryBot.create(:parish_petition_journal, petition: petition_1, parish_id: parish_1, signature_count: 6) }
+      let!(:petition_1_journal_2) { FactoryBot.create(:parish_petition_journal, petition: petition_1, parish_id: parish_2, signature_count: 4) }
+      let!(:petition_2_journal_2) { FactoryBot.create(:parish_petition_journal, petition: petition_2, parish_id: parish_2, signature_count: 20) }
+      let!(:petition_3_journal_1) { FactoryBot.create(:parish_petition_journal, petition: petition_3, parish_id: parish_1, signature_count: 30) }
+      let!(:petition_4_journal_1) { FactoryBot.create(:parish_petition_journal, petition: petition_4, parish_id: parish_1, signature_count: 0) }
+      let!(:petition_4_journal_2) { FactoryBot.create(:parish_petition_journal, petition: petition_4, parish_id: parish_2, signature_count: 40) }
 
       it 'excludes petitions that have no journal for the supplied parish_id' do
         popular = Petition.all_popular_in_constituency(constituency_1, 4)

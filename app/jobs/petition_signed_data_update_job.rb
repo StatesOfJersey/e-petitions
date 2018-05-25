@@ -6,7 +6,7 @@ class PetitionSignedDataUpdateJob < ApplicationJob
   end
 
   def perform(signature)
-    ConstituencyPetitionJournal.record_new_signature_for(signature)
+    ParishPetitionJournal.record_new_signature_for(signature)
     signature.petition.increment_signature_count!
 
     if signature.sponsor?

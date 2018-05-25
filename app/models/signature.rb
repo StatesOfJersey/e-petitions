@@ -53,7 +53,7 @@ class Signature < ActiveRecord::Base
   after_destroy do
     if validated?
       now = Time.current
-      ConstituencyPetitionJournal.invalidate_signature_for(self, now)
+      ParishPetitionJournal.invalidate_signature_for(self, now)
       petition.decrement_signature_count!(now)
     end
   end
@@ -376,7 +376,7 @@ class Signature < ActiveRecord::Base
     end
 
     if update_signature_counts
-      ConstituencyPetitionJournal.invalidate_signature_for(self, now)
+      ParishPetitionJournal.invalidate_signature_for(self, now)
       petition.decrement_signature_count!(now)
     end
   end

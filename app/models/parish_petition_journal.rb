@@ -1,4 +1,4 @@
-class ConstituencyPetitionJournal < ActiveRecord::Base
+class ParishPetitionJournal < ActiveRecord::Base
   belongs_to :petition
   belongs_to :parish
 

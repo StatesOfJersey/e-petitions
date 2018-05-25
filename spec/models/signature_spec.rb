@@ -102,7 +102,7 @@ RSpec.describe Signature, type: :model do
       end
 
       context "when the signature is not the creator" do
-        let(:constituency_journal) { ConstituencyPetitionJournal.for(petition, "3415") }
+        let(:parish_journal) { ParishPetitionJournal.for(petition, "3415") }
 
         let(:signature) {
           FactoryBot.create(
@@ -122,14 +122,14 @@ RSpec.describe Signature, type: :model do
           expect{ signature.destroy }.to change{ petition.reload.signature_count }.by(-1)
         end
 
-        it "decrements the constituency journal signature count" do
+        it "decrements the parish journal signature count" do
           expect(petition.signature_count).to eq(7)
-          expect{ signature.destroy }.to change{ constituency_journal.reload.signature_count }.by(-1)
+          expect{ signature.destroy }.to change{ parish_journal.reload.signature_count }.by(-1)
         end
       end
 
       context "when the signature is invalidated" do
-        let(:constituency_journal) { ConstituencyPetitionJournal.for(petition, "3415") }
+        let(:parish_journal) { ParishPetitionJournal.for(petition, "3415") }
 
         let(:signature) {
           FactoryBot.create(
@@ -150,9 +150,9 @@ RSpec.describe Signature, type: :model do
           expect{ signature.destroy }.not_to change{ petition.reload.signature_count }
         end
 
-        it "doesn't decrement the constituency journal signature count" do
+        it "doesn't decrement the parish journal signature count" do
           expect(petition.signature_count).to eq(6)
-          expect{ signature.destroy }.not_to change{ constituency_journal.reload.signature_count }
+          expect{ signature.destroy }.not_to change{ parish_journal.reload.signature_count }
         end
       end
     end
@@ -699,7 +699,7 @@ RSpec.describe Signature, type: :model do
     end
 
     context "when the signature is not the creator" do
-      let(:constituency_journal) { ConstituencyPetitionJournal.for(petition, "3415") }
+      let(:parish_journal) { ParishPetitionJournal.for(petition, "3415") }
 
       let(:signature) {
         FactoryBot.create(
@@ -722,11 +722,11 @@ RSpec.describe Signature, type: :model do
         }.from(7).to(6)
       end
 
-      it "decrements the constituency journal signature count" do
+      it "decrements the parish journal signature count" do
         expect {
           described_class.destroy!([signature.id])
         }.to change {
-          constituency_journal.reload.signature_count
+          parish_journal.reload.signature_count
         }.by(-1)
       end
     end
@@ -1133,13 +1133,13 @@ RSpec.describe Signature, type: :model do
         expect{ signature.validate! }.to change{ petition.reload.signature_count }.by(0)
       end
 
-      it 'tells the relevant constituency petition journal to record a new signature' do
-        expect(ConstituencyPetitionJournal).to receive(:record_new_signature_for).with(signature)
+      it 'tells the relevant parish petition journal to record a new signature' do
+        expect(ParishPetitionJournal).to receive(:record_new_signature_for).with(signature)
         signature.validate!
       end
 
-      it 'does not talk to the constituency petition journal if the signature is not pending' do
-        expect(ConstituencyPetitionJournal).not_to receive(:record_new_signature_for)
+      it 'does not talk to the parish petition journal if the signature is not pending' do
+        expect(ParishPetitionJournal).not_to receive(:record_new_signature_for)
         signature.update_columns(state: Signature::VALIDATED_STATE)
         signature.validate!
       end
@@ -1230,13 +1230,13 @@ RSpec.describe Signature, type: :model do
       expect{ signature.invalidate! }.to change{ petition.reload.signature_count }.by(0)
     end
 
-    it 'tells the relevant constituency petition journal to invalidate the signature' do
-      expect(ConstituencyPetitionJournal).to receive(:invalidate_signature_for).with(signature, now)
+    it 'tells the relevant parish petition journal to invalidate the signature' do
+      expect(ParishPetitionJournal).to receive(:invalidate_signature_for).with(signature, now)
       signature.invalidate!(now)
     end
 
-    it 'does not talk to the constituency petition journal if the signature is not validated' do
-      expect(ConstituencyPetitionJournal).not_to receive(:invalidate_signature_for)
+    it 'does not talk to the parish petition journal if the signature is not validated' do
+      expect(ParishPetitionJournal).not_to receive(:invalidate_signature_for)
       signature.update_columns(state: Signature::INVALIDATED_STATE)
       signature.invalidate!
     end

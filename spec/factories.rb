@@ -322,7 +322,7 @@ FactoryBot.define do
     name { Faker::Address.county }
   end
 
-  factory :constituency_petition_journal do
+  factory :parish_petition_journal do
     parish_id "3415"
     association :petition
   end

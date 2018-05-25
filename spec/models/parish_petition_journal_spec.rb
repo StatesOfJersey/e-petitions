@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe ConstituencyPetitionJournal, type: :model do
+RSpec.describe ParishPetitionJournal, type: :model do
   it "has a valid factory" do
-    expect(FactoryBot.build(:constituency_petition_journal)).to be_valid
+    expect(FactoryBot.build(:parish_petition_journal)).to be_valid
   end
 
   describe "defaults" do
@@ -26,8 +26,8 @@ RSpec.describe ConstituencyPetitionJournal, type: :model do
     let(:petition) { FactoryBot.create(:petition) }
     let(:parish_id) { FactoryBot.generate(:parish_id) }
 
-    context "when there is a journal for the requested petition and constituency" do
-      let!(:existing_record) { FactoryBot.create(:constituency_petition_journal, petition: petition, parish_id: parish_id, signature_count: 30) }
+    context "when there is a journal for the requested petition and parish" do
+      let!(:existing_record) { FactoryBot.create(:parish_petition_journal, petition: petition, parish_id: parish_id, signature_count: 30) }
 
       it "doesn't create a new record" do
         expect {
@@ -41,7 +41,7 @@ RSpec.describe ConstituencyPetitionJournal, type: :model do
       end
     end
 
-    context "when there is no journal for the requested petition and constituency" do
+    context "when there is no journal for the requested petition and parish" do
       let!(:journal) { described_class.for(petition, parish_id) }
 
       it "returns a newly created instance" do
@@ -145,7 +145,7 @@ RSpec.describe ConstituencyPetitionJournal, type: :model do
   describe ".invalidate_signature_for" do
     let!(:petition) { FactoryBot.create(:open_petition) }
     let!(:parish_id) { FactoryBot.generate(:parish_id) }
-    let!(:journal) { FactoryBot.create(:constituency_petition_journal, petition: petition, parish_id: parish_id, signature_count: signature_count) }
+    let!(:journal) { FactoryBot.create(:parish_petition_journal, petition: petition, parish_id: parish_id, signature_count: signature_count) }
     let(:signature_count) { 1 }
 
     context "when the supplied signature is valid" do
@@ -232,45 +232,45 @@ RSpec.describe ConstituencyPetitionJournal, type: :model do
   end
 
   describe ".reset!" do
-    let(:petition_1) { FactoryBot.create(:petition, creator_attributes: {parish_id: constituency_1}) }
-    let(:constituency_1) { FactoryBot.generate(:parish_id) }
-    let(:petition_2) { FactoryBot.create(:petition, creator_attributes: {parish_id: constituency_1}) }
-    let(:constituency_2) { FactoryBot.generate(:parish_id) }
+    let(:petition_1) { FactoryBot.create(:petition, creator_attributes: {parish_id: parish_1}) }
+    let(:parish_1) { FactoryBot.generate(:parish_id) }
+    let(:petition_2) { FactoryBot.create(:petition, creator_attributes: {parish_id: parish_1}) }
+    let(:parish_2) { FactoryBot.generate(:parish_id) }
 
     before do
-      described_class.for(petition_1, constituency_1).update_attribute(:signature_count, 20)
-      described_class.for(petition_1, constituency_2).update_attribute(:signature_count, 10)
-      described_class.for(petition_2, constituency_2).update_attribute(:signature_count, 1)
+      described_class.for(petition_1, parish_1).update_attribute(:signature_count, 20)
+      described_class.for(petition_1, parish_2).update_attribute(:signature_count, 10)
+      described_class.for(petition_2, parish_2).update_attribute(:signature_count, 1)
     end
 
     context 'when there are no signatures' do
       it 'resets all the counts to 0 or 1 for the creator' do
         described_class.reset!
-        expect(described_class.for(petition_1, constituency_1).signature_count).to eq 1
-        expect(described_class.for(petition_1, constituency_2).signature_count).to eq 0
-        expect(described_class.for(petition_2, constituency_1).signature_count).to eq 1
-        expect(described_class.for(petition_2, constituency_2).signature_count).to eq 0
+        expect(described_class.for(petition_1, parish_1).signature_count).to eq 1
+        expect(described_class.for(petition_1, parish_2).signature_count).to eq 0
+        expect(described_class.for(petition_2, parish_1).signature_count).to eq 1
+        expect(described_class.for(petition_2, parish_2).signature_count).to eq 0
       end
     end
 
     context 'when there are signatures' do
       before do
-        4.times { FactoryBot.create(:validated_signature, petition: petition_1, parish_id: constituency_1) }
-        2.times { FactoryBot.create(:pending_signature, petition: petition_1, parish_id: constituency_1) }
-        3.times { FactoryBot.create(:validated_signature, petition: petition_1, parish_id: constituency_2) }
-        2.times { FactoryBot.create(:validated_signature, petition: petition_2, parish_id: constituency_1) }
-        5.times { FactoryBot.create(:pending_signature, petition: petition_2, parish_id: constituency_2) }
+        4.times { FactoryBot.create(:validated_signature, petition: petition_1, parish_id: parish_1) }
+        2.times { FactoryBot.create(:pending_signature, petition: petition_1, parish_id: parish_1) }
+        3.times { FactoryBot.create(:validated_signature, petition: petition_1, parish_id: parish_2) }
+        2.times { FactoryBot.create(:validated_signature, petition: petition_2, parish_id: parish_1) }
+        5.times { FactoryBot.create(:pending_signature, petition: petition_2, parish_id: parish_2) }
       end
 
-      it 'resets the counts to that of the validated signatures for the petition and country' do
+      it 'resets the counts to that of the validated signatures for the petition' do
         described_class.reset!
-        expect(described_class.for(petition_1, constituency_1).signature_count).to eq 5 # +1 for the creator
-        expect(described_class.for(petition_1, constituency_2).signature_count).to eq 3
-        expect(described_class.for(petition_2, constituency_1).signature_count).to eq 3 # +1 for the creator
-        expect(described_class.for(petition_2, constituency_2).signature_count).to eq 0
+        expect(described_class.for(petition_1, parish_1).signature_count).to eq 5 # +1 for the creator
+        expect(described_class.for(petition_1, parish_2).signature_count).to eq 3
+        expect(described_class.for(petition_2, parish_1).signature_count).to eq 3 # +1 for the creator
+        expect(described_class.for(petition_2, parish_2).signature_count).to eq 0
       end
 
-      it 'does not attempt to journal signatures without constituencies' do
+      it 'does not attempt to journal signatures without parishes' do
         FactoryBot.create(:validated_signature, petition: petition_1, parish_id: nil)
         expect { described_class.reset! }.not_to raise_error
         expect(described_class.find_by(petition: petition_1, parish_id: nil)).to be_nil

@@ -76,7 +76,7 @@ class Petition < ActiveRecord::Base
 
   has_many :signatures
   has_many :sponsors, -> { sponsors }, class_name: 'Signature'
-  has_many :constituency_petition_journals, dependent: :destroy
+  has_many :parish_petition_journals, dependent: :destroy
   has_many :emails, dependent: :destroy
   has_many :invalidations
 
@@ -350,12 +350,12 @@ class Petition < ActiveRecord::Base
     end
 
     def popular_in(constituency_id, count)
-      klass = ConstituencyPetitionJournal
+      klass = ParishPetitionJournal
       constituency_signature_count = klass.arel_table[:signature_count].as('constituency_signature_count')
       constituency_signatures_for = klass.with_signatures_for(constituency_id).ordered
 
       select(arel_table[Arel.star], constituency_signature_count).
-      joins(:constituency_petition_journals).
+      joins(:parish_petition_journals).
       merge(constituency_signatures_for).
       limit(count)
     end
@@ -471,8 +471,8 @@ class Petition < ActiveRecord::Base
     end
   end
 
-  def signatures_by_constituency
-    constituency_petition_journals.preload(:constituency).to_a.sort_by(&:constituency_id)
+  def signatures_by_parish
+    parish_petition_journals.preload(:parish).to_a.sort_by(&:parish_id)
   end
 
   def approve?

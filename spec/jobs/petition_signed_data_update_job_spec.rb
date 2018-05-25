@@ -44,8 +44,8 @@ RSpec.describe PetitionSignedDataUpdateJob, type: :job do
       expect(petition.last_signed_at).to be_within(1.second).of(Time.current)
     end
 
-    it 'tells the relevant constituency petition journal to record a new signature' do
-      expect(ConstituencyPetitionJournal).to receive(:record_new_signature_for).with(signature)
+    it 'tells the relevant parish petition journal to record a new signature' do
+      expect(ParishPetitionJournal).to receive(:record_new_signature_for).with(signature)
       run_the_job
     end
   end
@@ -67,8 +67,8 @@ RSpec.describe PetitionSignedDataUpdateJob, type: :job do
       expect(petition.last_signed_at).to be_within(1.second).of(Time.current)
     end
 
-    it 'tells the relevant constituency petition journal to record a new signature' do
-      expect(ConstituencyPetitionJournal).to receive(:record_new_signature_for).with(signature)
+    it 'tells the relevant parish petition journal to record a new signature' do
+      expect(ParishPetitionJournal).to receive(:record_new_signature_for).with(signature)
       run_the_job
     end
 

@@ -178,15 +178,15 @@ RSpec.describe "API request to show a petition", type: :request, show_exceptions
       FactoryBot.create :constituency, :coventry_north_east
       FactoryBot.create :constituency, :bethnal_green_and_bow
 
-      FactoryBot.create :constituency_petition_journal, constituency_id: 3427, signature_count: 123, petition: petition
-      FactoryBot.create :constituency_petition_journal, constituency_id: 3320, signature_count: 456, petition: petition
+      FactoryBot.create :parish_petition_journal, parish_id: 3427, signature_count: 123, petition: petition
+      FactoryBot.create :parish_petition_journal, parish_id: 3320, signature_count: 456, petition: petition
 
       get "/petitions/#{petition.id}.json"
       expect(response).to be_success
 
       expect(attributes).to match(
         a_hash_including(
-          "signatures_by_constituency" => a_collection_containing_exactly(
+          "signatures_by_parish" => a_collection_containing_exactly(
             {
               "name" => "Coventry North East",
               "ons_code" => "E14000649",

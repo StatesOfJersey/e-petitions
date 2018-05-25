@@ -136,7 +136,7 @@ RSpec.describe PetitionsController, type: :controller do
         expect(petition.creator.notify_by_email).to be_falsey
       end
 
-      it "sets the constituency_id on the creator signature, based on the postcode" do
+      it "sets the parish_id on the creator signature, based on the postcode" do
         perform_enqueued_jobs do
           post :create, params: { stage: "replay_email", petition_creator: params.merge(state: Signature::VALIDATED_STATE) }
         end
