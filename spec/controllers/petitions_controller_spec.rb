@@ -286,7 +286,6 @@ RSpec.describe PetitionsController, type: :controller do
         allow(RateLimit).to receive(:first_or_create!).and_return(rate_limit)
         allow(rate_limit).to receive(:permitted?).and_return(false)
 
-        allow(petition).to receive(:stopped?).and_return(false)
         allow(petition).to receive(:collecting_sponsors?).and_return(false)
         allow(petition).to receive(:in_moderation?).and_return(false)
         allow(petition).to receive(:moderated?).and_return(true)

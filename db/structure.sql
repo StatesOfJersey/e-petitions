@@ -522,7 +522,6 @@ CREATE TABLE petitions (
     debate_outcome_at timestamp without time zone,
     moderation_threshold_reached_at timestamp without time zone,
     debate_state character varying(30) DEFAULT 'pending'::character varying,
-    stopped_at timestamp without time zone,
     special_consideration boolean,
     tags integer[] DEFAULT '{}'::integer[] NOT NULL,
     locked_at timestamp without time zone,
@@ -1681,6 +1680,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180510131346'),
 ('20180522033130'),
 ('20180522145833'),
-('20180524033654');
+('20180524033654'),
+('20180524211622');
 
 
