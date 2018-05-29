@@ -18,15 +18,11 @@
     }
   }
 
-  .signatures-on-a-map, .signature-count-goal {
+  .signature-count-goal {
     margin: $gutter-half 0 $gutter-half *-1;
     @include media(desktop) {
       margin-bottom: $gutter-half 0 $gutter-one-third *-1;
     }
-  }
-  .signatures-on-a-map {
-    float: left;
-    @extend %contain-floats;
   }
   .signature-count-goal {
     width: 30%;
