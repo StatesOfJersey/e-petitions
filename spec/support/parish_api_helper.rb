@@ -1,5 +1,3 @@
-require 'savon/mock/spec_helper'
-
 module ParishApiHelper
   def stub_parish_api_wsdl
     stub_request(:get, "http://caf.digimap.je/API2/Service.asmx?WSDL").
@@ -15,6 +13,10 @@ module ParishApiHelper
             status: response_code,
             body: response_body
         )
+  end
+
+  def stub_any_api_request
+    stub_request(:post, "http://caf.digimap.je/API2/Service.asmx")
   end
 
   def expected_request_xml(postcode)
@@ -37,7 +39,6 @@ end
 if RSpec.respond_to?(:configure)
   RSpec.configure do |config|
     config.include(ParishApiHelper)
-    config.include Savon::SpecHelper
 
     config.before do
       stub_parish_api_wsdl

@@ -52,7 +52,7 @@ Scenario: Charlie creates a petition with invalid postcode SW14 9RQ
   And I press "This looks good"
   And I fill in my details with postcode "SW14 9RQ"
   And I press "Continue"
-  Then I should not see the text "Your constituency is"
+  Then I should not see the text "Your parish is"
 
 @javascript
 Scenario: Charlie tries to submit an invalid petition

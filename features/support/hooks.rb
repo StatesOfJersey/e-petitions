@@ -1,9 +1,16 @@
+require Rails.root.join('spec', 'support', 'parish_api_helper')
+
+include ParishApiHelper
+
 Before do
   default_url_options[:protocol] = 'https'
 end
 
 Before do
-  Location.create!(code: 'GB', name: 'United Kingdom')
+  stub_parish_api_wsdl
+
+  stub_parish_api_response("JE11AA", File.read("spec/fixtures/parish_api/st_saviour.xml"))
+  stub_parish_api_response("JE19ZZ", File.read("spec/fixtures/parish_api/no_results.xml"))
 end
 
 Before do
