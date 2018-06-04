@@ -1,14 +1,4 @@
 <%= hidden_field_tag :tab, "features" %>
 
 <%= form_row for: [form.object, :disable_constituency_api], class: "inline" do %>
-  <%= form.label :disable_constituency_api, "Disable fetching of constituency by postcode?", class: "form-label" %>
-  <%= error_messages_for_field @site, :enabled %>
-  <div class="multiple-choice">
-    <%= form.radio_button :disable_constituency_api, true %>
-    <%= form.label :disable_constituency_api, "Yes", for: "site_disable_constituency_api_true" %>
-  </div>
-  <div class="multiple-choice">
-    <%= form.radio_button :disable_constituency_api, false %>
-    <%= form.label :disable_constituency_api, "No", for: "site_disable_constituency_api_false" %>
-  </div>
 <% end %>
