@@ -12,7 +12,7 @@ RSpec.describe Signature, type: :model do
   end
 
   before do
-    FactoryBot.create(:parish, :london_and_westminster)
+    FactoryBot.create(:parish, :st_saviour, id: 1)
   end
 
   context "defaults" do
@@ -161,7 +161,7 @@ RSpec.describe Signature, type: :model do
       let!(:petition) { FactoryBot.create(:open_petition) }
       let!(:signature) { petition.signatures.build(attributes) }
       let(:email) { "foo@example.com" }
-      let(:postcode) { "SW1A 1AA" }
+      let(:postcode) { "JE1 1AA" }
 
       let(:attributes) do
         {
@@ -247,25 +247,25 @@ RSpec.describe Signature, type: :model do
 
     describe "postcode" do
       it "requires a postcode" do
-        expect(FactoryBot.build(:signature, :postcode => 'SW1A 1AA')).to be_valid
+        expect(FactoryBot.build(:signature, :postcode => 'JE1 1AA')).to be_valid
         expect(FactoryBot.build(:signature, :postcode => '')).not_to be_valid
       end
       it "checks the format of postcode" do
-        s = FactoryBot.build(:signature, :postcode => 'SW1A1AA')
+        s = FactoryBot.build(:signature, :postcode => 'JE11AA')
         expect(s).to have_valid(:postcode)
       end
       it "recognises special postcodes" do
-        expect(FactoryBot.build(:signature, :postcode => 'BFPO 1234')).to have_valid(:postcode)
-        expect(FactoryBot.build(:signature, :postcode => 'XM4 5HQ')).to have_valid(:postcode)
-        expect(FactoryBot.build(:signature, :postcode => 'GIR 0AA')).to have_valid(:postcode)
+        expect(FactoryBot.build(:signature, :postcode => 'JE5 2BB')).to have_valid(:postcode)
+        expect(FactoryBot.build(:signature, :postcode => 'JE2 5BW')).to have_valid(:postcode)
       end
       it "does not allow prefix of postcode only" do
-        s = FactoryBot.build(:signature, :postcode => 'N1')
+        s = FactoryBot.build(:signature, :postcode => 'JE1')
         expect(s).not_to have_valid(:postcode)
       end
       it "does not allow unrecognised postcodes" do
-        s = FactoryBot.build(:signature, :postcode => '90210')
-        expect(s).not_to have_valid(:postcode)
+        expect(FactoryBot.build(:signature, :postcode => '90210')).not_to have_valid(:postcode)
+        expect(FactoryBot.build(:signature, :postcode => 'JE9 1AA')).not_to have_valid(:postcode)
+        expect(FactoryBot.build(:signature, :postcode => 'JE1 123')).not_to have_valid(:postcode)
       end
     end
 
@@ -1082,7 +1082,7 @@ RSpec.describe Signature, type: :model do
 
   describe '#validate!' do
     let(:signature) { FactoryBot.create(:pending_signature, attributes) }
-    let(:postcode) { "SW1A 1AA" }
+    let(:postcode) { "JE1 1AA" }
 
     let (:attributes) do
       {
@@ -1160,23 +1160,23 @@ RSpec.describe Signature, type: :model do
 
       context "and the signer is from Jersey" do
         context "and the postcode is valid" do
-          let(:postcode) { "SW1A 1AA" }
+          let(:postcode) { "JE1 1AA" }
 
-          xit "calls the Constituency API and sets the parish_id" do
-            expect(Parish).to receive(:find_by_postcode).with("SW1A1AA").and_call_original
+          it "calls the Parish API and sets the parish_id" do
+            expect(Parish).to receive(:find_by_postcode).with("JE11AA").and_call_original
 
             signature.validate!
 
             expect(signature).to be_validated
-            expect(signature.parish_id).to eq("3415")
+            expect(signature.parish.name).to eq("St. Saviour")
           end
         end
 
         context "and the postcode is invalid" do
-          let(:postcode) { "SW14 9RQ" }
+          let(:postcode) { "JE19ZZ" }
 
-          xit "calls the parish API but doesn't set parish_id" do
-            expect(Parish).to receive(:find_by_postcode).with("SW149RQ").and_call_original
+          it "calls the parish API but doesn't set parish_id" do
+            expect(Parish).to receive(:find_by_postcode).with("JE19ZZ").and_call_original
 
             signature.validate!
 
@@ -1414,7 +1414,7 @@ RSpec.describe Signature, type: :model do
     end
   end
 
-  xdescribe "#parish" do
+  describe "#parish" do
     let(:signature) { FactoryBot.build(:signature, attributes) }
     let(:parish) { signature.parish }
 
@@ -1425,61 +1425,49 @@ RSpec.describe Signature, type: :model do
     context "when the parish_id is not set" do
       let(:parish_id) { nil }
 
-      context "and the signature is not from the UK" do
-        let(:postcode) { "12345" }
-
-        it "returns nil" do
-          expect(signature).to receive(:united_kingdom?).and_return(false)
-          expect(Parish).not_to receive(:find_by_postcode)
-          expect(signature.parish).to be_nil
-        end
-      end
-
       context "and the API returns a single result" do
-        let(:postcode) { "N1 1TY" }
+        let(:postcode) { "JE1 1AA" }
 
         it "returns the correct parish" do
-          expect(Parish).to receive(:find_by_postcode).with("N11TY").and_call_original
-          expect(parish.name).to eq("Islington South and Finsbury")
-        end
-      end
-
-      context "and the API returns multiple result" do
-        let(:postcode) { "N1" }
-
-        it "returns the correct parish" do
-          expect(Parish).to receive(:find_by_postcode).with("N1").and_call_original
-          expect(parish.name).to eq("Hackney North and Stoke Newington")
+          expect(Parish).to receive(:find_by_postcode).with("JE11AA").and_call_original
+          expect(parish.name).to eq("St. Saviour")
         end
       end
 
       context "and the API returns no results" do
-        let(:postcode) { "SW14 9RQ" }
+        let(:postcode) { "JE1 9ZZ" }
 
         it "returns nil" do
-          expect(Parish).to receive(:find_by_postcode).with("SW149RQ").and_call_original
+          expect(Parish).to receive(:find_by_postcode).with("JE19ZZ").and_call_original
           expect(parish).to be_nil
         end
       end
 
       context "and the API raises an error" do
-        let(:postcode) { "N1 1TY" }
+        let(:postcode) { "JE1 1AA" }
+
+        before do
+          stub_request(:post, "http://caf.digimap.je/API2/Service.asmx").with(body: expected_request_xml('JE11AA')).
+            to_return(
+              status: 400
+            )
+        end
 
         it "returns nil" do
-          expect(Parish).to receive(:find_by_postcode).with("N11TY").and_call_original
+          expect(Parish).to receive(:find_by_postcode).with("JE11AA").and_call_original
           expect(parish).to be_nil
         end
       end
     end
 
     context "when the parish_id is set" do
-      let(:parish_id) { "3415" }
-      let(:postcode) { "SW1A 1AA" }
+      let(:parish_id) { "1" }
+      let(:postcode) { "JE1 1AA" }
 
       it "searches the database for the parish" do
         expect(Parish).not_to receive(:find_by_postcode)
-        expect(Parish).to receive(:find_by_external_id).with("3415").and_call_original
-        expect(parish.name).to eq("Cities of London and Westminster")
+        expect(Parish).to receive(:find).with("1").and_call_original
+        expect(parish.name).to eq("St. Saviour")
       end
     end
   end
@@ -1614,7 +1602,7 @@ RSpec.describe Signature, type: :model do
     let(:other_petition) { FactoryBot.create(:open_petition) }
     let(:signature) { petition.signatures.build(attributes) }
     let(:name) { "Suzy Signer" }
-    let(:postcode) { "SW1A 1AA" }
+    let(:postcode) { "JE1 1AA" }
     let(:email) { "foo@example.com" }
 
     let(:attributes) do
@@ -1637,7 +1625,7 @@ RSpec.describe Signature, type: :model do
         petition.signatures.create!(
           name: "Suzy Signer",
           email: "foo@example.com",
-          postcode: "SW1A 1AA",
+          postcode: "JE1 1AA",
           jersey_resident: "1"
         )
       end
@@ -1673,7 +1661,7 @@ RSpec.describe Signature, type: :model do
       end
 
       context "and the postcode is different" do
-        let(:postcode) { "SW1A 1AB" }
+        let(:postcode) { "JE1 1AB" }
 
         it "returns the signature" do
           expect(signature.find_duplicate).to be_present
@@ -1682,7 +1670,7 @@ RSpec.describe Signature, type: :model do
 
       context "and the name and postcode are different" do
         let(:name) { "Sam Signer" }
-        let(:postcode) { "SW1A 1AB" }
+        let(:postcode) { "JE1 1AB" }
 
         it "returns the signature" do
           expect(signature.find_duplicate).to be_present
@@ -1711,14 +1699,14 @@ RSpec.describe Signature, type: :model do
         petition.signatures.create!(
           name: "Suzy Signer",
           email: "foo@example.com",
-          postcode: "SW1A 1AA",
+          postcode: "JE1 1AA",
           jersey_resident: "1"
         )
 
         petition.signatures.create!(
           name: "Sam Signer",
           email: "foo@example.com",
-          postcode: "SW1A 1AA",
+          postcode: "JE1 1AA",
           jersey_resident: "1"
         )
       end
@@ -1747,7 +1735,7 @@ RSpec.describe Signature, type: :model do
       {
         name: "Suzy Signer",
         email: "foo@example.com",
-        postcode: "SW1A 1AA",
+        postcode: "JE1 1AA",
         jersey_resident: "1"
       }
     end

@@ -43,7 +43,6 @@ RSpec.describe Invalidation, type: :model do
     it { is_expected.to validate_length_of(:postcode).is_at_most(255) }
     it { is_expected.to validate_length_of(:ip_address).is_at_most(20) }
     it { is_expected.to validate_length_of(:email).is_at_most(255) }
-    it { is_expected.to validate_length_of(:parish_id).is_at_most(30) }
 
     it { is_expected.not_to allow_value("foo").for(:ip_address) }
     it { is_expected.to allow_value("123.123.123.123").for(:ip_address) }
@@ -569,13 +568,13 @@ RSpec.describe Invalidation, type: :model do
 
       context "when filtering by postcode" do
         let!(:petition) { FactoryBot.create(:open_petition) }
-        let!(:signature_1) { FactoryBot.create(:validated_signature, postcode: "SW1A 0AA", petition: petition) }
-        let!(:signature_2) { FactoryBot.create(:validated_signature, postcode: "E1 6PL", petition: petition) }
-        let!(:signature_3) { FactoryBot.create(:pending_signature, postcode: "SW1A 0AA", petition: petition) }
-        let!(:signature_4) { FactoryBot.create(:invalidated_signature, postcode: "SW1A 0AA", petition: petition) }
-        let!(:signature_5) { FactoryBot.create(:fraudulent_signature, postcode: "SW1A 0AA", petition: petition) }
+        let!(:signature_1) { FactoryBot.create(:validated_signature, postcode: "JE11AA", petition: petition) }
+        let!(:signature_2) { FactoryBot.create(:validated_signature, postcode: "JE21AA", petition: petition) }
+        let!(:signature_3) { FactoryBot.create(:pending_signature, postcode: "JE11AA", petition: petition) }
+        let!(:signature_4) { FactoryBot.create(:invalidated_signature, postcode: "JE11AA", petition: petition) }
+        let!(:signature_5) { FactoryBot.create(:fraudulent_signature, postcode: "JE11AA", petition: petition) }
 
-        subject { FactoryBot.create(:invalidation, postcode: "SW1A0AA") }
+        subject { FactoryBot.create(:invalidation, postcode: "JE11AA") }
 
         it "includes validated signatures that match" do
           expect(subject.matching_signatures).to include(signature_1)

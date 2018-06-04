@@ -6,7 +6,7 @@ class ParishPetitionJournal < ActiveRecord::Base
   validates :parish_id, presence: true, length: { maximum: 255 }
   validates :signature_count, presence: true
 
-  delegate :name, :ons_code, :mp_name, to: :constituency
+  delegate :name, :ons_code, :mp_name, to: :parish
 
   class << self
     def for(petition, parish_id)

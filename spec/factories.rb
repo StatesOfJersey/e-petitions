@@ -235,7 +235,7 @@ FactoryBot.define do
   factory :signature do
     sequence(:name)  {|n| "Jo Public #{n}" }
     sequence(:email) {|n| "jo#{n}@public.com" }
-    postcode              "SW1A 1AA"
+    postcode              "JE11AA"
     jersey_resident       "1"
     notify_by_email       "1"
     state                 Signature::VALIDATED_STATE
@@ -294,32 +294,15 @@ FactoryBot.define do
   sequence(:parish_id) { |n| (1234 + n).to_s }
 
   factory :parish do
-    trait(:coventry_north_east) do
-      name "Coventry North East"
-      slug "coventry-north-east"
-    end
-
-    trait(:bethnal_green_and_bow) do
-      name "Bethnal Green and Bow"
-      slug "bethnal-green-and-bow"
-    end
-
-    trait(:romford) do
-      name "Romford"
-      slug "romford"
-    end
-
-    trait(:sheffield_brightside_and_hillsborough) do
-      name "Sheffield, Brightside and Hillsborough"
-      slug "sheffield-brightside-and-hillsborough"
-    end
-
-    trait(:london_and_westminster) do
-      name "Cities of London and Westminster"
-      slug "cities-of-london-and-westminster"
-    end
-
     name { Faker::Address.county }
+
+    trait :st_saviour do
+      name 'St. Saviour'
+    end
+
+    trait :st_clement do
+      name 'St. Clement'
+    end
   end
 
   factory :parish_petition_journal do

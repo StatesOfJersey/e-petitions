@@ -174,16 +174,16 @@ RSpec.describe 'Requests for pages when we do not support the format on that pag
   end
 
   context 'the petitions/local results url' do
-    let(:url) { "/petitions/local/#{constituency.slug}" }
-    let(:constituency) { FactoryBot.create(:constituency) }
+    let(:url) { "/petitions/local/#{parish.slug}" }
+    let(:parish) { FactoryBot.create(:parish) }
     let(:params) { {} }
 
     it_behaves_like 'a route that supports html, json and csv formats'
   end
 
   context 'the petitions/local/all results url' do
-    let(:url) { "/petitions/local/#{constituency.slug}/all" }
-    let(:constituency) { FactoryBot.create(:constituency) }
+    let(:url) { "/petitions/local/#{parish.slug}/all" }
+    let(:parish) { FactoryBot.create(:parish) }
     let(:params) { {} }
 
     it_behaves_like 'a route that supports html, json and csv formats'
@@ -276,7 +276,7 @@ RSpec.describe 'Requests for pages when we do not support the format on that pag
       }
     }
     before do
-      allow(Constituency).to receive(:find_by_postcode).and_return(nil)
+      allow(Parish).to receive(:find_by_postcode).and_return(nil)
     end
 
     it_behaves_like 'a route that only supports html formats'
@@ -389,8 +389,8 @@ RSpec.describe 'Requests for pages when we do not support the format on that pag
     it_behaves_like 'a POST route where failure only supports html formats'
   end
 
-  context 'the constituencies url' do
-    let(:url) { '/constituencies' }
+  context 'the parishes url' do
+    let(:url) { '/parishes' }
     let(:params) { {} }
 
     it 'supports json via extension' do

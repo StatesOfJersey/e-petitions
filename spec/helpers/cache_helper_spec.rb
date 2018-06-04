@@ -33,22 +33,22 @@ RSpec.describe CacheHelper, type: :helper do
     let(:klass) { CacheHelper::CacheKey::Keys }
     let(:keys) { klass.new(helper) }
 
-    describe "#constituency" do
-      context "when the @constituency instance variable is not set" do
+    describe "#parish" do
+      context "when the @parish instance variable is not set" do
         it "returns nil" do
-          expect(keys.constituency).to be_nil
+          expect(keys.parish).to be_nil
         end
       end
 
-      context "when the @constituency instance variable is set" do
-        let(:constituency) { double(:constituency) }
+      context "when the @parish instance variable is set" do
+        let(:parish) { double(:parish) }
 
         before do
-          assign('constituency', constituency)
+          assign('parish', parish)
         end
 
         it "returns the petition" do
-          expect(keys.constituency).to eq(constituency)
+          expect(keys.parish).to eq(parish)
         end
       end
     end

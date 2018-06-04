@@ -25,7 +25,7 @@ RSpec.describe PageTitleHelper, type: :helper do
             zero: "Local pour vous - Pétitions",
             one: "Pétitions à %{postcode}"
           },
-          show: "Pétitions à %{constituency}"
+          show: "Pétitions à %{parish}"
         },
         petitions: {
           default: "Voir toutes les pétitions",
@@ -125,15 +125,15 @@ RSpec.describe PageTitleHelper, type: :helper do
     end
 
     context "when on the local petitions show page" do
-      let(:constituency) { double(:constituency, name: "Paris") }
+      let(:parish) { double(:parish, name: "Paris") }
 
       before do
         params[:controller] = "local_petitions"
         params[:action] = "show"
-        assign('constituency', constituency)
+        assign('parish', parish)
       end
 
-      it "the constituency name is available for interpolation" do
+      it "the parish name is available for interpolation" do
         expect(helper.page_title).to eq("Pétitions à Paris")
       end
     end

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Parish, type: :model do
+  include ParishApiHelper
+
   it "has a valid factory" do
     expect(FactoryBot.build(:parish)).to be_valid
   end
@@ -50,53 +52,47 @@ RSpec.describe Parish, type: :model do
     end
   end
 
-  xdescribe ".find_by_postcode" do
+  describe ".find_by_postcode" do
+    before do
+      stub_parish_api_wsdl
+    end
+
     context "when the parish doesn't exist in the database" do
+      before do
+        stub_parish_api_response("JE11AA", File.read("spec/fixtures/parish_api/st_saviour.xml"))
+      end
+
       it "saves the parish to the database" do
-        parish = parish.find_by_postcode("N11TY")
+        parish = Parish.find_by_postcode("JE11AA")
         expect(parish.persisted?).to be_truthy
       end
     end
 
     context "when the parish already exists in the database" do
+      before do
+        stub_parish_api_response("JE11AA", File.read("spec/fixtures/parish_api/st_saviour.xml"))
+      end
+
       let!(:existing_parish) do
         FactoryBot.create(:parish, {
-          name: "Islington South and Finsbury", external_id: "3550", ons_code: "E14000764",
-          mp_id: "1536", mp_name: "Emily Thornberry MP", mp_date: "2015-05-07T00:00:00"
+          name: "St. Saviour"
         })
       end
 
       it "returns the existing record" do
-        parish = parish.find_by_postcode("N11TY")
+        parish = Parish.find_by_postcode("JE11AA")
         expect(parish).to eq(existing_parish)
       end
     end
 
     context "when the API returns no results" do
-      it "returns nil" do
-        parish = parish.find_by_postcode("N11TY")
-        expect(parish).to be_nil
-      end
-    end
-
-    context "when the API returns updated results" do
-      let(:parish) do
-        parish.find_by_postcode('OL90LS')
-      end
-
       before do
-        FactoryBot.create(:parish, {
-          name: "Oldham West and Royton", external_id: "3671", ons_code: "E14000871",
-          mp_id: "454", mp_name: "Mr Michael Meacher", mp_date: "2015-05-07T00:00:00"
-        })
+        stub_parish_api_response("JE19ZZ", File.read("spec/fixtures/parish_api/no_results.xml"))
       end
 
-      it "updates the existing parish" do
-        expect(parish.mp_name).to eq("Jim McMahon MP")
-      end
-
-      it "persists the changes to the database" do
-        expect(parish.reload.mp_name).to eq("Jim McMahon MP")
+      it "returns nil" do
+        parish = Parish.find_by_postcode("JE19ZZ")
+        expect(parish).to be_nil
       end
     end
   end

@@ -1,3 +1,5 @@
+require_dependency 'parish/api_query'
+
 class Parish < ActiveRecord::Base
   has_many :signatures
   has_many :petitions, through: :signatures
@@ -10,19 +12,9 @@ class Parish < ActiveRecord::Base
 
   class << self
     def find_by_postcode(postcode)
-      # return if Site.disable_constituency_api?
-      #
-      # results = query.fetch(postcode)
-      #
-      # if attributes = results.first
-      #   parish = find_or_initialize_by(external_id: attributes[:external_id])
-      #   parish.attributes = attributes
-      #   if parish.changed? || parish.new_record?
-      #     parish.save!
-      #   end
-      #
-      #   parish
-      # end
+      parish_name = ApiQuery.new.fetch(postcode)
+
+      find_or_create_by!(name: parish_name) if parish_name
     end
   end
 

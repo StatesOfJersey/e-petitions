@@ -329,7 +329,7 @@ class Signature < ActiveRecord::Base
 
     unless parish_id?
       if postcode?
-        new_parish_id = parish.try(:external_id)
+        new_parish_id = parish.try(:id)
       end
     end
 
@@ -415,7 +415,7 @@ class Signature < ActiveRecord::Base
 
   def parish
     if parish_id?
-      @parish ||= Parish.find_by_external_id(parish_id)
+      @parish ||= Parish.find(parish_id)
     else
       @parish ||= Parish.find_by_postcode(postcode)
     end

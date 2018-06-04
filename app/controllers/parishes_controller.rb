@@ -1,8 +1,8 @@
-class ConstituenciesController < ApplicationController
+class ParishesController < ApplicationController
   before_action :set_cors_headers, only: [:index], if: :json_request?
 
   def index
-    @constituencies = Constituency.by_ons_code
+    @parishes = Parish.all
 
     respond_to do |format|
       format.json

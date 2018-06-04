@@ -1,0 +1,10 @@
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <soap:Body>
+    <SearchResponse xmlns="http://www.digimap.gg/CAF/2.0">
+      <SearchResult>
+        <ResultCount>0</ResultCount>
+        <AddressList/>
+      </SearchResult>
+    </SearchResponse>
+  </soap:Body>
+</soap:Envelope>

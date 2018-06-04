@@ -295,12 +295,12 @@ class Petition < ActiveRecord::Base
       where(id: Signature.petition_ids_with_invalid_signature_counts).to_a
     end
 
-    def popular_in_constituency(constituency_id, count = 50)
-      popular_in(constituency_id, count).for_state(OPEN_STATE)
+    def popular_in_parish(parish_id, count = 50)
+      popular_in(parish_id, count).for_state(OPEN_STATE)
     end
 
-    def all_popular_in_constituency(constituency_id, count = 50)
-      popular_in(constituency_id, count).for_state(PUBLISHED_STATES)
+    def all_popular_in_parish(parish_id, count = 50)
+      popular_in(parish_id, count).for_state(PUBLISHED_STATES)
     end
 
     def sanitized_tag(tag)
@@ -349,14 +349,14 @@ class Petition < ActiveRecord::Base
       Site.moderation_overdue_in_days.ago
     end
 
-    def popular_in(constituency_id, count)
+    def popular_in(parish_id, count)
       klass = ParishPetitionJournal
-      constituency_signature_count = klass.arel_table[:signature_count].as('constituency_signature_count')
-      constituency_signatures_for = klass.with_signatures_for(constituency_id).ordered
+      parish_signature_count = klass.arel_table[:signature_count].as('parish_signature_count')
+      parish_signatures_for = klass.with_signatures_for(parish_id).ordered
 
-      select(arel_table[Arel.star], constituency_signature_count).
+      select(arel_table[Arel.star], parish_signature_count).
       joins(:parish_petition_journals).
-      merge(constituency_signatures_for).
+      merge(parish_signatures_for).
       limit(count)
     end
 

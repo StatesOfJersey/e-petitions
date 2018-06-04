@@ -172,14 +172,14 @@ RSpec.describe "API request to show a petition", type: :request, show_exceptions
       )
     end
 
-    it "includes the signatures by constituency data" do
+    it "includes the signatures by parish data" do
       petition = FactoryBot.create :open_petition
 
-      FactoryBot.create :constituency, :coventry_north_east
-      FactoryBot.create :constituency, :bethnal_green_and_bow
+      FactoryBot.create :parish, :st_saviour, id: 1
+      FactoryBot.create :parish, :st_clement, id: 2
 
-      FactoryBot.create :parish_petition_journal, parish_id: 3427, signature_count: 123, petition: petition
-      FactoryBot.create :parish_petition_journal, parish_id: 3320, signature_count: 456, petition: petition
+      FactoryBot.create :parish_petition_journal, parish_id: 1, signature_count: 123, petition: petition
+      FactoryBot.create :parish_petition_journal, parish_id: 2, signature_count: 456, petition: petition
 
       get "/petitions/#{petition.id}.json"
       expect(response).to be_success
@@ -188,15 +188,11 @@ RSpec.describe "API request to show a petition", type: :request, show_exceptions
         a_hash_including(
           "signatures_by_parish" => a_collection_containing_exactly(
             {
-              "name" => "Coventry North East",
-              "ons_code" => "E14000649",
-              "mp" => "Colleen Fletcher MP",
+              "name" => "St. Saviour",
               "signature_count" => 123
             },
             {
-              "name" => "Bethnal Green and Bow",
-              "ons_code" => "E14000555",
-              "mp" => "Rushanara Ali MP",
+              "name" => "St. Clement",
               "signature_count" => 456
             }
           )

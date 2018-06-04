@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe ConstituenciesController, type: :controller do
-  describe "GET /constituencies.json" do
+RSpec.describe ParishesController, type: :controller do
+  describe "GET /parishes.json" do
     before do
       get :index, format: "json"
     end
@@ -10,12 +10,12 @@ RSpec.describe ConstituenciesController, type: :controller do
       expect(response.status).to eq(200)
     end
 
-    it "assigns the @constituencies instance variable" do
-      expect(assigns[:constituencies]).not_to be_nil
+    it "assigns the @parishes instance variable" do
+      expect(assigns[:parishes]).not_to be_nil
     end
 
-    it "renders the constituencies/index template" do
-      expect(response).to render_template("constituencies/index")
+    it "renders the parishes/index template" do
+      expect(response).to render_template("parishes/index")
     end
 
     it "sets the Access-Control-Allow-Origin header to '*'" do

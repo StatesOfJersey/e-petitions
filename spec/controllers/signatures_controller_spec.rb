@@ -5,8 +5,8 @@ RSpec.describe SignaturesController, type: :controller do
   let(:ip_blocked) { false }
 
   before do
-    constituency = FactoryBot.create(:constituency, :london_and_westminster)
-    allow(Constituency).to receive(:find_by_postcode).with("SW1A1AA").and_return(constituency)
+    parish = FactoryBot.create(:parish, :st_saviour, id: 1)
+    allow(Parish).to receive(:find_by_postcode).with("JE11AA").and_return(parish)
     allow(RateLimit).to receive(:first_or_create!).and_return(rate_limit)
     allow(rate_limit).to receive(:permitted?).and_return(!ip_blocked)
     allow(rate_limit).to receive(:exceeded?).and_return(false)
@@ -96,7 +96,7 @@ RSpec.describe SignaturesController, type: :controller do
         name: "Ted Berry",
         email: "ted@example.com",
         jersey_resident: "1",
-        postcode: "SW1A 1AA"
+        postcode: "JE11AA"
       }
     end
 
@@ -158,7 +158,7 @@ RSpec.describe SignaturesController, type: :controller do
           expect(assigns[:signature].name).to eq("Ted Berry")
           expect(assigns[:signature].email).to eq("ted@example.com")
           expect(assigns[:signature].jersey_resident).to eq("1")
-          expect(assigns[:signature].postcode).to eq("SW1A1AA")
+          expect(assigns[:signature].postcode).to eq("JE11AA")
         end
 
         it "records the IP address on the signature" do
@@ -205,7 +205,7 @@ RSpec.describe SignaturesController, type: :controller do
         name: "Ted Berry",
         email: "ted@example.com",
         jersey_resident: "1",
-        postcode: "SW1A 1AA"
+        postcode: "JE1 1AA"
       }
     end
 
@@ -270,7 +270,7 @@ RSpec.describe SignaturesController, type: :controller do
             expect(assigns[:signature].name).to eq("Ted Berry")
             expect(assigns[:signature].email).to eq("ted@example.com")
             expect(assigns[:signature].jersey_resident).to eq("1")
-            expect(assigns[:signature].postcode).to eq("SW1A1AA")
+            expect(assigns[:signature].postcode).to eq("JE11AA")
           end
 
           it "records the IP address on the signature" do
@@ -292,7 +292,7 @@ RSpec.describe SignaturesController, type: :controller do
                 name: "Ted Berry",
                 email: "",
                 jersey_resident: "1",
-                postcode: "SW1A 1AA"
+                postcode: "JE1A 1AA"
               }
             end
 
@@ -611,8 +611,8 @@ RSpec.describe SignaturesController, type: :controller do
         expect(assigns[:signature]).to be_validated
       end
 
-      it "records the constituency id on the signature" do
-        expect(assigns[:signature].constituency_id).to eq("3415")
+      it "records the parish id on the signature" do
+        expect(assigns[:signature].parish_id).to eq("1")
       end
 
       it "redirects to the signed signature page" do
@@ -641,8 +641,8 @@ RSpec.describe SignaturesController, type: :controller do
           expect(assigns[:signature]).to be_validated
         end
 
-        it "records the constituency id on the signature" do
-          expect(assigns[:signature].constituency_id).to eq("3415")
+        it "records the parish id on the signature" do
+          expect(assigns[:signature].parish_id).to eq("1")
         end
 
         it "redirects to the signed signature page" do

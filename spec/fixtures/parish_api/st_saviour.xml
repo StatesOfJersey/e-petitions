@@ -1,0 +1,34 @@
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <soap:Body>
+    <SearchResponse xmlns="http://www.digimap.gg/CAF/2.0">
+      <SearchResult>
+        <ResultCount>2</ResultCount>
+        <AddressList>
+          <Address>
+            <CAFID>7026</CAFID>
+            <Active>true</Active>
+            <DeliveryPointID>69314112</DeliveryPointID>
+            <USRN>40001873</USRN>
+            <Timestamp>2008-10-30T00:00:00</Timestamp>
+            <Business/>
+            <POBox/>
+            <SubElementDesc>Sorting Office</SubElementDesc>
+            <BuildingName>Jersey Postal Headquarters</BuildingName>
+            <LocationOnStreet/>
+            <NameOfTerrace/>
+            <RoadName>La Rue Grellier</RoadName>
+            <ParentRoadName/>
+            <Locality/>
+            <Parish>St. Saviour</Parish>
+            <Island>Jersey</Island>
+            <PostCode>JE1 1AA</PostCode>
+            <Lon>-2.08039293151206</Lon>
+            <Lat>49.1809986765273</Lat>
+            <X>43981.20</X>
+            <Y>65108.20</Y>
+          </Address>
+        </AddressList>
+      </SearchResult>
+    </SearchResponse>
+  </soap:Body>
+</soap:Envelope>

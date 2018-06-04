@@ -1,33 +1,33 @@
 require 'rails_helper'
 
 RSpec.describe LocalPetitionsController, type: :controller do
-  let(:constituency) { FactoryBot.create(:constituency, external_id: "99999", name: "Holborn") }
+  let(:parish) { FactoryBot.create(:parish, name: "Holborn", id: 1) }
 
   describe "GET /petitions/local" do
     context "when the postcode is valid" do
       before do
-        expect(Constituency).to receive(:find_by_postcode).with("N11TY").and_return(constituency)
+        expect(Parish).to receive(:find_by_postcode).with("JE11AA").and_return(parish)
 
-        get :index, params: { postcode: "n1 1ty" }
+        get :index, params: { postcode: "je1 1aa" }
       end
 
       it "assigns the sanitized postcode" do
-        expect(assigns(:postcode)).to eq("N11TY")
+        expect(assigns(:postcode)).to eq("JE11AA")
       end
 
-      it "redirects to the constituency page for current popular petitions" do
+      it "redirects to the parish page for current popular petitions" do
         expect(response).to redirect_to("/petitions/local/holborn")
       end
     end
 
     context "when the postcode is invalid" do
       before do
-        expect(Constituency).to receive(:find_by_postcode).with("SW1A1AA").and_return(nil)
-        get :index, params: { postcode: "sw1a 1aa" }
+        expect(Parish).to receive(:find_by_postcode).with("JE1A1AA").and_return(nil)
+        get :index, params: { postcode: "je1a 1aa" }
       end
 
       it "assigns the sanitized postcode" do
-        expect(assigns(:postcode)).to eq("SW1A1AA")
+        expect(assigns(:postcode)).to eq("JE1A1AA")
       end
 
       it "responds successfully" do
@@ -38,8 +38,8 @@ RSpec.describe LocalPetitionsController, type: :controller do
         expect(response).to render_template("local_petitions/index")
       end
 
-      it "doesn't assign the constituency" do
-        expect(assigns(:constituency)).to be_nil
+      it "doesn't assign the parish" do
+        expect(assigns(:parish)).to be_nil
       end
 
       it "doesn't assign the petitions" do
@@ -49,7 +49,7 @@ RSpec.describe LocalPetitionsController, type: :controller do
 
     context "when the postcode is blank" do
       before do
-        expect(Constituency).not_to receive(:find_by_postcode)
+        expect(Parish).not_to receive(:find_by_postcode)
         get :index, params: { postcode: "" }
       end
 
@@ -64,7 +64,7 @@ RSpec.describe LocalPetitionsController, type: :controller do
 
     context "when the postcode is not set" do
       before do
-        expect(Constituency).not_to receive(:find_by_postcode)
+        expect(Parish).not_to receive(:find_by_postcode)
         get :index
       end
 
@@ -82,18 +82,18 @@ RSpec.describe LocalPetitionsController, type: :controller do
     let(:petitions) { double(:petitions) }
 
     before do
-      expect(Constituency).to receive(:find_by_slug!).with("holborn").and_return(constituency)
-      expect(Petition).to receive(:popular_in_constituency).with("99999", 50).and_return(petitions)
+      expect(Parish).to receive(:find_by_slug!).with("st_saviour").and_return(parish)
+      expect(Petition).to receive(:popular_in_parish).with(1, 50).and_return(petitions)
 
-      get :show, params: { id: "holborn" }
+      get :show, params: { id: "st_saviour" }
     end
 
     it "renders the show template" do
       expect(response).to render_template("local_petitions/show")
     end
 
-    it "assigns the constituency" do
-      expect(assigns(:constituency)).to eq(constituency)
+    it "assigns the parish" do
+      expect(assigns(:parish)).to eq(parish)
     end
 
     it "assigns the petitions" do
@@ -105,18 +105,18 @@ RSpec.describe LocalPetitionsController, type: :controller do
     let(:petitions) { double(:petitions) }
 
     before do
-      expect(Constituency).to receive(:find_by_slug!).with("holborn").and_return(constituency)
-      expect(Petition).to receive(:all_popular_in_constituency).with("99999", 50).and_return(petitions)
+      expect(Parish).to receive(:find_by_slug!).with("st_saviour").and_return(parish)
+      expect(Petition).to receive(:all_popular_in_parish).with(1, 50).and_return(petitions)
 
-      get :all, params: { id: "holborn" }
+      get :all, params: { id: "st_saviour" }
     end
 
     it "renders the all template" do
       expect(response).to render_template("local_petitions/all")
     end
 
-    it "assigns the constituency" do
-      expect(assigns(:constituency)).to eq(constituency)
+    it "assigns the parish" do
+      expect(assigns(:parish)).to eq(parish)
     end
 
     it "assigns the petitions" do
