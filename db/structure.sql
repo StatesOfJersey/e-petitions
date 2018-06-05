@@ -326,7 +326,6 @@ CREATE TABLE invalidations (
     email character varying(255),
     created_after timestamp without time zone,
     created_before timestamp without time zone,
-    parish_id character varying(30),
     matching_count integer DEFAULT 0 NOT NULL,
     invalidated_count integer DEFAULT 0 NOT NULL,
     enqueued_at timestamp without time zone,
@@ -1677,6 +1676,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180524211622'),
 ('20180525102331'),
 ('20180525102340'),
-('20180525102341');
+('20180525102341'),
+('20180604101626');
 
 

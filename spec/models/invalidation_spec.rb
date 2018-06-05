@@ -72,30 +72,6 @@ RSpec.describe Invalidation, type: :model do
       end
     end
 
-    context "when a parish doesn't exist" do
-      subject { FactoryBot.build(:invalidation, parish_id: "1234") }
-
-      before do
-        subject.valid?
-      end
-
-      it "adds an error to :parish_id" do
-        expect(subject.errors[:parish_id]).to include("Parish doesn't exist")
-      end
-    end
-
-    context "when a parish doesn't exist" do
-      subject { FactoryBot.build(:invalidation, parish_id: "1234") }
-
-      before do
-        subject.valid?
-      end
-
-      it "adds an error to :parish_id" do
-        expect(subject.errors[:parish_id]).to include("Parish doesn't exist")
-      end
-    end
-
     context "when the date range is reversed" do
       subject { FactoryBot.build(:invalidation, created_after: 2.weeks.ago, created_before: 3.weeks.ago) }
 
@@ -802,39 +778,6 @@ RSpec.describe Invalidation, type: :model do
           it "excludes signatures that don't match" do
             expect(subject.matching_signatures).not_to include(signature_2)
           end
-        end
-      end
-
-      context "when filtering by parish_id" do
-        let!(:petition) { FactoryBot.create(:open_petition) }
-        let!(:coventry) { FactoryBot.create(:parish, :coventry_north_east, id: 3427) }
-        let!(:bethnal) { FactoryBot.create(:parish, :bethnal_green_and_bow, id: 3320) }
-        let!(:signature_1) { FactoryBot.create(:validated_signature, parish_id: "3427", petition: petition) }
-        let!(:signature_2) { FactoryBot.create(:validated_signature, parish_id: "3320", petition: petition) }
-        let!(:signature_3) { FactoryBot.create(:pending_signature, parish_id: "3427", petition: petition) }
-        let!(:signature_4) { FactoryBot.create(:invalidated_signature, parish_id: "3427", petition: petition) }
-        let!(:signature_5) { FactoryBot.create(:fraudulent_signature, parish_id: "3427", petition: petition) }
-
-        subject { FactoryBot.create(:invalidation, parish_id: "3427") }
-
-        it "includes validated signatures that match" do
-          expect(subject.matching_signatures).to include(signature_1)
-        end
-
-        it "includes pending signatures that match" do
-          expect(subject.matching_signatures).to include(signature_3)
-        end
-
-        it "excludes invalidated signatures that match" do
-          expect(subject.matching_signatures).not_to include(signature_4)
-        end
-
-        it "excludes fraudulent signatures that match" do
-          expect(subject.matching_signatures).not_to include(signature_5)
-        end
-
-        it "excludes signatures that don't match" do
-          expect(subject.matching_signatures).not_to include(signature_2)
         end
       end
     end
