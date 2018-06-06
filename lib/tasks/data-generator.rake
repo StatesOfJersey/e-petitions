@@ -10,7 +10,7 @@ namespace :data do
   task :generate => :environment do
     require 'faker'
 
-    POSTCODES       = ['SE58BB', 'IG110UD', 'IG110FX', 'W1F7HS', 'RM9 8PD'];
+    POSTCODES       = ['JE11AA', 'JE24SW', 'JE24UU', 'JE38EF', 'JE39EP'];
     REJECTION_CODES = ["no-action", "irrelevant", "honours", "no-action", "duplicate"]
     HIDDEN_CODES    = ["libellous", "offensive"]
     VALID_STATES    = ['open', 'closed', 'rejected', 'hidden']

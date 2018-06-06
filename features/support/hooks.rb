@@ -1,10 +1,16 @@
+require Rails.root.join('spec', 'support', 'parish_api_helper')
+
+include ParishApiHelper
+
 Before do
   default_url_options[:protocol] = 'https'
 end
 
 Before do
-  stub_api_request_for("SW1A1AA").to_return(api_response(:ok, "london_and_westminster"))
-  stub_api_request_for("SW149RQ").to_return(api_response(:ok, "no_results"))
+  stub_parish_api_wsdl
+
+  stub_parish_api_response("JE11AA", File.read("spec/fixtures/parish_api/st_saviour.xml"))
+  stub_parish_api_response("JE19ZZ", File.read("spec/fixtures/parish_api/no_results.xml"))
 end
 
 Before do

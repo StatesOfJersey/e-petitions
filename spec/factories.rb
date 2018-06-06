@@ -235,7 +235,7 @@ FactoryBot.define do
   factory :signature do
     sequence(:name)  {|n| "Jo Public #{n}" }
     sequence(:email) {|n| "jo#{n}@public.com" }
-    postcode              "SW1A 1AA"
+    postcode              "JE11AA"
     jersey_resident       "1"
     notify_by_email       "1"
     state                 Signature::VALIDATED_STATE
@@ -289,93 +289,24 @@ FactoryBot.define do
     end
   end
 
-  sequence(:constituency_id) { |n| (1234 + n).to_s }
   sequence(:mp_id) { |n| (4321 + n).to_s }
   sequence(:ons_code) { |n| '%08d' % n }
+  sequence(:parish_id) { |n| (1234 + n).to_s }
 
-  factory :constituency do
-    trait(:england) do
-      ons_code{ "E#{generate(:ons_code)}" }
-    end
-
-    trait(:scotland) do
-      ons_code{ "S#{generate(:ons_code)}" }
-    end
-
-    trait(:wales) do
-      ons_code{ "W#{generate(:ons_code)}" }
-    end
-
-    trait(:northern_ireland) do
-      ons_code{ "N#{generate(:ons_code)}" }
-    end
-
-    trait(:coventry_north_east) do
-      name "Coventry North East"
-      slug "coventry-north-east"
-      external_id "3427"
-      ons_code "E14000649"
-      mp_id "4378"
-      mp_name "Colleen Fletcher MP"
-      mp_date "2015-05-07"
-      example_postcode "CV21PH"
-    end
-
-    trait(:bethnal_green_and_bow) do
-      name "Bethnal Green and Bow"
-      slug "bethnal-green-and-bow"
-      external_id "3320"
-      ons_code "E14000555"
-      mp_id "4138"
-      mp_name "Rushanara Ali MP"
-      mp_date "2015-05-07"
-      example_postcode "E27AX"
-    end
-
-    trait(:romford) do
-      name "Romford"
-      slug "romford"
-      external_id "3703"
-      ons_code "E14000900"
-      mp_id "1447"
-      mp_name "Andrew Rosindell"
-      mp_date "2015-05-07"
-      example_postcode "RM53FZ"
-    end
-
-    trait(:sheffield_brightside_and_hillsborough) do
-      name "Sheffield, Brightside and Hillsborough"
-      slug "sheffield-brightside-and-hillsborough"
-      external_id "3724"
-      ons_code "E14000921"
-      mp_id "4571"
-      mp_name "Gill Furniss"
-      mp_date "2016-05-05"
-      example_postcode "S61AR"
-    end
-
-    trait(:london_and_westminster) do
-      name "Cities of London and Westminster"
-      slug "cities-of-london-and-westminster"
-      external_id "3415"
-      ons_code "E14000639"
-      mp_id "1405"
-      mp_name "Rt Hon Mark Field MP"
-      mp_date "2017-06-08"
-      example_postcode "SW1A1AA"
-    end
-
-    england
-
+  factory :parish do
     name { Faker::Address.county }
-    external_id { generate(:constituency_id) }
-    mp_name { "#{Faker::Name.name} MP" }
-    mp_id { generate(:mp_id) }
-    example_postcode { Faker::Address.postcode }
+
+    trait :st_saviour do
+      name 'St. Saviour'
+    end
+
+    trait :st_clement do
+      name 'St. Clement'
+    end
   end
 
-  factory :constituency_petition_journal do
-    constituency_id "3415"
+  factory :parish_petition_journal do
+    parish_id "3415"
     association :petition
   end
 

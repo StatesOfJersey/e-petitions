@@ -32,7 +32,7 @@ class Signature < ActiveRecord::Base
   validates :email, presence: true, email: { allow_blank: true }, on: :create
   validates :postcode, presence: true, postcode: true
   validates :jersey_resident, acceptance: true, unless: :persisted?, allow_nil: false
-  validates :constituency_id, length: { maximum: 255 }
+  validates :parish_id, length: { maximum: 255 }
 
   attr_readonly :sponsor, :creator
 
@@ -53,7 +53,7 @@ class Signature < ActiveRecord::Base
   after_destroy do
     if validated?
       now = Time.current
-      ConstituencyPetitionJournal.invalidate_signature_for(self, now)
+      ParishPetitionJournal.invalidate_signature_for(self, now)
       petition.decrement_signature_count!(now)
     end
   end
@@ -134,11 +134,11 @@ class Signature < ActiveRecord::Base
       where(state: INVALIDATED_STATE)
     end
 
-    def missing_constituency_id(since: nil)
+    def missing_parish_id(since: nil)
       if since
-        validated(since: since).where(constituency_id: nil)
+        validated(since: since).where(parish_id: nil)
       else
-        validated.where(constituency_id: nil)
+        validated.where(parish_id: nil)
       end
     end
 
@@ -325,11 +325,11 @@ class Signature < ActiveRecord::Base
 
   def validate!(now = Time.current)
     update_signature_counts = false
-    new_constituency_id = nil
+    new_parish_id = nil
 
-    unless constituency_id?
+    unless parish_id?
       if postcode?
-        new_constituency_id = constituency.try(:external_id)
+        new_parish_id = parish.try(:id)
       end
     end
 
@@ -345,8 +345,8 @@ class Signature < ActiveRecord::Base
           updated_at:   now
         }
 
-        if new_constituency_id
-          attributes[:constituency_id] = new_constituency_id
+        if new_parish_id
+          attributes[:parish_id] = new_parish_id
         end
 
         update_columns(attributes)
@@ -376,7 +376,7 @@ class Signature < ActiveRecord::Base
     end
 
     if update_signature_counts
-      ConstituencyPetitionJournal.invalidate_signature_for(self, now)
+      ParishPetitionJournal.invalidate_signature_for(self, now)
       petition.decrement_signature_count!(now)
     end
   end
@@ -413,11 +413,11 @@ class Signature < ActiveRecord::Base
     errors[:base].include?("Invalid Unsubscribe Token")
   end
 
-  def constituency
-    if constituency_id?
-      @constituency ||= Constituency.find_by_external_id(constituency_id)
+  def parish
+    if parish_id?
+      @parish ||= Parish.find(parish_id)
     else
-      @constituency ||= Constituency.find_by_postcode(postcode)
+      @parish ||= Parish.find_by_postcode(postcode)
     end
   end
 

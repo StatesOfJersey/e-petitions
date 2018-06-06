@@ -80,7 +80,7 @@ namespace :jpets do
 
   namespace :journals do
     task :reset_constituencies => :environment do
-      ConstituencyPetitionJournal.reset!
+      ParishPetitionJournal.reset!
     end
   end
 end

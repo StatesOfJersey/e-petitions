@@ -47,7 +47,7 @@ When(/^I fill in my details(?: with email "([^"]+)")?$/) do |email_address|
     When I fill in "Name" with "Womboid Wibbledon"
     And I fill in "Email" with "#{email_address}"
     And I check "I am a Jersey resident and aged 16 or over"
-    And I fill in my postcode with "SW14 9RQ"
+    And I fill in my postcode with "JE1 1AA"
     And I check "Email me whenever there’s an update about this petition"
   )
 end
@@ -65,8 +65,8 @@ end
 When(/^I fill in my postcode with "(.*?)"$/) do |postcode|
   step %{I fill in "Postcode" with "#{postcode}"}
   sanitized_postcode = PostcodeSanitizer.call(postcode)
-  fixture_file = sanitized_postcode == "N11TY" ? "single" : "no_results"
-  stub_api_request_for(sanitized_postcode).to_return(api_response(:ok, fixture_file))
+  fixture_file = sanitized_postcode == "JE11AA" ? "st_saviour" : "no_results"
+
 end
 
 When /^I fill in my details and sign a petition$/ do
@@ -111,22 +111,22 @@ end
 
 Given /^Suzie has already signed the petition$/ do
   @suzies_signature = FactoryBot.create(:signature, :petition => @petition, :email => "womboid@wimbledon.com",
-         :postcode => "SW14 9RQ", :name => "Womboid Wibbledon")
+         :postcode => "JE1 1AA", :name => "Womboid Wibbledon")
 end
 
 Given /^Eric has already signed the petition with Suzies email$/ do
   FactoryBot.create(:signature, :petition => @petition, :email => "womboid@wimbledon.com",
-         :postcode => "SW14 9RQ", :name => "Eric Wibbledon")
+         :postcode => "JE1 1AA", :name => "Eric Wibbledon")
 end
 
 Given /^I have signed the petition with a second name$/ do
   FactoryBot.create(:signature, :petition => @petition, :email => "womboid@wimbledon.com",
-         :postcode => "SW14 9RQ", :name => "Sam Wibbledon")
+         :postcode => "JE1 1AA", :name => "Sam Wibbledon")
 end
 
 Given(/^Suzie has already signed the petition and validated her email$/) do
   @suzies_signature = FactoryBot.create(:validated_signature, :petition => @petition, :email => "womboid@wimbledon.com",
-         :postcode => "SW14 9RQ", :name => "Womboid Wibbledon")
+         :postcode => "JE1 1AA", :name => "Womboid Wibbledon")
 end
 
 When(/^Suzie shares the signatory confirmation link with Eric$/) do
@@ -154,7 +154,7 @@ When /^I try to sign the petition with the same email address, a different name,
   step "I decide to sign the petition"
   step "I fill in my details"
   step %{I fill in "Name" with "Sam Wibbledon"}
-  step %{I fill in my postcode with "W1A 1AA"}
+  step %{I fill in my postcode with "JE2 1AA"}
   step "I try to sign"
   step "I say I am happy with my email address"
 end

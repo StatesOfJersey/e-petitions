@@ -8,7 +8,7 @@ en-GB:
       index:
         zero: "Local to you - Petitions"
         one: "Petitions in %{postcode}"
-      show: "Petitions in %{constituency}"
+      show: "Petitions in %{parish}"
     petitions:
       index: "View all petitions - Petitions"
       check: "Start a petition - Petitions"

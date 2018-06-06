@@ -21,7 +21,7 @@ Feature: Suzie signs a petition
     And I should see "Do something! - Sign this petition - Petitions" in the browser page title
     And I should be connected to the server via an ssl connection
     And I fill in my details with email "womboid@wimbledon.com"
-    And I fill in my postcode with "N1 1TY"
+    And I fill in my postcode with "JE1 1AA"
     And I try to sign
     Then I am asked to review my email address
     When I change my email address to "womboidian@wimbledon.com"
@@ -31,16 +31,14 @@ Feature: Suzie signs a petition
     And "womboidian@wimbledon.com" should receive 1 email
     When I confirm my email address
     Then I should see "2 signatures"
-    And I should see my constituency "Islington South and Finsbury"
-    And I should see my MP
-    And I can click on a link to visit my MP
+    And I should see my parish "St. Saviour"
     And I can click on a link to return to the petition
     And I should see "2 signatures"
 
-  Scenario: Suzie signs a petition with invalid postcode SW14 9RQ
+  Scenario: Suzie signs a petition with invalid postcode JE1 9ZZ
     When I go to the new signature page for "Do something!"
     And I fill in my details with email "womboid@wimbledon.com"
-    And I fill in my postcode with "SW14 9RQ"
+    And I fill in my postcode with "JE1 9ZZ"
     And I try to sign
     Then I am asked to review my email address
     And I say I am happy with my email address
@@ -48,8 +46,7 @@ Feature: Suzie signs a petition
     And "womboid@wimbledon.com" should receive 1 email
     When I confirm my email address
     Then I should see "2 signatures"
-    And I should not see the text "Your constituency is"
-    And I should not see the text "Your MP is"
+    And I should not see the text "Your parish is"
 
   Scenario: Suzie cannot sign if she is not a Jersey resident
     When I decide to sign the petition

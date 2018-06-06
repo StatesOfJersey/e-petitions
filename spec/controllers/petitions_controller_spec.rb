@@ -44,16 +44,16 @@ RSpec.describe PetitionsController, type: :controller do
         background: "Limit temperature rise at two degrees",
         additional_details: "Global warming is upon us",
         name: "John Mcenroe", email: "john@example.com",
-        postcode: "SE3 4LL", jersey_resident: "1"
+        postcode: "JE2 2AA", jersey_resident: "1"
       }
     end
 
-    let(:constituency) do
-      FactoryBot.create(:constituency, external_id: "54321", name: "North Creatorshire")
+    let(:parish) do
+      FactoryBot.create(:parish, name: "North Creatorshire", id: 1)
     end
 
     before do
-      allow(Constituency).to receive(:find_by_postcode).with("SE34LL").and_return(constituency)
+      allow(Parish).to receive(:find_by_postcode).with("JE22AA").and_return(parish)
     end
 
     context "valid post" do
@@ -136,12 +136,12 @@ RSpec.describe PetitionsController, type: :controller do
         expect(petition.creator.notify_by_email).to be_falsey
       end
 
-      it "sets the constituency_id on the creator signature, based on the postcode" do
+      it "sets the parish_id on the creator signature, based on the postcode" do
         perform_enqueued_jobs do
           post :create, params: { stage: "replay_email", petition_creator: params.merge(state: Signature::VALIDATED_STATE) }
         end
 
-        expect(petition.creator.constituency_id).to eq("54321")
+        expect(petition.creator.parish_id).to eq("1")
       end
 
       context "invalid post" do

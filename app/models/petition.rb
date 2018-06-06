@@ -76,7 +76,7 @@ class Petition < ActiveRecord::Base
 
   has_many :signatures
   has_many :sponsors, -> { sponsors }, class_name: 'Signature'
-  has_many :constituency_petition_journals, dependent: :destroy
+  has_many :parish_petition_journals, dependent: :destroy
   has_many :emails, dependent: :destroy
   has_many :invalidations
 
@@ -295,12 +295,12 @@ class Petition < ActiveRecord::Base
       where(id: Signature.petition_ids_with_invalid_signature_counts).to_a
     end
 
-    def popular_in_constituency(constituency_id, count = 50)
-      popular_in(constituency_id, count).for_state(OPEN_STATE)
+    def popular_in_parish(parish_id, count = 50)
+      popular_in(parish_id, count).for_state(OPEN_STATE)
     end
 
-    def all_popular_in_constituency(constituency_id, count = 50)
-      popular_in(constituency_id, count).for_state(PUBLISHED_STATES)
+    def all_popular_in_parish(parish_id, count = 50)
+      popular_in(parish_id, count).for_state(PUBLISHED_STATES)
     end
 
     def sanitized_tag(tag)
@@ -349,14 +349,14 @@ class Petition < ActiveRecord::Base
       Site.moderation_overdue_in_days.ago
     end
 
-    def popular_in(constituency_id, count)
-      klass = ConstituencyPetitionJournal
-      constituency_signature_count = klass.arel_table[:signature_count].as('constituency_signature_count')
-      constituency_signatures_for = klass.with_signatures_for(constituency_id).ordered
+    def popular_in(parish_id, count)
+      klass = ParishPetitionJournal
+      parish_signature_count = klass.arel_table[:signature_count].as('parish_signature_count')
+      parish_signatures_for = klass.with_signatures_for(parish_id).ordered
 
-      select(arel_table[Arel.star], constituency_signature_count).
-      joins(:constituency_petition_journals).
-      merge(constituency_signatures_for).
+      select(arel_table[Arel.star], parish_signature_count).
+      joins(:parish_petition_journals).
+      merge(parish_signatures_for).
       limit(count)
     end
 
@@ -471,8 +471,8 @@ class Petition < ActiveRecord::Base
     end
   end
 
-  def signatures_by_constituency
-    constituency_petition_journals.preload(:constituency).to_a.sort_by(&:constituency_id)
+  def signatures_by_parish
+    parish_petition_journals.preload(:parish).to_a.sort_by(&:parish_id)
   end
 
   def approve?

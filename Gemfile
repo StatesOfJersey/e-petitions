@@ -39,6 +39,7 @@ gem 'redcarpet'
 
 gem 'aws-sdk-codedeploy'
 gem 'aws-sdk-s3'
+gem 'savon'
 
 group :development, :test do
   gem 'brakeman', require: false

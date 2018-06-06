@@ -1,0 +1,1596 @@
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.digimap.gg/CAF/2.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://www.digimap.gg/CAF/2.0">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.digimap.gg/CAF/2.0">
+      <s:element name="GetAddress">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="apiKey" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="cafID" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAddressResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAddressResult" type="tns:AddressView"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AddressView">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="RequestedCAFID" type="s:int"/>
+          <s:element minOccurs="0" maxOccurs="1" name="Address" type="tns:Address"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Address">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="CAFID" type="s:int"/>
+          <s:element minOccurs="1" maxOccurs="1" name="Active" type="s:boolean"/>
+          <s:element minOccurs="1" maxOccurs="1" name="DeliveryPointID" nillable="true" type="s:int"/>
+          <s:element minOccurs="1" maxOccurs="1" name="USRN" type="s:int"/>
+          <s:element minOccurs="1" maxOccurs="1" name="Timestamp" type="s:dateTime"/>
+          <s:element minOccurs="0" maxOccurs="1" name="Business" type="s:string"/>
+          <s:element minOccurs="0" maxOccurs="1" name="POBox" type="s:string"/>
+          <s:element minOccurs="0" maxOccurs="1" name="SubElementDesc" type="s:string"/>
+          <s:element minOccurs="0" maxOccurs="1" name="BuildingName" type="s:string"/>
+          <s:element minOccurs="0" maxOccurs="1" name="LocationOnStreet" type="s:string"/>
+          <s:element minOccurs="0" maxOccurs="1" name="NameOfTerrace" type="s:string"/>
+          <s:element minOccurs="0" maxOccurs="1" name="RoadName" type="s:string"/>
+          <s:element minOccurs="0" maxOccurs="1" name="ParentRoadName" type="s:string"/>
+          <s:element minOccurs="0" maxOccurs="1" name="Locality" type="s:string"/>
+          <s:element minOccurs="0" maxOccurs="1" name="Parish" type="s:string"/>
+          <s:element minOccurs="0" maxOccurs="1" name="Island" type="s:string"/>
+          <s:element minOccurs="0" maxOccurs="1" name="PostCode" type="s:string"/>
+          <s:element minOccurs="1" maxOccurs="1" name="Lon" nillable="true" type="s:decimal"/>
+          <s:element minOccurs="1" maxOccurs="1" name="Lat" nillable="true" type="s:decimal"/>
+          <s:element minOccurs="1" maxOccurs="1" name="X" nillable="true" type="s:decimal"/>
+          <s:element minOccurs="1" maxOccurs="1" name="Y" nillable="true" type="s:decimal"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAddresses">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="apiKey" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="cafIDs" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAddressesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAddressesResult" type="tns:ArrayOfAddressView"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfAddressView">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="AddressView" nillable="true" type="tns:AddressView"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetClient">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="apiKey" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetClientResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetClientResult" type="tns:Client"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Client">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="AllowedFuzzyMatch" type="s:boolean"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="Search">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="apiKey" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="addressField" type="tns:AddressField"/>
+            <s:element minOccurs="0" maxOccurs="1" name="searchText" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="includeHistoric" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="includeInactive" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="useMetaphone" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="sortBy" type="tns:AddressOrdering"/>
+            <s:element minOccurs="1" maxOccurs="1" name="sortDescending" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" name="classifications" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="fromIndex" nillable="true" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="maxResults" nillable="true" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="AddressField">
+        <s:restriction base="s:string">
+          <s:enumeration value="PostCode"/>
+          <s:enumeration value="GlobalSearch"/>
+          <s:enumeration value="GlobalSearchAliases"/>
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AddressOrdering">
+        <s:restriction base="s:string">
+          <s:enumeration value="CAFID"/>
+          <s:enumeration value="PostCodeHierarchical"/>
+          <s:enumeration value="AddressHierarchical"/>
+          <s:enumeration value="AddressTextual"/>
+          <s:enumeration value="AddressToString"/>
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="SearchResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SearchResult" type="tns:SearchResults"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="SearchResults">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCount" type="s:int"/>
+          <s:element minOccurs="0" maxOccurs="1" name="AddressList" type="tns:ArrayOfAddress"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAddress">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Address" nillable="true" type="tns:Address"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SearchAdvanced">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="apiKey" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="searchTextProperty" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="searchTextRoad" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="searchTextRoadAlias" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="searchTextParish" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="searchTextPostcode" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="includeHistoric" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="includeInactive" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="useMetaphone" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="sortBy" type="tns:AddressOrdering"/>
+            <s:element minOccurs="1" maxOccurs="1" name="sortDescending" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" name="classifications" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="fromIndex" nillable="true" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="maxResults" nillable="true" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchAdvancedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SearchAdvancedResult" type="tns:SearchResults"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SubmitAddress">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="apiKey" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="cafID" nillable="true" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="combinedAddress" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="submissionReason" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="notificationEmail" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SubmitAddressResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SubmitAddressResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SubmitLocation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="apiKey" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="cafID" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="XPos" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="YPos" type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="submissionReason" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="notificationEmail" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SubmitLocationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SubmitLocationResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUpdates">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="apiKey" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="fromCAFID" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUpdatesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUpdatesResult" type="tns:UpdateList"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="UpdateList">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="LastCAFID" type="s:int"/>
+          <s:element minOccurs="0" maxOccurs="1" name="Updates" type="tns:ArrayOfUpdate"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfUpdate">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Update" nillable="true" type="tns:Update"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Update">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="PredecessorCAFIDs" type="tns:ArrayOfInt"/>
+          <s:element minOccurs="0" maxOccurs="1" name="UpdateReasons" type="s:string"/>
+          <s:element minOccurs="0" maxOccurs="1" name="Address" type="tns:Address"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfInt">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="int" type="s:int"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetLastCAFID">
+        <s:complexType/>
+      </s:element>
+      <s:element name="GetLastCAFIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetLastCAFIDResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllPredecessors">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="apiKey" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="cafID" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllPredecessorsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllPredecessorsResult" type="tns:ArrayOfAddress"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCandidateStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="apiKey" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="cafID" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCandidateStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCandidateStatusResult" type="tns:CandidateStatus"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="CandidateStatus">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="CAFID" type="s:int"/>
+          <s:element minOccurs="1" maxOccurs="1" name="TimeStamp" type="s:dateTime"/>
+          <s:element minOccurs="1" maxOccurs="1" name="CurrentCAFID" nillable="true" type="s:int"/>
+          <s:element minOccurs="1" maxOccurs="1" name="AVUProcessed" type="s:boolean"/>
+          <s:element minOccurs="0" maxOccurs="1" name="RejectionReason" type="s:string"/>
+          <s:element minOccurs="0" maxOccurs="1" name="CombinedAddress" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetCandidateStatuses">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="apiKey" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="cafIDs" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCandidateStatusesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCandidateStatusesResult" type="tns:ArrayOfCandidateStatus"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfCandidateStatus">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CandidateStatus" nillable="true" type="tns:CandidateStatus"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetTermCode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="apiKey" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="deliveryPointID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="vocabularyCode" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTermCodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTermCodeResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ListAllTermCodes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="apiKey" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="vocabularyCode" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ListAllTermCodesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ListAllTermCodesResult" type="tns:ArrayOfClassification"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfClassification">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Classification" nillable="true" type="tns:Classification"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Classification">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="DeliveryPointID" type="s:int"/>
+          <s:element minOccurs="0" maxOccurs="1" name="TermCode" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ListAllRoads">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="apiKey" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ListAllRoadsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ListAllRoadsResult" type="tns:ArrayOfRoad"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfRoad">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Road" nillable="true" type="tns:Road"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Road">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="USRN" type="s:int"/>
+          <s:element minOccurs="0" maxOccurs="1" name="RoadName" type="s:string"/>
+          <s:element minOccurs="0" maxOccurs="1" name="RoadNameOrder" type="s:string"/>
+          <s:element minOccurs="0" maxOccurs="1" name="ParishName" type="s:string"/>
+          <s:element minOccurs="0" maxOccurs="1" name="Island" type="s:string"/>
+          <s:element minOccurs="0" maxOccurs="1" name="Aliases" type="tns:ArrayOfString"/>
+          <s:element minOccurs="0" maxOccurs="1" name="ParentUSRN" nillable="true" type="s:int"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ListAllAddresses">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="apiKey" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ListAllAddressesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ListAllAddressesResult" type="tns:ArrayOfAddress"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ListAllVersions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="apiKey" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="fromDate" type="s:dateTime"/>
+            <s:element minOccurs="1" maxOccurs="1" name="fromCAFID" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ListAllVersionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ListAllVersionsResult" type="tns:ArrayOfAddressVersions"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfAddressVersions">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="AddressVersions" nillable="true" type="tns:AddressVersions"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AddressVersions">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Current" type="tns:Address"/>
+          <s:element minOccurs="0" maxOccurs="1" name="Previous" type="tns:ArrayOfAddress"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAddressByDeliveryPointID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="apiKey" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="deliveryPointID" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAddressByDeliveryPointIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAddressByDeliveryPointIDResult" type="tns:Address"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddressView" nillable="true" type="tns:AddressView"/>
+      <s:element name="ArrayOfAddressView" nillable="true" type="tns:ArrayOfAddressView"/>
+      <s:element name="Client" nillable="true" type="tns:Client"/>
+      <s:element name="int" type="s:int"/>
+      <s:element name="UpdateList" nillable="true" type="tns:UpdateList"/>
+      <s:element name="ArrayOfAddress" nillable="true" type="tns:ArrayOfAddress"/>
+      <s:element name="CandidateStatus" nillable="true" type="tns:CandidateStatus"/>
+      <s:element name="ArrayOfCandidateStatus" nillable="true" type="tns:ArrayOfCandidateStatus"/>
+      <s:element name="string" nillable="true" type="s:string"/>
+      <s:element name="ArrayOfClassification" nillable="true" type="tns:ArrayOfClassification"/>
+      <s:element name="ArrayOfRoad" nillable="true" type="tns:ArrayOfRoad"/>
+      <s:element name="ArrayOfAddressVersions" nillable="true" type="tns:ArrayOfAddressVersions"/>
+      <s:element name="Address" nillable="true" type="tns:Address"/>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetAddressSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAddress"/>
+  </wsdl:message>
+  <wsdl:message name="GetAddressSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAddressResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetAddressesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAddresses"/>
+  </wsdl:message>
+  <wsdl:message name="GetAddressesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAddressesResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetClientSoapIn">
+    <wsdl:part name="parameters" element="tns:GetClient"/>
+  </wsdl:message>
+  <wsdl:message name="GetClientSoapOut">
+    <wsdl:part name="parameters" element="tns:GetClientResponse"/>
+  </wsdl:message>
+  <wsdl:message name="SearchSoapIn">
+    <wsdl:part name="parameters" element="tns:Search"/>
+  </wsdl:message>
+  <wsdl:message name="SearchSoapOut">
+    <wsdl:part name="parameters" element="tns:SearchResponse"/>
+  </wsdl:message>
+  <wsdl:message name="SearchAdvancedSoapIn">
+    <wsdl:part name="parameters" element="tns:SearchAdvanced"/>
+  </wsdl:message>
+  <wsdl:message name="SearchAdvancedSoapOut">
+    <wsdl:part name="parameters" element="tns:SearchAdvancedResponse"/>
+  </wsdl:message>
+  <wsdl:message name="SubmitAddressSoapIn">
+    <wsdl:part name="parameters" element="tns:SubmitAddress"/>
+  </wsdl:message>
+  <wsdl:message name="SubmitAddressSoapOut">
+    <wsdl:part name="parameters" element="tns:SubmitAddressResponse"/>
+  </wsdl:message>
+  <wsdl:message name="SubmitLocationSoapIn">
+    <wsdl:part name="parameters" element="tns:SubmitLocation"/>
+  </wsdl:message>
+  <wsdl:message name="SubmitLocationSoapOut">
+    <wsdl:part name="parameters" element="tns:SubmitLocationResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetUpdatesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUpdates"/>
+  </wsdl:message>
+  <wsdl:message name="GetUpdatesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUpdatesResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetLastCAFIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLastCAFID"/>
+  </wsdl:message>
+  <wsdl:message name="GetLastCAFIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLastCAFIDResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetAllPredecessorsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllPredecessors"/>
+  </wsdl:message>
+  <wsdl:message name="GetAllPredecessorsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllPredecessorsResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetCandidateStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCandidateStatus"/>
+  </wsdl:message>
+  <wsdl:message name="GetCandidateStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCandidateStatusResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetCandidateStatusesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCandidateStatuses"/>
+  </wsdl:message>
+  <wsdl:message name="GetCandidateStatusesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCandidateStatusesResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetTermCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTermCode"/>
+  </wsdl:message>
+  <wsdl:message name="GetTermCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTermCodeResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllTermCodesSoapIn">
+    <wsdl:part name="parameters" element="tns:ListAllTermCodes"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllTermCodesSoapOut">
+    <wsdl:part name="parameters" element="tns:ListAllTermCodesResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllRoadsSoapIn">
+    <wsdl:part name="parameters" element="tns:ListAllRoads"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllRoadsSoapOut">
+    <wsdl:part name="parameters" element="tns:ListAllRoadsResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllAddressesSoapIn">
+    <wsdl:part name="parameters" element="tns:ListAllAddresses"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllAddressesSoapOut">
+    <wsdl:part name="parameters" element="tns:ListAllAddressesResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllVersionsSoapIn">
+    <wsdl:part name="parameters" element="tns:ListAllVersions"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllVersionsSoapOut">
+    <wsdl:part name="parameters" element="tns:ListAllVersionsResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetAddressByDeliveryPointIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAddressByDeliveryPointID"/>
+  </wsdl:message>
+  <wsdl:message name="GetAddressByDeliveryPointIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAddressByDeliveryPointIDResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetAddressHttpGetIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+    <wsdl:part name="cafID" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetAddressHttpGetOut">
+    <wsdl:part name="Body" element="tns:AddressView"/>
+  </wsdl:message>
+  <wsdl:message name="GetAddressesHttpGetIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+    <wsdl:part name="cafIDs" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetAddressesHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfAddressView"/>
+  </wsdl:message>
+  <wsdl:message name="GetClientHttpGetIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetClientHttpGetOut">
+    <wsdl:part name="Body" element="tns:Client"/>
+  </wsdl:message>
+  <wsdl:message name="SubmitLocationHttpGetIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+    <wsdl:part name="cafID" type="s:string"/>
+    <wsdl:part name="XPos" type="s:string"/>
+    <wsdl:part name="YPos" type="s:string"/>
+    <wsdl:part name="submissionReason" type="s:string"/>
+    <wsdl:part name="notificationEmail" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="SubmitLocationHttpGetOut">
+    <wsdl:part name="Body" element="tns:int"/>
+  </wsdl:message>
+  <wsdl:message name="GetUpdatesHttpGetIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+    <wsdl:part name="fromCAFID" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetUpdatesHttpGetOut">
+    <wsdl:part name="Body" element="tns:UpdateList"/>
+  </wsdl:message>
+  <wsdl:message name="GetLastCAFIDHttpGetIn"/>
+  <wsdl:message name="GetLastCAFIDHttpGetOut">
+    <wsdl:part name="Body" element="tns:int"/>
+  </wsdl:message>
+  <wsdl:message name="GetAllPredecessorsHttpGetIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+    <wsdl:part name="cafID" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetAllPredecessorsHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfAddress"/>
+  </wsdl:message>
+  <wsdl:message name="GetCandidateStatusHttpGetIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+    <wsdl:part name="cafID" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetCandidateStatusHttpGetOut">
+    <wsdl:part name="Body" element="tns:CandidateStatus"/>
+  </wsdl:message>
+  <wsdl:message name="GetCandidateStatusesHttpGetIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+    <wsdl:part name="cafIDs" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetCandidateStatusesHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfCandidateStatus"/>
+  </wsdl:message>
+  <wsdl:message name="GetTermCodeHttpGetIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+    <wsdl:part name="deliveryPointID" type="s:string"/>
+    <wsdl:part name="vocabularyCode" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetTermCodeHttpGetOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllTermCodesHttpGetIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+    <wsdl:part name="vocabularyCode" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllTermCodesHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfClassification"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllRoadsHttpGetIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllRoadsHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfRoad"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllAddressesHttpGetIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllAddressesHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfAddress"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllVersionsHttpGetIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+    <wsdl:part name="fromDate" type="s:string"/>
+    <wsdl:part name="fromCAFID" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllVersionsHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfAddressVersions"/>
+  </wsdl:message>
+  <wsdl:message name="GetAddressByDeliveryPointIDHttpGetIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+    <wsdl:part name="deliveryPointID" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetAddressByDeliveryPointIDHttpGetOut">
+    <wsdl:part name="Body" element="tns:Address"/>
+  </wsdl:message>
+  <wsdl:message name="GetAddressHttpPostIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+    <wsdl:part name="cafID" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetAddressHttpPostOut">
+    <wsdl:part name="Body" element="tns:AddressView"/>
+  </wsdl:message>
+  <wsdl:message name="GetAddressesHttpPostIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+    <wsdl:part name="cafIDs" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetAddressesHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfAddressView"/>
+  </wsdl:message>
+  <wsdl:message name="GetClientHttpPostIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetClientHttpPostOut">
+    <wsdl:part name="Body" element="tns:Client"/>
+  </wsdl:message>
+  <wsdl:message name="SubmitLocationHttpPostIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+    <wsdl:part name="cafID" type="s:string"/>
+    <wsdl:part name="XPos" type="s:string"/>
+    <wsdl:part name="YPos" type="s:string"/>
+    <wsdl:part name="submissionReason" type="s:string"/>
+    <wsdl:part name="notificationEmail" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="SubmitLocationHttpPostOut">
+    <wsdl:part name="Body" element="tns:int"/>
+  </wsdl:message>
+  <wsdl:message name="GetUpdatesHttpPostIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+    <wsdl:part name="fromCAFID" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetUpdatesHttpPostOut">
+    <wsdl:part name="Body" element="tns:UpdateList"/>
+  </wsdl:message>
+  <wsdl:message name="GetLastCAFIDHttpPostIn"/>
+  <wsdl:message name="GetLastCAFIDHttpPostOut">
+    <wsdl:part name="Body" element="tns:int"/>
+  </wsdl:message>
+  <wsdl:message name="GetAllPredecessorsHttpPostIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+    <wsdl:part name="cafID" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetAllPredecessorsHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfAddress"/>
+  </wsdl:message>
+  <wsdl:message name="GetCandidateStatusHttpPostIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+    <wsdl:part name="cafID" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetCandidateStatusHttpPostOut">
+    <wsdl:part name="Body" element="tns:CandidateStatus"/>
+  </wsdl:message>
+  <wsdl:message name="GetCandidateStatusesHttpPostIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+    <wsdl:part name="cafIDs" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetCandidateStatusesHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfCandidateStatus"/>
+  </wsdl:message>
+  <wsdl:message name="GetTermCodeHttpPostIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+    <wsdl:part name="deliveryPointID" type="s:string"/>
+    <wsdl:part name="vocabularyCode" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetTermCodeHttpPostOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllTermCodesHttpPostIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+    <wsdl:part name="vocabularyCode" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllTermCodesHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfClassification"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllRoadsHttpPostIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllRoadsHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfRoad"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllAddressesHttpPostIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllAddressesHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfAddress"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllVersionsHttpPostIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+    <wsdl:part name="fromDate" type="s:string"/>
+    <wsdl:part name="fromCAFID" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="ListAllVersionsHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfAddressVersions"/>
+  </wsdl:message>
+  <wsdl:message name="GetAddressByDeliveryPointIDHttpPostIn">
+    <wsdl:part name="apiKey" type="s:string"/>
+    <wsdl:part name="deliveryPointID" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetAddressByDeliveryPointIDHttpPostOut">
+    <wsdl:part name="Body" element="tns:Address"/>
+  </wsdl:message>
+  <wsdl:portType name="ServiceSoap">
+    <wsdl:operation name="GetAddress">
+      <wsdl:input message="tns:GetAddressSoapIn"/>
+      <wsdl:output message="tns:GetAddressSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetAddresses">
+      <wsdl:input message="tns:GetAddressesSoapIn"/>
+      <wsdl:output message="tns:GetAddressesSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetClient">
+      <wsdl:input message="tns:GetClientSoapIn"/>
+      <wsdl:output message="tns:GetClientSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="Search">
+      <wsdl:input message="tns:SearchSoapIn"/>
+      <wsdl:output message="tns:SearchSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="SearchAdvanced">
+      <wsdl:input message="tns:SearchAdvancedSoapIn"/>
+      <wsdl:output message="tns:SearchAdvancedSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="SubmitAddress">
+      <wsdl:input message="tns:SubmitAddressSoapIn"/>
+      <wsdl:output message="tns:SubmitAddressSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="SubmitLocation">
+      <wsdl:input message="tns:SubmitLocationSoapIn"/>
+      <wsdl:output message="tns:SubmitLocationSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetUpdates">
+      <wsdl:input message="tns:GetUpdatesSoapIn"/>
+      <wsdl:output message="tns:GetUpdatesSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastCAFID">
+      <wsdl:input message="tns:GetLastCAFIDSoapIn"/>
+      <wsdl:output message="tns:GetLastCAFIDSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllPredecessors">
+      <wsdl:input message="tns:GetAllPredecessorsSoapIn"/>
+      <wsdl:output message="tns:GetAllPredecessorsSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetCandidateStatus">
+      <wsdl:input message="tns:GetCandidateStatusSoapIn"/>
+      <wsdl:output message="tns:GetCandidateStatusSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetCandidateStatuses">
+      <wsdl:input message="tns:GetCandidateStatusesSoapIn"/>
+      <wsdl:output message="tns:GetCandidateStatusesSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetTermCode">
+      <wsdl:input message="tns:GetTermCodeSoapIn"/>
+      <wsdl:output message="tns:GetTermCodeSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllTermCodes">
+      <wsdl:input message="tns:ListAllTermCodesSoapIn"/>
+      <wsdl:output message="tns:ListAllTermCodesSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllRoads">
+      <wsdl:input message="tns:ListAllRoadsSoapIn"/>
+      <wsdl:output message="tns:ListAllRoadsSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllAddresses">
+      <wsdl:input message="tns:ListAllAddressesSoapIn"/>
+      <wsdl:output message="tns:ListAllAddressesSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllVersions">
+      <wsdl:input message="tns:ListAllVersionsSoapIn"/>
+      <wsdl:output message="tns:ListAllVersionsSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetAddressByDeliveryPointID">
+      <wsdl:input message="tns:GetAddressByDeliveryPointIDSoapIn"/>
+      <wsdl:output message="tns:GetAddressByDeliveryPointIDSoapOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="ServiceHttpGet">
+    <wsdl:operation name="GetAddress">
+      <wsdl:input message="tns:GetAddressHttpGetIn"/>
+      <wsdl:output message="tns:GetAddressHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetAddresses">
+      <wsdl:input message="tns:GetAddressesHttpGetIn"/>
+      <wsdl:output message="tns:GetAddressesHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetClient">
+      <wsdl:input message="tns:GetClientHttpGetIn"/>
+      <wsdl:output message="tns:GetClientHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="SubmitLocation">
+      <wsdl:input message="tns:SubmitLocationHttpGetIn"/>
+      <wsdl:output message="tns:SubmitLocationHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetUpdates">
+      <wsdl:input message="tns:GetUpdatesHttpGetIn"/>
+      <wsdl:output message="tns:GetUpdatesHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastCAFID">
+      <wsdl:input message="tns:GetLastCAFIDHttpGetIn"/>
+      <wsdl:output message="tns:GetLastCAFIDHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllPredecessors">
+      <wsdl:input message="tns:GetAllPredecessorsHttpGetIn"/>
+      <wsdl:output message="tns:GetAllPredecessorsHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetCandidateStatus">
+      <wsdl:input message="tns:GetCandidateStatusHttpGetIn"/>
+      <wsdl:output message="tns:GetCandidateStatusHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetCandidateStatuses">
+      <wsdl:input message="tns:GetCandidateStatusesHttpGetIn"/>
+      <wsdl:output message="tns:GetCandidateStatusesHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetTermCode">
+      <wsdl:input message="tns:GetTermCodeHttpGetIn"/>
+      <wsdl:output message="tns:GetTermCodeHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllTermCodes">
+      <wsdl:input message="tns:ListAllTermCodesHttpGetIn"/>
+      <wsdl:output message="tns:ListAllTermCodesHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllRoads">
+      <wsdl:input message="tns:ListAllRoadsHttpGetIn"/>
+      <wsdl:output message="tns:ListAllRoadsHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllAddresses">
+      <wsdl:input message="tns:ListAllAddressesHttpGetIn"/>
+      <wsdl:output message="tns:ListAllAddressesHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllVersions">
+      <wsdl:input message="tns:ListAllVersionsHttpGetIn"/>
+      <wsdl:output message="tns:ListAllVersionsHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetAddressByDeliveryPointID">
+      <wsdl:input message="tns:GetAddressByDeliveryPointIDHttpGetIn"/>
+      <wsdl:output message="tns:GetAddressByDeliveryPointIDHttpGetOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="ServiceHttpPost">
+    <wsdl:operation name="GetAddress">
+      <wsdl:input message="tns:GetAddressHttpPostIn"/>
+      <wsdl:output message="tns:GetAddressHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetAddresses">
+      <wsdl:input message="tns:GetAddressesHttpPostIn"/>
+      <wsdl:output message="tns:GetAddressesHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetClient">
+      <wsdl:input message="tns:GetClientHttpPostIn"/>
+      <wsdl:output message="tns:GetClientHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="SubmitLocation">
+      <wsdl:input message="tns:SubmitLocationHttpPostIn"/>
+      <wsdl:output message="tns:SubmitLocationHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetUpdates">
+      <wsdl:input message="tns:GetUpdatesHttpPostIn"/>
+      <wsdl:output message="tns:GetUpdatesHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastCAFID">
+      <wsdl:input message="tns:GetLastCAFIDHttpPostIn"/>
+      <wsdl:output message="tns:GetLastCAFIDHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllPredecessors">
+      <wsdl:input message="tns:GetAllPredecessorsHttpPostIn"/>
+      <wsdl:output message="tns:GetAllPredecessorsHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetCandidateStatus">
+      <wsdl:input message="tns:GetCandidateStatusHttpPostIn"/>
+      <wsdl:output message="tns:GetCandidateStatusHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetCandidateStatuses">
+      <wsdl:input message="tns:GetCandidateStatusesHttpPostIn"/>
+      <wsdl:output message="tns:GetCandidateStatusesHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetTermCode">
+      <wsdl:input message="tns:GetTermCodeHttpPostIn"/>
+      <wsdl:output message="tns:GetTermCodeHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllTermCodes">
+      <wsdl:input message="tns:ListAllTermCodesHttpPostIn"/>
+      <wsdl:output message="tns:ListAllTermCodesHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllRoads">
+      <wsdl:input message="tns:ListAllRoadsHttpPostIn"/>
+      <wsdl:output message="tns:ListAllRoadsHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllAddresses">
+      <wsdl:input message="tns:ListAllAddressesHttpPostIn"/>
+      <wsdl:output message="tns:ListAllAddressesHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllVersions">
+      <wsdl:input message="tns:ListAllVersionsHttpPostIn"/>
+      <wsdl:output message="tns:ListAllVersionsHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetAddressByDeliveryPointID">
+      <wsdl:input message="tns:GetAddressByDeliveryPointIDHttpPostIn"/>
+      <wsdl:output message="tns:GetAddressByDeliveryPointIDHttpPostOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServiceSoap" type="tns:ServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetAddress">
+      <soap:operation soapAction="http://www.digimap.gg/CAF/2.0/GetAddress" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAddresses">
+      <soap:operation soapAction="http://www.digimap.gg/CAF/2.0/GetAddresses" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetClient">
+      <soap:operation soapAction="http://www.digimap.gg/CAF/2.0/GetClient" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Search">
+      <soap:operation soapAction="http://www.digimap.gg/CAF/2.0/Search" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchAdvanced">
+      <soap:operation soapAction="http://www.digimap.gg/CAF/2.0/SearchAdvanced" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubmitAddress">
+      <soap:operation soapAction="http://www.digimap.gg/CAF/2.0/SubmitAddress" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubmitLocation">
+      <soap:operation soapAction="http://www.digimap.gg/CAF/2.0/SubmitLocation" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUpdates">
+      <soap:operation soapAction="http://www.digimap.gg/CAF/2.0/GetUpdates" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastCAFID">
+      <soap:operation soapAction="http://www.digimap.gg/CAF/2.0/GetLastCAFID" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllPredecessors">
+      <soap:operation soapAction="http://www.digimap.gg/CAF/2.0/GetAllPredecessors" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCandidateStatus">
+      <soap:operation soapAction="http://www.digimap.gg/CAF/2.0/GetCandidateStatus" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCandidateStatuses">
+      <soap:operation soapAction="http://www.digimap.gg/CAF/2.0/GetCandidateStatuses" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTermCode">
+      <soap:operation soapAction="http://www.digimap.gg/CAF/2.0/GetTermCode" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllTermCodes">
+      <soap:operation soapAction="http://www.digimap.gg/CAF/2.0/ListAllTermCodes" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllRoads">
+      <soap:operation soapAction="http://www.digimap.gg/CAF/2.0/ListAllRoads" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllAddresses">
+      <soap:operation soapAction="http://www.digimap.gg/CAF/2.0/ListAllAddresses" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllVersions">
+      <soap:operation soapAction="http://www.digimap.gg/CAF/2.0/ListAllVersions" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAddressByDeliveryPointID">
+      <soap:operation soapAction="http://www.digimap.gg/CAF/2.0/GetAddressByDeliveryPointID" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ServiceSoap12" type="tns:ServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetAddress">
+      <soap12:operation soapAction="http://www.digimap.gg/CAF/2.0/GetAddress" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAddresses">
+      <soap12:operation soapAction="http://www.digimap.gg/CAF/2.0/GetAddresses" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetClient">
+      <soap12:operation soapAction="http://www.digimap.gg/CAF/2.0/GetClient" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Search">
+      <soap12:operation soapAction="http://www.digimap.gg/CAF/2.0/Search" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchAdvanced">
+      <soap12:operation soapAction="http://www.digimap.gg/CAF/2.0/SearchAdvanced" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubmitAddress">
+      <soap12:operation soapAction="http://www.digimap.gg/CAF/2.0/SubmitAddress" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubmitLocation">
+      <soap12:operation soapAction="http://www.digimap.gg/CAF/2.0/SubmitLocation" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUpdates">
+      <soap12:operation soapAction="http://www.digimap.gg/CAF/2.0/GetUpdates" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastCAFID">
+      <soap12:operation soapAction="http://www.digimap.gg/CAF/2.0/GetLastCAFID" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllPredecessors">
+      <soap12:operation soapAction="http://www.digimap.gg/CAF/2.0/GetAllPredecessors" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCandidateStatus">
+      <soap12:operation soapAction="http://www.digimap.gg/CAF/2.0/GetCandidateStatus" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCandidateStatuses">
+      <soap12:operation soapAction="http://www.digimap.gg/CAF/2.0/GetCandidateStatuses" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTermCode">
+      <soap12:operation soapAction="http://www.digimap.gg/CAF/2.0/GetTermCode" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllTermCodes">
+      <soap12:operation soapAction="http://www.digimap.gg/CAF/2.0/ListAllTermCodes" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllRoads">
+      <soap12:operation soapAction="http://www.digimap.gg/CAF/2.0/ListAllRoads" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllAddresses">
+      <soap12:operation soapAction="http://www.digimap.gg/CAF/2.0/ListAllAddresses" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllVersions">
+      <soap12:operation soapAction="http://www.digimap.gg/CAF/2.0/ListAllVersions" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAddressByDeliveryPointID">
+      <soap12:operation soapAction="http://www.digimap.gg/CAF/2.0/GetAddressByDeliveryPointID" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ServiceHttpGet" type="tns:ServiceHttpGet">
+    <http:binding verb="GET"/>
+    <wsdl:operation name="GetAddress">
+      <http:operation location="/GetAddress"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAddresses">
+      <http:operation location="/GetAddresses"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetClient">
+      <http:operation location="/GetClient"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubmitLocation">
+      <http:operation location="/SubmitLocation"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUpdates">
+      <http:operation location="/GetUpdates"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastCAFID">
+      <http:operation location="/GetLastCAFID"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllPredecessors">
+      <http:operation location="/GetAllPredecessors"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCandidateStatus">
+      <http:operation location="/GetCandidateStatus"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCandidateStatuses">
+      <http:operation location="/GetCandidateStatuses"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTermCode">
+      <http:operation location="/GetTermCode"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllTermCodes">
+      <http:operation location="/ListAllTermCodes"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllRoads">
+      <http:operation location="/ListAllRoads"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllAddresses">
+      <http:operation location="/ListAllAddresses"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllVersions">
+      <http:operation location="/ListAllVersions"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAddressByDeliveryPointID">
+      <http:operation location="/GetAddressByDeliveryPointID"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ServiceHttpPost" type="tns:ServiceHttpPost">
+    <http:binding verb="POST"/>
+    <wsdl:operation name="GetAddress">
+      <http:operation location="/GetAddress"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAddresses">
+      <http:operation location="/GetAddresses"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetClient">
+      <http:operation location="/GetClient"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubmitLocation">
+      <http:operation location="/SubmitLocation"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUpdates">
+      <http:operation location="/GetUpdates"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastCAFID">
+      <http:operation location="/GetLastCAFID"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllPredecessors">
+      <http:operation location="/GetAllPredecessors"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCandidateStatus">
+      <http:operation location="/GetCandidateStatus"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCandidateStatuses">
+      <http:operation location="/GetCandidateStatuses"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTermCode">
+      <http:operation location="/GetTermCode"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllTermCodes">
+      <http:operation location="/ListAllTermCodes"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllRoads">
+      <http:operation location="/ListAllRoads"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllAddresses">
+      <http:operation location="/ListAllAddresses"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllVersions">
+      <http:operation location="/ListAllVersions"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAddressByDeliveryPointID">
+      <http:operation location="/GetAddressByDeliveryPointID"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service">
+    <wsdl:port name="ServiceSoap" binding="tns:ServiceSoap">
+      <soap:address location="http://caf.digimap.je/API2/Service.asmx"/>
+    </wsdl:port>
+    <wsdl:port name="ServiceSoap12" binding="tns:ServiceSoap12">
+      <soap12:address location="http://caf.digimap.je/API2/Service.asmx"/>
+    </wsdl:port>
+    <wsdl:port name="ServiceHttpGet" binding="tns:ServiceHttpGet">
+      <http:address location="http://caf.digimap.je/API2/Service.asmx"/>
+    </wsdl:port>
+    <wsdl:port name="ServiceHttpPost" binding="tns:ServiceHttpPost">
+      <http:address location="http://caf.digimap.je/API2/Service.asmx"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

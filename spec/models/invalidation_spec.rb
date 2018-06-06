@@ -43,7 +43,6 @@ RSpec.describe Invalidation, type: :model do
     it { is_expected.to validate_length_of(:postcode).is_at_most(255) }
     it { is_expected.to validate_length_of(:ip_address).is_at_most(20) }
     it { is_expected.to validate_length_of(:email).is_at_most(255) }
-    it { is_expected.to validate_length_of(:constituency_id).is_at_most(30) }
 
     it { is_expected.not_to allow_value("foo").for(:ip_address) }
     it { is_expected.to allow_value("123.123.123.123").for(:ip_address) }
@@ -69,30 +68,6 @@ RSpec.describe Invalidation, type: :model do
 
       it "adds an error to :petition_id" do
         expect(subject.errors[:petition_id]).to include("Petition doesn't exist")
-      end
-    end
-
-    context "when a constituency doesn't exist" do
-      subject { FactoryBot.build(:invalidation, constituency_id: "1234") }
-
-      before do
-        subject.valid?
-      end
-
-      it "adds an error to :constituency_id" do
-        expect(subject.errors[:constituency_id]).to include("Constituency doesn't exist")
-      end
-    end
-
-    context "when a constituency doesn't exist" do
-      subject { FactoryBot.build(:invalidation, constituency_id: "1234") }
-
-      before do
-        subject.valid?
-      end
-
-      it "adds an error to :constituency_id" do
-        expect(subject.errors[:constituency_id]).to include("Constituency doesn't exist")
       end
     end
 
@@ -592,19 +567,14 @@ RSpec.describe Invalidation, type: :model do
       end
 
       context "when filtering by postcode" do
-        before do
-          stub_api_request_for("SW1A0AA").to_return(api_response(:ok, "london_and_westminster"))
-          stub_api_request_for("E16PL").to_return(api_response(:ok, "bethnal_green_and_bow"))
-        end
-
         let!(:petition) { FactoryBot.create(:open_petition) }
-        let!(:signature_1) { FactoryBot.create(:validated_signature, postcode: "SW1A 0AA", petition: petition) }
-        let!(:signature_2) { FactoryBot.create(:validated_signature, postcode: "E1 6PL", petition: petition) }
-        let!(:signature_3) { FactoryBot.create(:pending_signature, postcode: "SW1A 0AA", petition: petition) }
-        let!(:signature_4) { FactoryBot.create(:invalidated_signature, postcode: "SW1A 0AA", petition: petition) }
-        let!(:signature_5) { FactoryBot.create(:fraudulent_signature, postcode: "SW1A 0AA", petition: petition) }
+        let!(:signature_1) { FactoryBot.create(:validated_signature, postcode: "JE11AA", petition: petition) }
+        let!(:signature_2) { FactoryBot.create(:validated_signature, postcode: "JE21AA", petition: petition) }
+        let!(:signature_3) { FactoryBot.create(:pending_signature, postcode: "JE11AA", petition: petition) }
+        let!(:signature_4) { FactoryBot.create(:invalidated_signature, postcode: "JE11AA", petition: petition) }
+        let!(:signature_5) { FactoryBot.create(:fraudulent_signature, postcode: "JE11AA", petition: petition) }
 
-        subject { FactoryBot.create(:invalidation, postcode: "SW1A0AA") }
+        subject { FactoryBot.create(:invalidation, postcode: "JE11AA") }
 
         it "includes validated signatures that match" do
           expect(subject.matching_signatures).to include(signature_1)
@@ -807,39 +777,6 @@ RSpec.describe Invalidation, type: :model do
           it "excludes signatures that don't match" do
             expect(subject.matching_signatures).not_to include(signature_2)
           end
-        end
-      end
-
-      context "when filtering by constituency_id" do
-        let!(:petition) { FactoryBot.create(:open_petition) }
-        let!(:coventry) { FactoryBot.create(:constituency, :coventry_north_east) }
-        let!(:bethnal) { FactoryBot.create(:constituency, :bethnal_green_and_bow) }
-        let!(:signature_1) { FactoryBot.create(:validated_signature, constituency_id: "3427", petition: petition) }
-        let!(:signature_2) { FactoryBot.create(:validated_signature, constituency_id: "3320", petition: petition) }
-        let!(:signature_3) { FactoryBot.create(:pending_signature, constituency_id: "3427", petition: petition) }
-        let!(:signature_4) { FactoryBot.create(:invalidated_signature, constituency_id: "3427", petition: petition) }
-        let!(:signature_5) { FactoryBot.create(:fraudulent_signature, constituency_id: "3427", petition: petition) }
-
-        subject { FactoryBot.create(:invalidation, constituency_id: "3427") }
-
-        it "includes validated signatures that match" do
-          expect(subject.matching_signatures).to include(signature_1)
-        end
-
-        it "includes pending signatures that match" do
-          expect(subject.matching_signatures).to include(signature_3)
-        end
-
-        it "excludes invalidated signatures that match" do
-          expect(subject.matching_signatures).not_to include(signature_4)
-        end
-
-        it "excludes fraudulent signatures that match" do
-          expect(subject.matching_signatures).not_to include(signature_5)
-        end
-
-        it "excludes signatures that don't match" do
-          expect(subject.matching_signatures).not_to include(signature_2)
         end
       end
     end

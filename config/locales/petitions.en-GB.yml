@@ -166,10 +166,10 @@ en-GB:
         html:
           one: "<span class=\"count\">%{formatted_count}</span> signature in the last hour"
           other: "<span class=\"count\">%{formatted_count}</span> signatures in the last hour"
-      in_your_constituency:
+      in_your_parish:
         html:
-          one: "%{formatted_count} signature from %{constituency}"
-          other: "%{formatted_count} signatures from %{constituency}"
+          one: "%{formatted_count} signature from %{parish}"
+          other: "%{formatted_count} signatures from %{parish}"
       in_total:
         html:
           one: "%{formatted_count} signature total"

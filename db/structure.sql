@@ -98,78 +98,6 @@ CREATE TABLE ar_internal_metadata (
 
 
 --
--- Name: constituencies; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE constituencies (
-    id integer NOT NULL,
-    name character varying(100) NOT NULL,
-    slug character varying(100) NOT NULL,
-    external_id character varying(30) NOT NULL,
-    ons_code character varying(10) NOT NULL,
-    mp_id character varying(30),
-    mp_name character varying(100),
-    mp_date date,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    example_postcode character varying(30),
-    party character varying(100)
-);
-
-
---
--- Name: constituencies_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE constituencies_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: constituencies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE constituencies_id_seq OWNED BY constituencies.id;
-
-
---
--- Name: constituency_petition_journals; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE constituency_petition_journals (
-    id integer NOT NULL,
-    constituency_id character varying NOT NULL,
-    petition_id integer NOT NULL,
-    signature_count integer DEFAULT 0 NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: constituency_petition_journals_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE constituency_petition_journals_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: constituency_petition_journals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE constituency_petition_journals_id_seq OWNED BY constituency_petition_journals.id;
-
-
---
 -- Name: debate_outcomes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -398,7 +326,6 @@ CREATE TABLE invalidations (
     email character varying(255),
     created_after timestamp without time zone,
     created_before timestamp without time zone,
-    constituency_id character varying(30),
     matching_count integer DEFAULT 0 NOT NULL,
     invalidated_count integer DEFAULT 0 NOT NULL,
     enqueued_at timestamp without time zone,
@@ -460,6 +387,71 @@ CREATE SEQUENCE notes_id_seq
 --
 
 ALTER SEQUENCE notes_id_seq OWNED BY notes.id;
+
+
+--
+-- Name: parish_petition_journals; Type: TABLE; Schema: public; Owner: -; Tablespace:
+--
+
+CREATE TABLE parish_petition_journals (
+    id integer NOT NULL,
+    parish_id character varying NOT NULL,
+    petition_id integer NOT NULL,
+    signature_count integer DEFAULT 0 NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: parish_petition_journals_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE parish_petition_journals_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: parish_petition_journals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE parish_petition_journals_id_seq OWNED BY parish_petition_journals.id;
+
+
+--
+-- Name: parishes; Type: TABLE; Schema: public; Owner: -; Tablespace:
+--
+
+CREATE TABLE parishes (
+    id integer NOT NULL,
+    name character varying(100) NOT NULL,
+    slug character varying(100) NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: parishes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE parishes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: parishes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE parishes_id_seq OWNED BY parishes.id;
 
 
 --
@@ -648,7 +640,7 @@ CREATE TABLE signatures (
     notify_by_email boolean DEFAULT false,
     email character varying(255),
     unsubscribe_token character varying,
-    constituency_id character varying,
+    parish_id character varying,
     validated_at timestamp without time zone,
     number integer,
     seen_signed_confirmation_page boolean DEFAULT false NOT NULL,
@@ -807,20 +799,6 @@ ALTER TABLE ONLY admin_users ALTER COLUMN id SET DEFAULT nextval('admin_users_id
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY constituencies ALTER COLUMN id SET DEFAULT nextval('constituencies_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY constituency_petition_journals ALTER COLUMN id SET DEFAULT nextval('constituency_petition_journals_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY debate_outcomes ALTER COLUMN id SET DEFAULT nextval('debate_outcomes_id_seq'::regclass);
 
 
@@ -871,6 +849,20 @@ ALTER TABLE ONLY invalidations ALTER COLUMN id SET DEFAULT nextval('invalidation
 --
 
 ALTER TABLE ONLY notes ALTER COLUMN id SET DEFAULT nextval('notes_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY parish_petition_journals ALTER COLUMN id SET DEFAULT nextval('parish_petition_journals_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY parishes ALTER COLUMN id SET DEFAULT nextval('parishes_id_seq'::regclass);
 
 
 --
@@ -946,22 +938,6 @@ ALTER TABLE ONLY ar_internal_metadata
 
 
 --
--- Name: constituencies_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY constituencies
-    ADD CONSTRAINT constituencies_pkey PRIMARY KEY (id);
-
-
---
--- Name: constituency_petition_journals_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY constituency_petition_journals
-    ADD CONSTRAINT constituency_petition_journals_pkey PRIMARY KEY (id);
-
-
---
 -- Name: debate_outcomes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1023,6 +999,22 @@ ALTER TABLE ONLY invalidations
 
 ALTER TABLE ONLY notes
     ADD CONSTRAINT notes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: parish_petition_journals_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+--
+
+ALTER TABLE ONLY parish_petition_journals
+    ADD CONSTRAINT parish_petition_journals_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: parishes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+--
+
+ALTER TABLE ONLY parishes
+    ADD CONSTRAINT parishes_pkey PRIMARY KEY (id);
 
 
 --
@@ -1118,10 +1110,17 @@ CREATE INDEX ft_index_invalidations_on_summary ON invalidations USING gin (to_ts
 
 
 --
--- Name: idx_constituency_petition_journal_uniqueness; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: idx_constituency_petition_journal_uniqueness; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
-CREATE UNIQUE INDEX idx_constituency_petition_journal_uniqueness ON constituency_petition_journals USING btree (petition_id, constituency_id);
+CREATE UNIQUE INDEX idx_constituency_petition_journal_uniqueness ON parish_petition_journals USING btree (petition_id, parish_id);
+
+
+--
+-- Name: idx_parish_petition_journal_uniqueness; Type: INDEX; Schema: public; Owner: -; Tablespace:
+--
+
+CREATE UNIQUE INDEX idx_parish_petition_journal_uniqueness ON parish_petition_journals USING btree (petition_id, parish_id);
 
 
 --
@@ -1136,20 +1135,6 @@ CREATE UNIQUE INDEX index_admin_users_on_email ON admin_users USING btree (email
 --
 
 CREATE INDEX index_admin_users_on_last_name_and_first_name ON admin_users USING btree (last_name, first_name);
-
-
---
--- Name: index_constituencies_on_external_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_constituencies_on_external_id ON constituencies USING btree (external_id);
-
-
---
--- Name: index_constituencies_on_slug; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_constituencies_on_slug ON constituencies USING btree (slug);
 
 
 --
@@ -1251,6 +1236,13 @@ CREATE UNIQUE INDEX index_notes_on_petition_id ON notes USING btree (petition_id
 
 
 --
+-- Name: index_parishes_on_slug; Type: INDEX; Schema: public; Owner: -; Tablespace:
+--
+
+CREATE UNIQUE INDEX index_parishes_on_slug ON parishes USING btree (slug);
+
+
+--
 -- Name: index_petition_emails_on_petition_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1349,13 +1341,6 @@ CREATE UNIQUE INDEX index_rejections_on_petition_id ON rejections USING btree (p
 
 
 --
--- Name: index_signatures_on_constituency_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_signatures_on_constituency_id ON signatures USING btree (constituency_id);
-
-
---
 -- Name: index_signatures_on_created_at_and_ip_address_and_petition_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1395,6 +1380,13 @@ CREATE INDEX index_signatures_on_ip_address_and_petition_id ON signatures USING 
 --
 
 CREATE INDEX index_signatures_on_name ON signatures USING btree (lower((name)::text));
+
+
+--
+-- Name: index_signatures_on_parish_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
+--
+
+CREATE INDEX index_signatures_on_parish_id ON signatures USING btree (parish_id);
 
 
 --
@@ -1495,7 +1487,7 @@ ALTER TABLE ONLY notes
 -- Name: fk_rails_5186723bbd; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY constituency_petition_journals
+ALTER TABLE ONLY parish_petition_journals
     ADD CONSTRAINT fk_rails_5186723bbd FOREIGN KEY (petition_id) REFERENCES petitions(id) ON DELETE CASCADE;
 
 
@@ -1681,6 +1673,10 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180522033130'),
 ('20180522145833'),
 ('20180524033654'),
-('20180524211622');
+('20180524211622'),
+('20180525102331'),
+('20180525102340'),
+('20180525102341'),
+('20180604101626');
 
 

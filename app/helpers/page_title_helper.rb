@@ -39,7 +39,7 @@ module PageTitleHelper
       {}.tap do |opts|
         opts[:scope]        = :page_titles
         opts[:default]      = [:"#{controller}.default", :default]
-        opts[:constituency] = constituency.name if constituency?
+        opts[:parish]       = parish.name if parish?
         opts[:postcode]     = formatted_postcode if postcode?
 
         if postcode?
@@ -55,7 +55,7 @@ module PageTitleHelper
       end
     end
 
-    %w[constituency petition postcode].each do |object|
+    %w[parish petition postcode].each do |object|
       define_method :"#{object}?" do
         send(:"#{object}").present?
       end

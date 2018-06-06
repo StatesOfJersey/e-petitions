@@ -39,8 +39,8 @@ module CacheHelper
         @template = template
       end
 
-      def constituency
-        assigns['constituency']
+      def parish
+        assigns['parish']
       end
 
       def create_petition_page

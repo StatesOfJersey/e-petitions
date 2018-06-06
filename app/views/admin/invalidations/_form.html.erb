@@ -44,12 +44,6 @@
   <%= form.text_field :ip_address, tabindex: increment, maxlength: 20, class: 'form-control', placeholder: 'The IP address used when signing - should look like 123.134.156.167' %>
 <% end %>
 
-<%= form_row for: [form.object, :constituency_id] do %>
-  <%= form.label :constituency_id, class: 'form-label' %>
-  <%= error_messages_for_field @invalidation, :constituency_id %>
-  <%= form.text_field :constituency_id, tabindex: increment, maxlength: 30, class: 'form-control', placeholder: 'The constituency ID returned by the parliament API for the postcode' %>
-<% end %>
-
 <%= form_row for: [form.object, :created_after] do %>
   <%= form.label :created_after, "Starting at", class: 'form-label' %>
   <%= error_messages_for_field @invalidation, :created_after %>

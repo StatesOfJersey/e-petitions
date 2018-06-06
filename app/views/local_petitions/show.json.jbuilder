@@ -1,3 +1,3 @@
-json.cache! [:local_petitions, @constituency], expires_in: 5.minutes do
-  json.partial! 'petitions', petitions: @petitions, constituency: @constituency
+json.cache! [:local_petitions, @parish], expires_in: 5.minutes do
+  json.partial! 'petitions', petitions: @petitions, parish: @parish
 end

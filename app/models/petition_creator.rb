@@ -55,7 +55,7 @@ class PetitionCreator
           c.email = email
           c.postcode = postcode
           c.jersey_resident = jersey_resident
-          c.constituency_id = constituency_id
+          c.parish_id = parish_id
           c.notify_by_email = notify_by_email
           c.ip_address = request.remote_ip
         end
@@ -213,12 +213,12 @@ class PetitionCreator
     PostcodeValidator.new(attributes: [:postcode])
   end
 
-  def constituency
-    @constituency ||= Constituency.find_by_postcode(postcode)
+  def parish
+    @parish ||= Parish.find_by_postcode(postcode)
   end
 
-  def constituency_id
-    constituency.try(:external_id)
+  def parish_id
+    parish.try(:id)
   end
 
   def send_email_to_gather_sponsors(petition)

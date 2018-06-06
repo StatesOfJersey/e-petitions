@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   constraints Site.constraints_for_public do
-    controller 'constituencies' do
-      get '/constituencies', action: 'index', as: :constituencies
+    controller 'parishes' do
+      get '/parishes', action: 'index', as: :parishes
     end
 
     controller 'pages' do
@@ -112,7 +112,6 @@ Rails.application.routes.draw do
       resource :rate_limits, path: 'rate-limits', only: %i[edit update]
       resource :site, only: %i[edit update]
       resource :holidays, only: %i[edit update]
-      resource :tasks, only: %i[create]
 
       resources :signatures, only: %i[index destroy] do
         post :validate, :invalidate, on: :member

@@ -15,9 +15,9 @@ class EmailConfirmationForSignerEmailJob < EmailJob
       updates, params = [], {}
       updates << "email_count = COALESCE(email_count, 0) + 1"
 
-      if constituency = signature.constituency
-        updates << "constituency_id = :constituency_id"
-        params[:constituency_id] = constituency.external_id
+      if parish = signature.parish
+        updates << "parish_id = :parish_id"
+        params[:parish_id] = parish.id
       end
 
       signature.update_all([updates.join(", "), params])
