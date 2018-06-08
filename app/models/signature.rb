@@ -205,6 +205,16 @@ class Signature < ActiveRecord::Base
       count(:all)
     end
 
+    def subscribe!(signature_ids)
+      signatures = find(signature_ids)
+
+      transaction do
+        signatures.each do |signature|
+          signature.update!(notify_by_email: true)
+        end
+      end
+    end
+
     def unsubscribe!(signature_ids)
       signatures = find(signature_ids)
 
