@@ -39,10 +39,10 @@ Then(/^I should see a total showing (.*?) petitions debated in parliament$/) do 
   expect(page).to have_css(".actioned-petitions ul li:last-child .count", :text => debated_count)
 end
 
-Then(/^I should see an empty government response threshold section$/) do
+Then(/^I should see an empty ministers response threshold section$/) do
   within(:css, "section[aria-labelledby=response-threshold-heading]") do
     expect(page).to have_no_css("a[href='#{petitions_path(state: :with_response)}']")
-    expect(page).to have_content("The government hasn’t responded to any petitions yet")
+    expect(page).to have_content("The ministers haven’t responded to any petitions yet")
   end
 end
 
