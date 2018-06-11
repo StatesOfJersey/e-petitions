@@ -135,6 +135,16 @@
     background-size: 100%;
   }
 }
+.graphic-states-assembly-large-white {
+  width: 80px;
+  height: 64px;
+  background-image: image-url("graphics/graphic_states-assembly-white.png");
+
+  @include device-pixel-ratio() {
+    background-image: image-url("graphics/graphic_states-assembly-white-2x.png");
+    background-size: 100%;
+  }
+}
 .graphic-states-assembly-white {
   width: 26px;
   height: 32px;
