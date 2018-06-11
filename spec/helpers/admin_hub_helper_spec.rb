@@ -115,13 +115,13 @@ RSpec.describe AdminHubHelper, type: :helper do
 
       context "when the action count is 1" do
         it "returns a correctly formatted action count" do
-          expect(helper.action_count(:awaiting_response, 1)).to eq("<span class=\"count\">1</span> Government response queue")
+          expect(helper.action_count(:awaiting_response, 1)).to eq("<span class=\"count\">1</span> Ministers' response queue")
         end
       end
 
       context "when the action count is 1000" do
         it "returns a correctly formatted action count" do
-          expect(helper.action_count(:awaiting_response, 1000)).to eq("<span class=\"count\">1,000</span> Government response queue")
+          expect(helper.action_count(:awaiting_response, 1000)).to eq("<span class=\"count\">1,000</span> Ministers' response queue")
         end
       end
     end
@@ -133,13 +133,13 @@ RSpec.describe AdminHubHelper, type: :helper do
 
       context "when the action count is 1" do
         it "returns a correctly formatted action count" do
-          expect(helper.action_count(:in_debate_queue, 1)).to eq("<span class=\"count\">1</span> Debate queue")
+          expect(helper.action_count(:in_debate_queue, 1)).to eq("<span class=\"count\">1</span> Assembly debate queue")
         end
       end
 
       context "when the action count is 1000" do
         it "returns a correctly formatted action count" do
-          expect(helper.action_count(:in_debate_queue, 1000)).to eq("<span class=\"count\">1,000</span> Debate queue")
+          expect(helper.action_count(:in_debate_queue, 1000)).to eq("<span class=\"count\">1,000</span> Assembly debate queue")
         end
       end
     end
