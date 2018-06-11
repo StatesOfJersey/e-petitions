@@ -93,8 +93,8 @@ en-GB:
           hidden: "Hidden (%{quantity})"
           awaiting_response: "Awaiting a response from Ministers (%{quantity})"
           with_response: "With a response from Ministers (%{quantity})"
-          awaiting_debate_date: "Awaiting a debate in parliament (%{quantity})"
-          with_debate_outcome: "Has been debated in parliament (%{quantity})"
+          awaiting_debate_date: "Awaiting a debate in States Assembly (%{quantity})"
+          with_debate_outcome: "Has been debated in States Assembly (%{quantity})"
           in_debate_queue: "In debate queue (%{quantity})"
 
     emails:
@@ -107,11 +107,11 @@ en-GB:
         email_duplicate_signatures: |-
           Duplicate signature of petition
         notify_signer_of_positive_debate_outcome: |-
-          Parliament debated “%{action}”
+          States Assembly debated “%{action}”
         notify_signer_of_negative_debate_outcome: |-
-          Parliament didn’t debate “%{action}”
+          States Assembly didn’t debate “%{action}”
         notify_signer_of_debate_scheduled: |-
-          Parliament will debate “%{action}”
+          States Assembly will debate “%{action}”
         notify_signer_of_threshold_response: |-
           Ministers responded to “%{action}”
 
@@ -119,11 +119,11 @@ en-GB:
         email_creator: |-
           %{subject}
         notify_creator_of_positive_debate_outcome: |-
-          Parliament debated “%{action}”
+          States Assembly debated “%{action}”
         notify_creator_of_negative_debate_outcome: |-
-          Parliament didn’t debate “%{action}”
+          States Assembly didn’t debate “%{action}”
         notify_creator_of_debate_scheduled: |-
-          Parliament will debate “%{action}”
+          States Assembly will debate “%{action}”
         notify_creator_of_threshold_response: |-
           Ministers responded to “%{action}”
         notify_creator_that_moderation_is_delayed: |-

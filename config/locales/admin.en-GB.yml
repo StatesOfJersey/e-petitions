@@ -61,7 +61,7 @@ en-GB:
       moderation_delay_preview_sent: "A preview email of the moderation delay has been sent to the feedback address"
       missing_tasks: "Please select one or more tasks to execute"
       password_updated: "Password was successfully updated"
-      parliament_updated: "Parliament updated successfully"
+      parliament_updated: "States Assembly updated successfully"
       petition_email_created: "Created other parliamentary business successfully"
       petition_email_updated: "Updated other parliamentary business successfully"
       petition_email_deleted: "Deleted other parliamentary business successfully"

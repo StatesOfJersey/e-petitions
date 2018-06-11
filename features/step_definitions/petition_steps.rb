@@ -316,7 +316,7 @@ Given(/^an? (open|closed|rejected) petition "(.*?)" with some (fraudulent)? ?sig
   5.times { FactoryBot.create(:"#{signature_state}_signature", petition: @petition) }
 end
 
-Given(/^the threshold for a parliamentary debate is "(.*?)"$/) do |amount|
+Given(/^the threshold for a states assembly debate is "(.*?)"$/) do |amount|
   Site.instance.update!(threshold_for_debate: amount)
 end
 

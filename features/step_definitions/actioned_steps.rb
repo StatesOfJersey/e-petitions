@@ -1,4 +1,4 @@
-Given(/^there (?:are|is) (\d+) petitions? debated in parliament(.+)?$/) do |debated_count, links_command|
+Given(/^there (?:are|is) (\d+) petitions? debated in states assembly(.+)?$/) do |debated_count, links_command|
   video_url, transcript_url, debate_pack_url = nil, nil, nil
 
   if links_command == " with a transcript url"
@@ -35,7 +35,7 @@ Then(/^I should see a total showing (.*?) petitions with a Ministers response$/)
   expect(page).to have_css(".actioned-petitions ul li:first-child .count", :text => response_count)
 end
 
-Then(/^I should see a total showing (.*?) petitions debated in parliament$/) do |debated_count|
+Then(/^I should see a total showing (.*?) petitions debated in states assembly$/) do |debated_count|
   expect(page).to have_css(".actioned-petitions ul li:last-child .count", :text => debated_count)
 end
 
