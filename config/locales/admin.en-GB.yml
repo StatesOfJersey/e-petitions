@@ -36,7 +36,7 @@ en-GB:
       debate_date_updated: "Updated the scheduled debate date successfully"
       debate_outcome_updated: "Updated debate outcome successfully"
       email_sent_overnight: "Email will be sent overnight"
-      government_response_updated: "Updated government response successfully"
+      government_response_updated: "Updated Ministers' response successfully"
       failed_tasks: "There was a problem starting the tasks - please contact support"
       invalidation_cant_be_cancelled: "Can't cancel invalidations that have completed"
       invalidation_cant_be_counted: "Can't count invalidations that aren't pending"

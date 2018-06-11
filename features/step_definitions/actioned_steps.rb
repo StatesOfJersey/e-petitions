@@ -21,7 +21,7 @@ Given(/^there (?:are|is) (\d+) petitions? debated in parliament(.+)?$/) do |deba
   end
 end
 
-Given(/^there are (\d+) petitions with a government response$/) do |response_count|
+Given(/^there are (\d+) petitions with a Ministers response$/) do |response_count|
   response_count.times do |count|
     petition = FactoryBot.create(:responded_petition, :action => "Petition #{count}")
   end
@@ -31,7 +31,7 @@ Then(/^I should not see the actioned petitions totals section$/) do
   expect(page).to_not have_css(".actioned-petitions")
 end
 
-Then(/^I should see a total showing (.*?) petitions with a government response$/) do |response_count|
+Then(/^I should see a total showing (.*?) petitions with a Ministers response$/) do |response_count|
   expect(page).to have_css(".actioned-petitions ul li:first-child .count", :text => response_count)
 end
 
@@ -39,10 +39,10 @@ Then(/^I should see a total showing (.*?) petitions debated in parliament$/) do 
   expect(page).to have_css(".actioned-petitions ul li:last-child .count", :text => debated_count)
 end
 
-Then(/^I should see an empty ministers response threshold section$/) do
+Then(/^I should see an empty Ministers response threshold section$/) do
   within(:css, "section[aria-labelledby=response-threshold-heading]") do
     expect(page).to have_no_css("a[href='#{petitions_path(state: :with_response)}']")
-    expect(page).to have_content("The ministers haven’t responded to any petitions yet")
+    expect(page).to have_content("The Ministers haven’t responded to any petitions yet")
   end
 end
 
@@ -55,7 +55,7 @@ end
 
 Then(/^I should see (\d+) petitions counted in the response threshold section$/) do |count|
   within(:css, "section[aria-labelledby=response-threshold-heading]") do
-    link_text = "See all petitions with a response from ministers (#{count})"
+    link_text = "See all petitions with a response from Ministers (#{count})"
     expect(page).to have_link(link_text, href: petitions_path(state: :with_response))
   end
 end

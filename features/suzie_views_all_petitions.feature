@@ -38,7 +38,7 @@ Feature: Suzy Signer views all petitions
     And a petition "Free the wombles" exists and passed the threshold for a response less than a day ago
     And a petition "Force supermarkets to give unsold food to charities" exists and passed the threshold for a response 1 day ago
     And a petition "Make every monday bank holiday" exists and passed the threshold for a response 10 days ago
-    When I browse to see only "Awaiting government response" petitions
+    When I browse to see only "Awaiting response from Ministers" petitions
     Then I should see "3 petitions"
     And I should see the following ordered list of petitions:
      | Make every monday bank holiday                      |
@@ -47,10 +47,10 @@ Feature: Suzy Signer views all petitions
     And the markup should be valid
 
   Scenario: Suzie browses petitions with a goverment response
-    Given a closed petition "Free the wombles" exists and has received a government response 100 days ago
-    And a petition "Force supermarkets to give unsold food to charities" exists and has received a government response 10 days ago
-    And a petition "Make every monday bank holiday" exists and has received a government response 1 days ago
-    When I browse to see only "Government responses" petitions
+    Given a closed petition "Free the wombles" exists and has received a Ministers response 100 days ago
+    And a petition "Force supermarkets to give unsold food to charities" exists and has received a Ministers response 10 days ago
+    And a petition "Make every monday bank holiday" exists and has received a Ministers response 1 days ago
+    When I browse to see only "Ministers' responses" petitions
     Then I should see "3 petitions"
     And I should see the following ordered list of petitions:
      | Make every monday bank holiday                      |

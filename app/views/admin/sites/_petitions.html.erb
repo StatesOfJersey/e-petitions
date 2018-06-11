@@ -7,7 +7,7 @@
 <% end %>
 
 <%= form_row for: [form.object, :threshold_for_response] do %>
-  <%= form.label :threshold_for_response, "Threshold for government response", class: "form-label" %>
+  <%= form.label :threshold_for_response, "Threshold for response from Ministers", class: "form-label" %>
   <%= error_messages_for_field @site, :threshold_for_response %>
   <%= form.text_field :threshold_for_response, tabindex: increment, maxlength: 10, class: "form-control form-control-1-4" %>
 <% end %>

@@ -70,11 +70,11 @@ RSpec.describe AdminHelper, type: :helper do
     end
 
     it "generates the correct option for 'awaiting_response'" do
-      expect(subject).to have_css("option:nth-of-type(13)[value='awaiting_response']", text: "Awaiting a government response (13)")
+      expect(subject).to have_css("option:nth-of-type(13)[value='awaiting_response']", text: "Awaiting a response from Ministers (13)")
     end
 
     it "generates the correct option for 'with_response'" do
-      expect(subject).to have_css("option:nth-of-type(14)[value='with_response']", text: "With a government response (14)")
+      expect(subject).to have_css("option:nth-of-type(14)[value='with_response']", text: "With a response from Ministers (14)")
     end
 
     it "generates the correct option for 'awaiting_debate_date'" do

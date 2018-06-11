@@ -21,8 +21,8 @@ Feature: Suzy Singer searches by free text
     And a petition "Make every monday bank holiday" exists and passed the threshold for a response 10 days ago
 
     # having a govt response
-    Given a petition "Spend more money on defence" exists and has received a government response 10 days ago
-    Given a petition "Save the city foxes" exists and has received a government response 1 days ago
+    Given a petition "Spend more money on defence" exists and has received a Ministers response 10 days ago
+    Given a petition "Save the city foxes" exists and has received a Ministers response 1 days ago
 
     # debated
     Given a petition "Ban Badger Baiting" has been debated 2 days ago
@@ -78,12 +78,12 @@ Feature: Suzy Singer searches by free text
       | The Wombles will rock Glasto | 1 signature          |
 
   Scenario: Search for petitions awaiting a goverment response
-    When I search for "Awaiting government response" with "Monday"
+    When I search for "Awaiting response from Ministers" with "Monday"
     Then I should see the following search results:
       | Make every monday bank holiday | 1 signature |
 
   Scenario: Search for petitions having a goverment response
-    When I search for "Government responses" with "foxes"
+    When I search for "Ministers' responses" with "foxes"
     Then I should see the following search results:
       | Save the city foxes            | 1 signature |
 
