@@ -3,12 +3,12 @@
     <% if actioned[:with_response][:count].zero? %>
       <div class="threshold-panel threshold-panel-response">
         <h2 id="response-threshold-heading"><%= Site.formatted_threshold_for_response %></h2>
-        <p>If a petition gets <%= Site.formatted_threshold_for_response %> signatures, the ministers will respond</p>
+        <p>If a petition gets <%= Site.formatted_threshold_for_response %> signatures, the Ministers will respond</p>
       </div>
     <% else %>
       <%= link_to( petitions_path(state: :with_response), class: "threshold-panel threshold-panel-response" ) do %>
         <h2 id="response-threshold-heading"><%= Site.formatted_threshold_for_response %></h2>
-        <p>If a petition gets <%= Site.formatted_threshold_for_response %> signatures, the ministers will respond</p>
+        <p>If a petition gets <%= Site.formatted_threshold_for_response %> signatures, the Ministers will respond</p>
       <% end %>
     <% end %>
     <div class="section-panel-borderless">

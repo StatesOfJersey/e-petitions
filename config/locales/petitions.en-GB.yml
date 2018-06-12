@@ -15,8 +15,8 @@ en-GB:
       closed: "Closed petitions"
       rejected: "Rejected petitions"
       published: "Published petitions"
-      awaiting_response: "Petitions waiting for a Government response"
-      with_response: "Petitions with a Government response"
+      awaiting_response: "Petitions waiting for a response from Ministers"
+      with_response: "Petitions with response"
       debated: "Petitions debated in the States Assembly"
       not_debated: "Petitions not debated in the States Assembly"
       awaiting_debate: "Petitions waiting for a debate in the States Assembly"
@@ -39,8 +39,8 @@ en-GB:
       closed: "Closed petitions (%{quantity})"
       published: "Published petitions (%{quantity})"
       rejected: "Rejected petitions (%{quantity})"
-      awaiting_response: "Awaiting government response (%{quantity})"
-      with_response: "Government responses (%{quantity})"
+      awaiting_response: "Awaiting response from Ministers (%{quantity})"
+      with_response: "Ministers' responses (%{quantity})"
       debated: "Debated in the States Assembly (%{quantity})"
       not_debated: "Not debated in the States Assembly (%{quantity})"
       awaiting_debate: "Awaiting a debate in the States Assembly (%{quantity})"
@@ -91,10 +91,10 @@ en-GB:
           closed: "Closed (%{quantity})"
           rejected: "Rejected (%{quantity})"
           hidden: "Hidden (%{quantity})"
-          awaiting_response: "Awaiting a government response (%{quantity})"
-          with_response: "With a government response (%{quantity})"
-          awaiting_debate_date: "Awaiting a debate in parliament (%{quantity})"
-          with_debate_outcome: "Has been debated in parliament (%{quantity})"
+          awaiting_response: "Awaiting a response from Ministers (%{quantity})"
+          with_response: "With a response from Ministers (%{quantity})"
+          awaiting_debate_date: "Awaiting a debate in States Assembly (%{quantity})"
+          with_debate_outcome: "Has been debated in States Assembly (%{quantity})"
           in_debate_queue: "In debate queue (%{quantity})"
 
     emails:
@@ -107,25 +107,25 @@ en-GB:
         email_duplicate_signatures: |-
           Duplicate signature of petition
         notify_signer_of_positive_debate_outcome: |-
-          Parliament debated “%{action}”
+          States Assembly debated “%{action}”
         notify_signer_of_negative_debate_outcome: |-
-          Parliament didn’t debate “%{action}”
+          States Assembly didn’t debate “%{action}”
         notify_signer_of_debate_scheduled: |-
-          Parliament will debate “%{action}”
+          States Assembly will debate “%{action}”
         notify_signer_of_threshold_response: |-
-          Government responded to “%{action}”
+          Ministers responded to “%{action}”
 
         # Emails to people who create petitions
         email_creator: |-
           %{subject}
         notify_creator_of_positive_debate_outcome: |-
-          Parliament debated “%{action}”
+          States Assembly debated “%{action}”
         notify_creator_of_negative_debate_outcome: |-
-          Parliament didn’t debate “%{action}”
+          States Assembly didn’t debate “%{action}”
         notify_creator_of_debate_scheduled: |-
-          Parliament will debate “%{action}”
+          States Assembly will debate “%{action}”
         notify_creator_of_threshold_response: |-
-          Government responded to “%{action}”
+          Ministers responded to “%{action}”
         notify_creator_that_moderation_is_delayed: |-
           %{subject}
 
@@ -178,12 +178,12 @@ en-GB:
     counts:
       awaiting_response:
         html:
-          one: "<span class=\"count\">%{formatted_count}</span> petition is waiting for a response from the ministers"
-          other: "<span class=\"count\">%{formatted_count}</span> petitions are waiting for responses from the ministers"
+          one: "<span class=\"count\">%{formatted_count}</span> petition is waiting for a response from the Ministers"
+          other: "<span class=\"count\">%{formatted_count}</span> petitions are waiting for responses from the Ministers"
       with_response:
         html:
-          one: "<span class=\"count\">%{formatted_count}</span> petition got a response from the ministers"
-          other: "<span class=\"count\">%{formatted_count}</span> petitions got a response from the ministers"
+          one: "<span class=\"count\">%{formatted_count}</span> petition got a response from the Ministers"
+          other: "<span class=\"count\">%{formatted_count}</span> petitions got a response from the Ministers"
       awaiting_debate:
         html:
           one: "<span class=\"count\">%{formatted_count}</span> petition is waiting to be considered for debate"
@@ -193,9 +193,9 @@ en-GB:
           one: "<span class=\"count\">%{formatted_count}</span> petition was debated in the States Assembly"
           other: "<span class=\"count\">%{formatted_count}</span> petitions were debated in the States Assembly"
       awaiting_response_explanation:
-        html: "See all petitions waiting for a response from ministers (%{formatted_count})"
+        html: "See all petitions waiting for a response from Ministers (%{formatted_count})"
       with_response_explanation:
-        html: "See all petitions with a response from ministers (%{formatted_count})"
+        html: "See all petitions with a response from Ministers (%{formatted_count})"
       awaiting_debate_explanation:
         html: "See all petitions waiting for a debate (%{formatted_count})"
       debated_explanation:

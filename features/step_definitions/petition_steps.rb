@@ -60,12 +60,12 @@ Given(/^an open petition "(.*?)" with response "(.*?)" and response summary "(.*
   @petition = FactoryBot.create(:responded_petition, action: petition_action, response_details: details, response_summary: summary)
 end
 
-Given(/^a ?(open|closed)? petition "([^"]*)" exists and has received a government response (\d+) days ago$/) do |state, petition_action, parliament_response_days_ago |
+Given(/^a ?(open|closed)? petition "([^"]*)" exists and has received a Ministers response (\d+) days ago$/) do |state, petition_action, parliament_response_days_ago |
   petition_attributes = {
     action: petition_action,
     closed_at: state == 'closed' ? 1.day.ago : 6.months.from_now,
     response_summary: 'Response Summary',
-    response_details: 'Government Response',
+    response_details: "Ministers' Response",
     government_response_at: parliament_response_days_ago.to_i.days.ago
   }
   FactoryBot.create(:responded_petition, petition_attributes)
@@ -229,14 +229,14 @@ When(/^I am allowed to make the petition action too long$/) do
   page.execute_script "document.getElementById('petition_creator_action').removeAttribute('maxlength');"
 end
 
-Then(/^the petition with action: "(.*?)" should have requested a government response email after "(.*?)"$/) do |petition_action, timestamp|
+Then(/^the petition with action: "(.*?)" should have requested a Ministers response email after "(.*?)"$/) do |petition_action, timestamp|
   petition = Petition.find_by!(action: petition_action)
   email_requested_at = petition.get_email_requested_at_for('government_response')
   expect(email_requested_at).to be_present
   expect(email_requested_at).to be >= timestamp.in_time_zone
 end
 
-Then(/^the petition with action: "(.*?)" should not have requested a government response email$/) do |petition_action|
+Then(/^the petition with action: "(.*?)" should not have requested a Ministers response email$/) do |petition_action|
   petition = Petition.find_by!(action: petition_action)
   email_requested_at = petition.get_email_requested_at_for('government_response')
   expect(email_requested_at).to be_nil
@@ -316,11 +316,11 @@ Given(/^an? (open|closed|rejected) petition "(.*?)" with some (fraudulent)? ?sig
   5.times { FactoryBot.create(:"#{signature_state}_signature", petition: @petition) }
 end
 
-Given(/^the threshold for a parliamentary debate is "(.*?)"$/) do |amount|
+Given(/^the threshold for a states assembly debate is "(.*?)"$/) do |amount|
   Site.instance.update!(threshold_for_debate: amount)
 end
 
-Given(/^there are (\d+) petitions awaiting a government response$/) do |response_count|
+Given(/^there are (\d+) petitions awaiting a Ministers response$/) do |response_count|
   response_count.times do |count|
     petition = FactoryBot.create(:awaiting_petition, :action => "Petition #{count}")
   end
@@ -338,11 +338,11 @@ Given(/^a petition "(.*?)" exists awaiting debate date$/) do |action|
   @petition = FactoryBot.create(:awaiting_debate_petition, action: action)
 end
 
-Given(/^a petition "(.*?)" exists with government response$/) do |action|
+Given(/^a petition "(.*?)" exists with Ministers response$/) do |action|
   @petition = FactoryBot.create(:responded_petition, action: action)
 end
 
-Given(/^a petition "(.*?)" exists awaiting government response$/) do |action|
+Given(/^a petition "(.*?)" exists awaiting Ministers response$/) do |action|
   @petition = FactoryBot.create(:awaiting_petition, action: action)
 end
 

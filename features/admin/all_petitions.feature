@@ -33,15 +33,15 @@ Feature: A moderator user views all petitions
 
     And a petition "My open petition with debate outcome" exists with a debate outcome
     And a petition "My open petition awaiting debate date" exists awaiting debate date
-    And a petition "My open petition with government response" exists with government response
-    And a petition "My open petition awaiting government response" exists awaiting government response
+    And a petition "My open petition with Ministers response" exists with Ministers response
+    And a petition "My open petition awaiting Ministers response" exists awaiting Ministers response
     And a petition "My open petition with scheduled debate date" with scheduled debate date of "23/10/2010"
 
     When I view all petitions
     Then I should see the following list of petitions:
      | My open petition with scheduled debate date   |
-     | My open petition awaiting government response |
-     | My open petition with government response     |
+     | My open petition awaiting Ministers response |
+     | My open petition with Ministers response     |
      | My open petition awaiting debate date         |
      | My open petition with debate outcome          |
      | My hidden petition                            |
@@ -68,8 +68,8 @@ Feature: A moderator user views all petitions
     And I filter the list to show "Open" petitions
     Then I should see the following list of petitions:
      | My open petition with scheduled debate date   |
-     | My open petition awaiting government response |
-     | My open petition with government response     |
+     | My open petition awaiting Ministers response |
+     | My open petition with Ministers response     |
      | My open petition awaiting debate date         |
      | My open petition with debate outcome          |
      | My open petition                              |
@@ -86,19 +86,19 @@ Feature: A moderator user views all petitions
     Then I should see the following list of petitions:
      | My hidden petition |
 
-    And I filter the list to show "Awaiting a government response" petitions
+    And I filter the list to show "Awaiting a response from Ministers" petitions
     Then I should see the following list of petitions:
-     | My open petition awaiting government response |
+     | My open petition awaiting Ministers response |
 
-    And I filter the list to show "With a government response" petitions
+    And I filter the list to show "With a response from Ministers" petitions
     Then I should see the following list of petitions:
-     | My open petition with government response |
+     | My open petition with Ministers response |
 
-    And I filter the list to show "Awaiting a debate in parliament" petitions
+    And I filter the list to show "Awaiting a debate in States Assembly" petitions
     Then I should see the following list of petitions:
      | My open petition awaiting debate date |
 
-    And I filter the list to show "Has been debated in parliament" petitions
+    And I filter the list to show "Has been debated in States Assembly" petitions
     Then I should see the following list of petitions:
      | My open petition with debate outcome |
 

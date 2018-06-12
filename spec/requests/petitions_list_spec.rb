@@ -205,7 +205,7 @@ RSpec.describe "API request to list petitions", type: :request, show_exceptions:
         a_collection_containing_exactly(
           a_hash_including(
             "attributes" => a_hash_including(
-              "government_response" => a_hash_including(
+              "ministers_response" => a_hash_including(
                 "summary" => "Summary of what the government said",
                 "details" => "Details of what the government said"
               )

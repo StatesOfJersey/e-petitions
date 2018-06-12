@@ -70,19 +70,19 @@ RSpec.describe AdminHelper, type: :helper do
     end
 
     it "generates the correct option for 'awaiting_response'" do
-      expect(subject).to have_css("option:nth-of-type(13)[value='awaiting_response']", text: "Awaiting a government response (13)")
+      expect(subject).to have_css("option:nth-of-type(13)[value='awaiting_response']", text: "Awaiting a response from Ministers (13)")
     end
 
     it "generates the correct option for 'with_response'" do
-      expect(subject).to have_css("option:nth-of-type(14)[value='with_response']", text: "With a government response (14)")
+      expect(subject).to have_css("option:nth-of-type(14)[value='with_response']", text: "With a response from Ministers (14)")
     end
 
     it "generates the correct option for 'awaiting_debate_date'" do
-      expect(subject).to have_css("option:nth-of-type(15)[value='awaiting_debate_date']", text: "Awaiting a debate in parliament (15)")
+      expect(subject).to have_css("option:nth-of-type(15)[value='awaiting_debate_date']", text: "Awaiting a debate in States Assembly (15)")
     end
 
     it "generates the correct option for 'with_debate_outcome'" do
-      expect(subject).to have_css("option:nth-of-type(16)[value='with_debate_outcome']", text: "Has been debated in parliament (16)")
+      expect(subject).to have_css("option:nth-of-type(16)[value='with_debate_outcome']", text: "Has been debated in States Assembly (16)")
     end
 
     it "generates the correct option for 'in_debate_queue'" do

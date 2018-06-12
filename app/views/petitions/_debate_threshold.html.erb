@@ -42,7 +42,7 @@
         The States Assembly debated this petition on <%= short_date_format(petition.scheduled_debate_date) %>
       </p>
       <p>
-        You'll be able to watch the debate online at <a href="http://parliamentlive.tv" rel="external">parliamentlive.tv</a>
+        You'll be able to watch the debate online at <a href="https://statesassembly.public-i.tv/core/portal/home" rel="external">statesassembly.public-i.tv</a>
       </p>
       <p class="secondary"><%= waiting_for_in_words(petition.scheduled_debate_date) %> for the States Assembly to publish the debate outcome</p>
 
@@ -53,11 +53,11 @@
         The States Assembly will debate this petition on <%= short_date_format(petition.scheduled_debate_date) %>.
       </p>
       <p>
-        You'll be able to watch online at <a href="http://parliamentlive.tv" rel="external">parliamentlive.tv</a>
+        You'll be able to watch online at  <a href="https://statesassembly.public-i.tv/core/portal/home" rel="external">statesassembly.public-i.tv</a>
       </p>
     <% end %>
 
-  <%# Waiting for a government response #%>
+  <%# Waiting for a ministers response #%>
   <% elsif petition.debate_threshold_reached_at? -%>
     <h2 id="debate-threshold-heading">The States Assembly will consider this for a debate</h2>
     <p>The States Assembly considers all petitions that get more than <%= Site.formatted_threshold_for_debate %> signatures for a debate</p>

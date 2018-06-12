@@ -103,8 +103,8 @@ RSpec.describe "API request to show a petition", type: :request, show_exceptions
 
       expect(attributes).to match(
         a_hash_including(
-          "government_response_at" => a_string_matching(%r[\A\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z\z]),
-          "government_response" => a_hash_including(
+          "ministers_response_at" => a_string_matching(%r[\A\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z\z]),
+          "ministers_response" => a_hash_including(
             "summary" => "Summary of what the government said",
             "details" => "Details of what the government said",
             "created_at" => a_string_matching(%r[\A\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z\z]),
