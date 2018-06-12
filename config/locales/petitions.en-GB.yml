@@ -209,10 +209,10 @@ en-GB:
           "<span class=\"count\">%{formatted_count}</span> Moderation queue"
       awaiting_response:
         html:
-          "<span class=\"count\">%{formatted_count}</span> Government response queue"
+          "<span class=\"count\">%{formatted_count}</span> Ministers' response queue"
       in_debate_queue:
         html:
-          "<span class=\"count\">%{formatted_count}</span> Debate queue"
+          "<span class=\"count\">%{formatted_count}</span> Assembly debate queue"
       all:
         html:
           "<span class=\"count\">%{formatted_count}</span> All petitions"

@@ -14,8 +14,8 @@ Feature: Admin hub page
     And there are 3 petitions with enough signatures to require a debate
     When I go to the Admin home page
     Then I should see "20 Moderation queue"
-    And I should see "12 Government response queue"
-    And I should see "8 Debate queue"
+    And I should see "12 Ministers' response queue"
+    And I should see "8 Assembly debate queue"
     And I should see "All Petitions (40)"
     And I should be connected to the server via an ssl connection
     And the markup should be valid
