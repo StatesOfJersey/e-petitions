@@ -178,12 +178,12 @@ en-GB:
     counts:
       awaiting_response:
         html:
-          one: "<span class=\"count\">%{formatted_count}</span> petition is waiting for a response from the Ministers"
-          other: "<span class=\"count\">%{formatted_count}</span> petitions are waiting for responses from the Ministers"
+          one: "<span class=\"count\">%{formatted_count}</span> petition is waiting for a response from Ministers"
+          other: "<span class=\"count\">%{formatted_count}</span> petitions are waiting for responses from Ministers"
       with_response:
         html:
-          one: "<span class=\"count\">%{formatted_count}</span> petition got a response from the Ministers"
-          other: "<span class=\"count\">%{formatted_count}</span> petitions got a response from the Ministers"
+          one: "<span class=\"count\">%{formatted_count}</span> petition got a response from Ministers"
+          other: "<span class=\"count\">%{formatted_count}</span> petitions got a response from Ministers"
       awaiting_debate:
         html:
           one: "<span class=\"count\">%{formatted_count}</span> petition is waiting to be considered for debate"
