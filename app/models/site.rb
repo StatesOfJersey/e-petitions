@@ -115,24 +115,35 @@ class Site < ActiveRecord::Base
       5.days
     end
 
+    def petition_report_due?
+      Date.current == petition_report_due_at.to_date
+    end
+
+    def petition_report_due_at
+      (Time.current.beginning_of_week + petition_report_day_of_week.days).change(hour: petition_report_hour_of_day)
+    end
+
     def defaults
       {
-        title:                      default_title,
-        url:                        default_url,
-        moderate_url:               default_moderate_url,
-        email_from:                 default_email_from,
-        feedback_email:             default_feedback_email,
-        username:                   default_username,
-        password:                   default_password,
-        enabled:                    default_enabled,
-        protected:                  default_protected,
-        login_timeout:              default_login_timeout,
-        petition_duration:          default_petition_duration,
-        minimum_number_of_sponsors: default_minimum_number_of_sponsors,
-        maximum_number_of_sponsors: default_maximum_number_of_sponsors,
-        threshold_for_moderation:   default_threshold_for_moderation,
-        threshold_for_response:     default_threshold_for_response,
-        threshold_for_debate:       default_threshold_for_debate
+        title:                       default_title,
+        url:                         default_url,
+        moderate_url:                default_moderate_url,
+        email_from:                  default_email_from,
+        feedback_email:              default_feedback_email,
+        username:                    default_username,
+        password:                    default_password,
+        enabled:                     default_enabled,
+        protected:                   default_protected,
+        login_timeout:               default_login_timeout,
+        petition_duration:           default_petition_duration,
+        minimum_number_of_sponsors:  default_minimum_number_of_sponsors,
+        maximum_number_of_sponsors:  default_maximum_number_of_sponsors,
+        threshold_for_moderation:    default_threshold_for_moderation,
+        threshold_for_response:      default_threshold_for_response,
+        threshold_for_debate:        default_threshold_for_debate,
+        petition_report_email:       default_petition_report_email,
+        petition_report_day_of_week: default_petition_report_day_of_week,
+        petition_report_hour_of_day: default_petition_report_hour_of_day
       }
     end
 
@@ -248,6 +259,18 @@ class Site < ActiveRecord::Base
 
     def default_constraints_for_moderation
       { protocol: default_protocol, host: default_moderate_host, port: default_port }
+    end
+
+    def default_petition_report_email
+      ENV.fetch('PETITION_REPORT_EMAIL', %{"Petitions: Jersey States Assembly" <petitions@#{default_domain}>})
+    end
+
+    def default_petition_report_day_of_week
+      ENV.fetch('PETITION_REPORT_DAY_OF_WEEK', 0)
+    end
+
+    def default_petition_report_hour_of_day
+      ENV.fetch('PETITION_REPORT_HOUR_OF_DAY', 9)
     end
   end
 
@@ -379,6 +402,9 @@ class Site < ActiveRecord::Base
   validates :username, presence: true, length: { maximum: 30 }, if: :protected?
   validates :password, length: { maximum: 30 }, confirmation: true, if: :protected?
   validates :login_timeout, presence: true, numericality: { only_integer: true }
+  validates :petition_report_email, presence: true, length: { maximum: 100 }
+  validates :petition_report_day_of_week, presence: true, numericality: { only_integer: true }, inclusion: { in: 0..6 }
+  validates :petition_report_hour_of_day, presence: true, numericality: { only_integer: true }, inclusion: { in: 0..23 }
 
   validate if: :protected? do
     errors.add(:password, :blank) unless password_digest?

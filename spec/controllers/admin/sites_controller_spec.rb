@@ -126,6 +126,20 @@ RSpec.describe Admin::SitesController, type: :controller, admin: true do
           expect(flash[:notice]).to eq("Site updated successfully")
         end
       end
+
+      context "when submitting just the reports params" do
+        let :params do
+          { petition_report_email: 'reportsoverhere@example.com', petition_report_day_of_week: 6, petition_report_hour_of_day: 23 }
+        end
+
+        it "redirects to the edit page" do
+          expect(response).to redirect_to("https://moderate.petitions.gov.je/admin/site/edit")
+        end
+
+        it "sets the flash notice message" do
+          expect(flash[:notice]).to eq("Site updated successfully")
+        end
+      end
     end
   end
 end

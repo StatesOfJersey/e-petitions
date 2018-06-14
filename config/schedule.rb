@@ -21,6 +21,10 @@
 
 env :PATH, ENV['PATH']
 
+every :day, at: '12.00am' do
+  rake "jpets:enqueue_petitions_report_if_configured_for_today"
+end
+
 every :weekday, at: '6.30am' do
   rake "jpets:threshold_email_reminder", output: nil
 end

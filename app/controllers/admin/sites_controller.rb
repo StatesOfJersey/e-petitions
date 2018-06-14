@@ -30,7 +30,8 @@ class Admin::SitesController < Admin::AdminController
       :protected, :petition_duration, :minimum_number_of_sponsors,
       :maximum_number_of_sponsors, :threshold_for_moderation,
       :threshold_for_response, :threshold_for_debate, :feedback_email,
-      :moderate_url, :login_timeout
+      :moderate_url, :login_timeout, :petition_report_email,
+      :petition_report_day_of_week, :petition_report_hour_of_day
     )
   end
 end

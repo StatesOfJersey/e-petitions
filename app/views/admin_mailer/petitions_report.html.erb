@@ -1,0 +1,18 @@
+<p><%= pluralize(@petitions.count, "petition was", "petitions were") %> opened or signed in the last week on <%= link_to home_url, home_url %></p>
+
+<table>
+  <tr>
+    <th>Petition Action</th>
+    <th>Signature Count</th>
+  </tr>
+  <% @petitions.each do |petition| %>
+    <tr>
+      <td>
+        <%= link_to petition.action, petition_url(petition) %>
+      </td>
+      <td style="text-align: right;">
+        <%= petition.signature_count %>
+      </td>
+    </tr>
+  <% end %>
+</table>

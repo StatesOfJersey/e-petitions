@@ -1,0 +1,19 @@
+<%= hidden_field_tag :tab, "reports" %>
+
+<%= form_row for: [form.object, :petition_report_email] do %>
+  <%= form.label :petition_report_email, "Email address for petition reports", class: "form-label" %>
+  <%= error_messages_for_field @site, :petition_report_email %>
+  <%= form.text_field :petition_report_email, tabindex: increment, maxlength: 100, class: "form-control" %>
+<% end %>
+
+<%= form_row for: [form.object, :petition_report_day_of_week] do %>
+  <%= form.label :petition_report_day_of_week, "Day of week to send petition report", class: "form-label" %>
+  <%= error_messages_for_field @site, :petition_report_day_of_week %>
+  <%= form.select :petition_report_day_of_week, Date::DAYS_INTO_WEEK.transform_keys { |k| k.to_s.capitalize }, {}, { tabindex: increment, class: "form-control" } %>
+<% end %>
+
+<%= form_row for: [form.object, :threshold_for_debate] do %>
+  <%= form.label :petition_report_hour_of_day, "Hour of day to send petition report", class: "form-label" %>
+  <%= error_messages_for_field @site, :petition_report_hour_of_day %>
+  <%= select_hour form.object.petition_report_hour_of_day, { ampm: true }, { name: "site[petition_report_hour_of_day]", id: "site_petition_report_hour_of_day", class: "form-control", tabindex: increment } %>
+<% end %>

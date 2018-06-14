@@ -702,7 +702,10 @@ CREATE TABLE sites (
     moderate_url character varying(50) DEFAULT 'https://moderate.petitions.gov.je'::character varying NOT NULL,
     last_petition_created_at timestamp without time zone,
     login_timeout integer DEFAULT 1800 NOT NULL,
-    feature_flags jsonb DEFAULT '{}'::jsonb NOT NULL
+    feature_flags jsonb DEFAULT '{}'::jsonb NOT NULL,
+    petition_report_email character varying(100) DEFAULT '"Petitions: Jersey States Assembly" <petitions@gov.je>'::character varying NOT NULL,
+    petition_report_day_of_week integer DEFAULT 0,
+    petition_report_hour_of_day integer DEFAULT 9
 );
 
 
@@ -1677,6 +1680,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180525102331'),
 ('20180525102340'),
 ('20180525102341'),
-('20180604101626');
+('20180604101626'),
+('20180620094258');
 
 
