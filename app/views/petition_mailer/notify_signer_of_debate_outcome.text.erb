@@ -26,15 +26,13 @@ Read the research: <%= @debate_outcome.debate_pack_url %>
 The petition: <%= petition_url(@petition) %>
 
 <% else %>
-The Petitions Committee decided not to debate the petition you signed – “<%= @petition.action %>”
+The Petitions team decided not to debate the petition you signed – “<%= @petition.action %>”
 
 <% if @debate_outcome.overview? %>
 <%= @debate_outcome.overview %>
 
 <% end %>
 The petition: <%= petition_url(@petition) %>
-
-Find out more about the Petitions Committee: <%= help_url(anchor: "petitions-committee") %>
 
 <% end %>
 Thanks,

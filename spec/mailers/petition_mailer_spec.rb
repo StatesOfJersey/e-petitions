@@ -296,7 +296,7 @@ RSpec.describe PetitionMailer, type: :mailer do
         end
 
         it "has the negative message in the body" do
-          expect(mail).to have_body_text("The Petitions Committee decided not to debate your petition")
+          expect(mail).to have_body_text("The Petitions team decided not to debate your petition")
         end
       end
 
@@ -416,7 +416,7 @@ RSpec.describe PetitionMailer, type: :mailer do
         end
 
         it "has the negative message in the body" do
-          expect(mail).to have_body_text("The Petitions Committee decided not to debate the petition you signed")
+          expect(mail).to have_body_text("The Petitions team decided not to debate the petition you signed")
         end
       end
 

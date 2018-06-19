@@ -46,7 +46,7 @@ en-GB:
       awaiting_debate: "Awaiting a debate in the States Assembly (%{quantity})"
 
     list_headers:
-      not_debated: "The Petitions Committee decided not to debate these petitions"
+      not_debated: "The Petitions team decided not to debate these petitions"
 
     facets:
       public:
