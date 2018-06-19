@@ -42,7 +42,7 @@ end
 Then(/^I should see an empty Ministers response threshold section$/) do
   within(:css, "section[aria-labelledby=response-threshold-heading]") do
     expect(page).to have_no_css("a[href='#{petitions_path(state: :with_response)}']")
-    expect(page).to have_content("The Ministers haven’t responded to any petitions yet")
+    expect(page).to have_content("Ministers haven’t responded to any petitions yet")
   end
 end
 
