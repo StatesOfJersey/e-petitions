@@ -25,22 +25,6 @@ every :day, at: '12.00am' do
   rake "jpets:enqueue_petitions_report_if_configured_for_today"
 end
 
-every :weekday, at: '6.30am' do
-  rake "jpets:threshold_email_reminder", output: nil
-end
-
-every :day, at: '1.15am' do
-  rake "jpets:countries:fetch", output: nil
-end
-
-every :day, at: '1.45am' do
-  rake "jpets:constituencies:refresh", output: nil
-end
-
-every :day, at: '2.15am' do
-  rake "jpets:constituencies:refresh_party", output: nil
-end
-
 every :day, at: '2.30am' do
   rake "jpets:petitions:count", output: nil
 end
