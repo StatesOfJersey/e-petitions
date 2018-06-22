@@ -5,41 +5,55 @@
     <%= link_to "Moderation", edit_admin_site_path(tab: 'moderation') %> |
     <%= link_to "Access", edit_admin_site_path(tab: 'access') %> |
     <%= link_to "Features", edit_admin_site_path(tab: 'features') %> |
-    <%= link_to "Holidays", edit_admin_holidays_path %>
+    <%= link_to "Holidays", edit_admin_holidays_path %> |
+    <%= link_to "Reports", edit_admin_site_path(tab: 'reports') %>
   <% elsif params[:tab] == "moderation" %>
     <%= link_to "Description", edit_admin_site_path %> |
     <%= link_to "Petitions", edit_admin_site_path(tab: 'petitions') %> |
     Moderation |
     <%= link_to "Access", edit_admin_site_path(tab: 'access') %> |
     <%= link_to "Features", edit_admin_site_path(tab: 'features') %> |
-    <%= link_to "Holidays", edit_admin_holidays_path %>
+    <%= link_to "Holidays", edit_admin_holidays_path %> |
+    <%= link_to "Reports", edit_admin_site_path(tab: 'reports') %>
   <% elsif params[:tab] == "access" %>
     <%= link_to "Description", edit_admin_site_path %> |
     <%= link_to "Petitions", edit_admin_site_path(tab: 'petitions') %> |
     <%= link_to "Moderation", edit_admin_site_path(tab: 'moderation') %> |
     Access |
     <%= link_to "Features", edit_admin_site_path(tab: 'features') %> |
-    <%= link_to "Holidays", edit_admin_holidays_path %>
+    <%= link_to "Holidays", edit_admin_holidays_path %> |
+    <%= link_to "Reports", edit_admin_site_path(tab: 'reports') %>
   <% elsif params[:tab] == "features" %>
     <%= link_to "Description", edit_admin_site_path %> |
     <%= link_to "Petitions", edit_admin_site_path(tab: 'petitions') %> |
     <%= link_to "Moderation", edit_admin_site_path(tab: 'moderation') %> |
     <%= link_to "Access", edit_admin_site_path(tab: 'access') %> |
     Features |
-    <%= link_to "Holidays", edit_admin_holidays_path %>
+    <%= link_to "Holidays", edit_admin_holidays_path %> |
+    <%= link_to "Reports", edit_admin_site_path(tab: 'reports') %>
   <% elsif controller_name == "holidays" %>
     <%= link_to "Description", edit_admin_site_path %> |
     <%= link_to "Petitions", edit_admin_site_path(tab: 'petitions') %> |
     <%= link_to "Moderation", edit_admin_site_path(tab: 'moderation') %> |
     <%= link_to "Access", edit_admin_site_path(tab: 'access') %> |
     <%= link_to "Features", edit_admin_site_path(tab: 'features') %> |
-    Holidays
+    Holidays |
+    <%= link_to "Reports", edit_admin_site_path(tab: 'reports') %>
+  <% elsif params[:tab] == "reports" %>
+    <%= link_to "Description", edit_admin_site_path %> |
+    <%= link_to "Petitions", edit_admin_site_path(tab: 'petitions') %> |
+    <%= link_to "Moderation", edit_admin_site_path(tab: 'moderation') %> |
+    <%= link_to "Access", edit_admin_site_path(tab: 'access') %> |
+    <%= link_to "Features", edit_admin_site_path(tab: 'features') %> |
+    <%= link_to "Holidays", edit_admin_holidays_path %> |
+    Reports
   <% else %>
     Description |
     <%= link_to "Petitions", edit_admin_site_path(tab: 'petitions') %> |
     <%= link_to "Moderation", edit_admin_site_path(tab: 'moderation') %> |
     <%= link_to "Access", edit_admin_site_path(tab: 'access') %> |
     <%= link_to "Features", edit_admin_site_path(tab: 'features') %> |
-    <%= link_to "Holidays", edit_admin_holidays_path %>
+    <%= link_to "Holidays", edit_admin_holidays_path %> |
+    <%= link_to "Reports", edit_admin_site_path(tab: 'reports') %>
   <% end %>
 </p>

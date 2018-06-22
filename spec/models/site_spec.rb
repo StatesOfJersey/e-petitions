@@ -21,6 +21,9 @@ RSpec.describe Site, type: :model do
     it { is_expected.to have_db_column(:feedback_email).of_type(:string).with_options(limit: 100, default: '"Petitions: Jersey States Assembly" <petitions@gov.je>') }
     it { is_expected.to have_db_column(:last_petition_created_at).of_type(:datetime).with_options(null: true, default: nil) }
     it { is_expected.to have_db_column(:login_timeout).of_type(:integer).with_options(null: false, default: 1800) }
+    it { is_expected.to have_db_column(:petition_report_email).of_type(:string).with_options(limit: 100, default: '"Petitions: Jersey States Assembly" <petitions@gov.je>') }
+    it { is_expected.to have_db_column(:petition_report_day_of_week).of_type(:integer).with_options(default: 0) }
+    it { is_expected.to have_db_column(:petition_report_hour_of_day).of_type(:integer).with_options(default: 9) }
   end
 
   describe "validations" do
@@ -39,10 +42,14 @@ RSpec.describe Site, type: :model do
     it { is_expected.to validate_length_of(:url).is_at_most(50) }
     it { is_expected.to validate_length_of(:email_from).is_at_most(100) }
     it { is_expected.to validate_length_of(:feedback_email).is_at_most(100) }
+    it { is_expected.to validate_length_of(:petition_report_email).is_at_most(100) }
+    it { is_expected.to validate_inclusion_of(:petition_report_day_of_week).in_range(0..6) }
+    it { is_expected.to validate_inclusion_of(:petition_report_hour_of_day).in_range(0..23) }
 
     %w[
       petition_duration minimum_number_of_sponsors maximum_number_of_sponsors
       threshold_for_moderation threshold_for_response threshold_for_debate login_timeout
+      petition_report_day_of_week petition_report_hour_of_day
     ].each do |attribute|
       describe attribute do
         let(:errors) { subject.errors[attribute] }
@@ -326,6 +333,51 @@ RSpec.describe Site, type: :model do
       it "allows overriding via the JPETITIONS_FEEDBACK environment variables" do
         allow(ENV).to receive(:fetch).with("JPETITIONS_FEEDBACK", %{"Petitions: Jersey States Assembly" <petitions@gov.je>}).and_return("committee@petitions.gov.je")
         expect(defaults[:feedback_email]).to eq("committee@petitions.gov.je")
+      end
+    end
+
+    describe "for petition_report_email" do
+      it "defaults to 'petitions@gov.je'" do
+        allow(ENV).to receive(:fetch).with("JPETITIONS_PROTOCOL", "https").and_return("https")
+        allow(ENV).to receive(:fetch).with("JPETITIONS_HOST", "petitions.gov.je").and_return("petitions.gov.je")
+        allow(ENV).to receive(:fetch).with("JPETITIONS_PORT", '443').and_return(443)
+
+        expect(defaults[:petition_report_email]).to eq(%{"Petitions: Jersey States Assembly" <petitions@gov.je>})
+      end
+
+      it "allows overriding via the url environment variables" do
+        allow(ENV).to receive(:fetch).with("JPETITIONS_PROTOCOL", "https").and_return("http")
+        allow(ENV).to receive(:fetch).with("JPETITIONS_HOST", "petitions.gov.je").and_return("localhost")
+        allow(ENV).to receive(:fetch).with("JPETITIONS_PORT", '443').and_return("3000")
+
+        expect(defaults[:petition_report_email]).to eq(%{"Petitions: Jersey States Assembly" <petitions@localhost>})
+      end
+
+      it "allows override via environment variable" do
+        allow(ENV).to receive(:fetch).with("PETITION_REPORT_EMAIL", %{"Petitions: Jersey States Assembly" <petitions@gov.je>}).and_return("gimmemyreport@example.com")
+        expect(defaults[:petition_report_email]).to eq "gimmemyreport@example.com"
+      end
+    end
+
+    describe 'for petition_report_day_of_week' do
+      it "defaults to 0" do
+        expect(defaults[:petition_report_day_of_week]).to eq 0
+      end
+
+      it "can be overridden with the PETITION_REPORT_DAY_OF_WEEK environment variable" do
+        allow(ENV).to receive(:fetch).with("PETITION_REPORT_DAY_OF_WEEK", 0).and_return 6
+        expect(defaults[:petition_report_day_of_week]).to eq 6
+      end
+    end
+
+    describe 'for petition_report_hour_of_day' do
+      it "defaults to 9" do
+        expect(defaults[:petition_report_hour_of_day]).to eq 9
+      end
+
+      it "can be overridden with the PETITION_REPORT_HOUR_OF_DAY environment variable" do
+        allow(ENV).to receive(:fetch).with("PETITION_REPORT_HOUR_OF_DAY", 9).and_return 23
+        expect(defaults[:petition_report_hour_of_day]).to eq 23
       end
     end
 

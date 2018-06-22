@@ -16,6 +16,8 @@
       <%= render "form", tab: "features" %>
     <% elsif params[:tab] == "tasks" %>
       <%= render "tasks" %>
+    <% elsif params[:tab] == "reports" %>
+      <%= render "form", tab: "reports" %>
     <% else %>
       <%= render "form", tab: "description" %>
     <% end %>

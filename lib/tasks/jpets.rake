@@ -21,6 +21,15 @@ namespace :jpets do
     EmailReminder.special_resend_of_signature_email_validation
   end
 
+  desc "Email members with a petitions report if site is configured to do so today"
+  task :enqueue_petitions_report_if_configured_for_today => :environment do
+    if Site.petition_report_due?
+      Task.run("jpets:enqueue_petitions_report_if_configured_for_today") do
+        EmailPetitionsReportJob.set(wait_until: Site.petition_report_due_at).perform_later
+      end
+    end
+  end
+
   namespace :whenever do
     desc "Update the Primary Server crontab"
     task :update_crontab_primary => :environment do

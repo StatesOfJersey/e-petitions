@@ -335,6 +335,11 @@ class Petition < ActiveRecord::Base
       untagged.in_moderation
     end
 
+    def open_or_signed_within(from, to)
+      open_state.where(open_at: from..to).or(
+        where(last_signed_at: from..to)).by_most_recent
+    end
+
     private
 
     def moderation_threshold_reached_at

@@ -1,0 +1,5 @@
+<%= pluralize(@petitions.count, "petition was", "petitions were") %> opened or signed in the last week on <%= home_url %>
+
+<% @petitions.each do |petition| %>
+<%= "#{petition.action}: #{pluralize(petition.signature_count, "signature", "signatures")}" %>
+<% end %>

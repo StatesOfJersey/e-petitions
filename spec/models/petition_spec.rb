@@ -733,6 +733,27 @@ RSpec.describe Petition, type: :model do
         expect(Petition.untagged_in_moderation).not_to include(tagged_recent_petition, tagged_overdue_petition, tagged_nearly_overdue_petition)
       end
     end
+
+    describe ".open_or_signed_within" do
+      let(:from) { 10.hours.ago }
+      let(:to) { 5.hours.ago }
+
+      let!(:recent_open_petition_1) { FactoryBot.create :open_petition, open_at: from - 1.minute, action: 'Plant more trees', signature_count: 1, last_signed_at: to - 1.minute }
+      let!(:recent_open_petition_2) { FactoryBot.create :open_petition, open_at: from - 1.minute, action: 'Plant more flowers', signature_count: 2, last_signed_at: from + 1.minute }
+      let!(:recent_open_petition_3) { FactoryBot.create :open_petition, open_at: from + 1.minute, action: 'Plant more hedges', last_signed_at: nil }
+
+      let!(:recent_rejected_petition) { FactoryBot.create :rejected_petition, open_at: to - 1.minute, action: 'Plant more cabbages' }
+      let!(:older_open_petition_signed) { FactoryBot.create :open_petition, open_at: from - 1.minute, action: 'Plant more mushrooms', last_signed_at: from - 1.minute }
+      let!(:older_open_petition_unsigned) { FactoryBot.create :open_petition, open_at: from - 1.minute, action: 'Plant more wheat', last_signed_at: nil }
+
+      it "returns petitions that have been signed or opened in the supplied period" do
+        expect(Petition.open_or_signed_within(from, to)).to include(recent_open_petition_1, recent_open_petition_2, recent_open_petition_3)
+      end
+
+      it "does not return petitions that are non-open or signed outside the period" do
+        expect(Petition.open_or_signed_within(from, to)).to_not include(recent_rejected_petition, older_open_petition_signed, older_open_petition_unsigned)
+      end
+    end
   end
 
   it_behaves_like "a taggable model"
