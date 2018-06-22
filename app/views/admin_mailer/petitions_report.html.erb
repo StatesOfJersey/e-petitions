@@ -2,12 +2,12 @@
 
 <table>
   <tr>
-    <th>Petition Action</th>
-    <th>Signature Count</th>
+    <th style="text-align: left;">Petition Action</th>
+    <th style="text-align: right;">Signature Count</th>
   </tr>
   <% @petitions.each do |petition| %>
     <tr>
-      <td>
+      <td style="text-align: left;">
         <%= link_to petition.action, petition_url(petition) %>
       </td>
       <td style="text-align: right;">
