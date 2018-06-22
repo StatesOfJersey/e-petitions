@@ -1,5 +1,3 @@
-require_dependency 'parish/api_query'
-
 class Parish < ActiveRecord::Base
   has_many :signatures
   has_many :petitions, through: :signatures
@@ -12,9 +10,13 @@ class Parish < ActiveRecord::Base
 
   class << self
     def find_by_postcode(postcode)
-      parish_name = ApiQuery.new.fetch(postcode)
+      parish_name = ParishApi.lookup(postcode)
 
-      find_or_create_by!(name: parish_name) if parish_name
+      begin
+        find_or_create_by!(name: parish_name) if parish_name
+      rescue ActiveRecord::RecordNotUnique => e
+        retry
+      end
     end
   end
 

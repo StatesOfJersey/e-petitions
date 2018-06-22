@@ -1519,14 +1519,50 @@ RSpec.describe Signature, type: :model do
         end
       end
 
-      context "and the API raises an error" do
+      context "and the API doesn't respond" do
         let(:postcode) { "JE1 1AA" }
 
         before do
-          stub_request(:post, "http://caf.digimap.je/API2/Service.asmx").with(body: expected_request_xml('JE11AA')).
-            to_return(
-              status: 400
-            )
+          stub_parish_api_for("JE11AA").to_timeout
+        end
+
+        it "returns nil" do
+          expect(Parish).to receive(:find_by_postcode).with("JE11AA").and_call_original
+          expect(parish).to be_nil
+        end
+      end
+
+      context "and the API is blocked" do
+        let(:postcode) { "JE1 1AA" }
+
+        before do
+          stub_parish_api_for("JE11AA").to_return(parish_api_response(:proxy_authentication_required))
+        end
+
+        it "returns nil" do
+          expect(Parish).to receive(:find_by_postcode).with("JE11AA").and_call_original
+          expect(parish).to be_nil
+        end
+      end
+
+      context "and the API is not found" do
+        let(:postcode) { "JE1 1AA" }
+
+        before do
+          stub_parish_api_for("JE11AA").to_return(parish_api_response(:not_found))
+        end
+
+        it "returns nil" do
+          expect(Parish).to receive(:find_by_postcode).with("JE11AA").and_call_original
+          expect(parish).to be_nil
+        end
+      end
+
+      context "and the API returns an error" do
+        let(:postcode) { "JE1 1AA" }
+
+        before do
+          stub_parish_api_for("JE11AA").to_return(parish_api_response(:internal_system_error))
         end
 
         it "returns nil" do

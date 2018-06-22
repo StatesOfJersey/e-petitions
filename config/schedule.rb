@@ -29,6 +29,10 @@ every :day, at: '2.30am' do
   rake "jpets:petitions:count", output: nil
 end
 
+every :day, at: '3.30am' do
+  rake "jpets:postcodes:refresh", output: nil
+end
+
 every :day, at: '7.00am' do
   rake "jpets:petitions:close", output: nil
 end

@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Parish, type: :model do
-  include ParishApiHelper
-
   it "has a valid factory" do
     expect(FactoryBot.build(:parish)).to be_valid
   end
@@ -31,67 +29,56 @@ RSpec.describe Parish, type: :model do
   describe "callbacks" do
     describe "slug" do
       context "when creating a parish" do
-        let!(:parish) { FactoryBot.create(:parish, name: "Coventry North East") }
+        let(:parish) { FactoryBot.create(:parish, name: "St. Saviour") }
 
         it "is generated from the name" do
-          expect(parish.slug).to eq("coventry-north-east")
+          expect(parish.slug).to eq("st-saviour")
         end
       end
 
       context "when updated a parish" do
-        let!(:parish) { FactoryBot.create(:parish, name: "Coventry North East") }
+        let(:parish) { FactoryBot.create(:parish, name: "St. Savior") }
 
         before do
-          parish.update!(name: "Coventry North")
+          parish.update!(name: "St. Saviour")
         end
 
         it "is regenerated from the name" do
-          expect(parish.slug).to eq("coventry-north")
+          expect(parish.slug).to eq("st-saviour")
         end
       end
     end
   end
 
   describe ".find_by_postcode" do
-    before do
-      stub_parish_api_wsdl
-    end
-
     context "when the parish doesn't exist in the database" do
-      before do
-        stub_parish_api_response("JE11AA", File.read("spec/fixtures/parish_api/st_saviour.xml"))
-      end
-
       it "saves the parish to the database" do
-        parish = Parish.find_by_postcode("JE11AA")
-        expect(parish.persisted?).to be_truthy
+        expect {
+          Parish.find_by_postcode("JE11AA")
+        }.to change {
+          Parish.count
+        }.by(1)
       end
     end
 
     context "when the parish already exists in the database" do
       before do
-        stub_parish_api_response("JE11AA", File.read("spec/fixtures/parish_api/st_saviour.xml"))
-      end
-
-      let!(:existing_parish) do
-        FactoryBot.create(:parish, {
-          name: "St. Saviour"
-        })
+        FactoryBot.create(:parish, name: "St. Saviour")
       end
 
       it "returns the existing record" do
-        parish = Parish.find_by_postcode("JE11AA")
-        expect(parish).to eq(existing_parish)
+        expect {
+          Parish.find_by_postcode("JE11AA")
+        }.not_to change {
+          Parish.count
+        }
       end
     end
 
     context "when the API returns no results" do
-      before do
-        stub_parish_api_response("JE19ZZ", File.read("spec/fixtures/parish_api/no_results.xml"))
-      end
+      let(:parish) { Parish.find_by_postcode("JE19ZZ") }
 
       it "returns nil" do
-        parish = Parish.find_by_postcode("JE19ZZ")
         expect(parish).to be_nil
       end
     end
