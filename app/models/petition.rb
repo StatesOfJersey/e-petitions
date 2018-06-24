@@ -183,7 +183,7 @@ class Petition < ActiveRecord::Base
     end
 
     def debated
-      where(debate_state: 'debated')
+      where(debate_state: 'debated').preload(:debate_outcome)
     end
 
     def for_state(state)
@@ -263,7 +263,7 @@ class Petition < ActiveRecord::Base
     end
 
     def with_response
-      where.not(government_response_at: nil)
+      where.not(government_response_at: nil).preload(:government_response)
     end
 
     def trending(since = 1.hour.ago, limit = 3)
