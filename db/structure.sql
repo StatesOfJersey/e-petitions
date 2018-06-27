@@ -390,7 +390,7 @@ ALTER SEQUENCE notes_id_seq OWNED BY notes.id;
 
 
 --
--- Name: parish_petition_journals; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: parish_petition_journals; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE parish_petition_journals (
@@ -423,7 +423,7 @@ ALTER SEQUENCE parish_petition_journals_id_seq OWNED BY parish_petition_journals
 
 
 --
--- Name: parishes; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: parishes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE parishes (
@@ -1005,7 +1005,7 @@ ALTER TABLE ONLY notes
 
 
 --
--- Name: parish_petition_journals_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: parish_petition_journals_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY parish_petition_journals
@@ -1013,7 +1013,7 @@ ALTER TABLE ONLY parish_petition_journals
 
 
 --
--- Name: parishes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: parishes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY parishes
@@ -1113,14 +1113,14 @@ CREATE INDEX ft_index_invalidations_on_summary ON invalidations USING gin (to_ts
 
 
 --
--- Name: idx_constituency_petition_journal_uniqueness; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: idx_constituency_petition_journal_uniqueness; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX idx_constituency_petition_journal_uniqueness ON parish_petition_journals USING btree (petition_id, parish_id);
 
 
 --
--- Name: idx_parish_petition_journal_uniqueness; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: idx_parish_petition_journal_uniqueness; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX idx_parish_petition_journal_uniqueness ON parish_petition_journals USING btree (petition_id, parish_id);
@@ -1239,7 +1239,7 @@ CREATE UNIQUE INDEX index_notes_on_petition_id ON notes USING btree (petition_id
 
 
 --
--- Name: index_parishes_on_slug; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_parishes_on_slug; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_parishes_on_slug ON parishes USING btree (slug);
@@ -1386,7 +1386,7 @@ CREATE INDEX index_signatures_on_name ON signatures USING btree (lower((name)::t
 
 
 --
--- Name: index_signatures_on_parish_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_signatures_on_parish_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_signatures_on_parish_id ON signatures USING btree (parish_id);
@@ -1681,6 +1681,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180525102340'),
 ('20180525102341'),
 ('20180604101626'),
-('20180620094258');
+('20180620094258'),
+('20180621150425');
 
 
