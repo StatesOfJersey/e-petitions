@@ -1,0 +1,19 @@
+<h3>Comments:</h3>
+<%= simple_format(@feedback.comment) %>
+
+<hr>
+
+<p>
+  <strong>Link:</strong><br>
+  <%= @feedback.petition_link_or_title %>
+</p>
+
+<p>
+  <strong>Email:</strong><br>
+  <%= mail_to(@feedback.email) %>
+</p>
+
+<p>
+  <strong>Browser:</strong><br>
+  <%= @feedback.user_agent %>
+</p>
