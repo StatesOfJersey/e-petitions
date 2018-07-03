@@ -18,6 +18,10 @@
   </div>
 <% end %>
 
+<div class="section-panel">
+  <%= link_to 'View all open petitions', petitions_path(state: 'open'), :class => 'view-all' %>
+</div>
+
 <h2>Register to vote</h2>
 <p>To vote in elections, you must be registered to vote.</p>
 <p>It takes less than 5 minutes.</p>
