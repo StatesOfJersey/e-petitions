@@ -4,9 +4,9 @@
 
 <p>Dear <%= @signature.name %>,</p>
 
-<p>The Government has responded to your petition – “<%= link_to @petition.action, petition_url(@petition) %>”.</p>
+<p>Ministers have responded to your petition – “<%= link_to @petition.action, petition_url(@petition) %>”.</p>
 
-<p>Government responded:</p>
+<p>Ministers responded:</p>
 
 <blockquote><%= auto_link(simple_format(h(@government_response.summary))) %></blockquote>
 
@@ -21,6 +21,8 @@
 <% else %>
 <p>This petition has over <%= Site.formatted_threshold_for_debate %> signatures. The Petitions team will consider it for a debate. They can also gather further evidence and press the ministers for action.</p>
 <% end %>
+
+<p>Find out more about the Petitions Team: <%= link_to nil, 'https://beta-statesassembly.gov.je/ABOUT/STATESGREFFE/Pages/default.aspx' %></p>
 
 <p>Thanks,<br />
 <%= t("petitions.emails.signoff_prefix") %><br />
