@@ -128,7 +128,7 @@ class PackageBuilder
   def create_deployments!
     create_deployment!("Workers")
     create_deployment!("Webservers") do
-      # notify_slack
+      notify_slack
     end
   end
 
