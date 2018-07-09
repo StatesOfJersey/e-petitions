@@ -38,7 +38,8 @@ module Jpets
     # Add additional exceptions to the rescue responses
     config.action_dispatch.rescue_responses.merge!(
       'Site::ServiceUnavailable' => :service_unavailable,
-      'BulkVerification::InvalidBulkRequest' => :bad_request
+      'BulkVerification::InvalidBulkRequest' => :bad_request,
+      'Admin::AccessDenied' => :forbidden
     )
 
     config.action_dispatch.default_headers.merge!('X-UA-Compatible' => 'IE=edge')
