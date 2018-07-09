@@ -1,6 +1,5 @@
 default: &defaults
   # Your push api key, it is possible to set this dynamically using ERB:
-  # push_api_key: "<%= ENV['APPSIGNAL_PUSH_API_KEY'] %>"
   push_api_key: "<%= ENV['APPSIGNAL_PUSH_API_KEY'] %>"
 
   # Your app's name
@@ -14,7 +13,7 @@ default: &defaults
     - PingController#ping
 
   # Exceptions that should not be recorded by AppSignal
-  ignore_exceptions:
+  ignore_errors:
     - ActionDispatch::ParamsParser::ParseError
     - ActionController::BadRequest
     - ActionController::InvalidAuthenticityToken
