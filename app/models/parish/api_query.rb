@@ -6,8 +6,11 @@ class Parish < ActiveRecord::Base
        response = client.call(:search, xml: request(postcode))
 
        parse(response)
-     rescue Savon::HTTPError, Savon::SOAPFault, Savon::InvalidResponseError => e
-       Appsignal.send_exception(e)
+    rescue Savon::HTTPError,
+           Savon::SOAPFault,
+           Savon::InvalidResponseError,
+           Errno::EHOSTUNREACH => e
+             Appsignal.send_exception(e)
     end
 
     def self.before_remove_const

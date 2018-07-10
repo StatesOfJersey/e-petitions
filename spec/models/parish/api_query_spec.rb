@@ -9,6 +9,22 @@ RSpec.describe Parish::ApiQuery do
     end
 
     context "when the request is unsuccessful" do
+      context "when host is unreachable" do
+       before do
+         stub_request(:post, "http://caf.digimap.je/API2/Service.asmx").to_raise(Errno::EHOSTUNREACH)
+       end
+
+        it "returns nil" do
+          expect(subject.fetch("JE11AA")).to eq nil
+        end
+
+        it "notifies the monitoring service" do
+          expect(Appsignal).to receive(:send_exception)
+
+          subject.fetch("JE11AA")
+        end
+      end
+
       context "when the API key is invalid" do
        before do
          stub_parish_api_response("JE11AA", File.read("spec/fixtures/parish_api/invalid_key.xml"))
