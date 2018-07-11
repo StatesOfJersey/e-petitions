@@ -1,41 +1,23 @@
 {
   "ignored_warnings": [
     {
-      "warning_type": "Cross-Site Scripting",
-      "warning_code": 4,
-      "fingerprint": "07b7188ce44b7041f5729077eea749b2def4b8e62736ba248267e3c96c1ca927",
-      "check_name": "LinkToHref",
-      "message": "Potentially unsafe model attribute in link_to href",
-      "file": "app/views/local_petitions/all.html.erb",
-      "line": 11,
-      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
-      "code": "link_to(Constituency.find_by_slug!(params[:id]).mp_name, Constituency.find_by_slug!(params[:id]).mp_url, :rel => \"external\")",
-      "render_path": [{"type":"controller","class":"LocalPetitionsController","method":"all","line":30,"file":"app/controllers/local_petitions_controller.rb"}],
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "c08716735fe116d64f7e4231c3456d642938ee6898daea62601c783fbfc8e937",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "lib/package_builder.rb",
+      "line": 25,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "`git rev-parse #{treeish}`",
+      "render_path": null,
       "location": {
-        "type": "template",
-        "template": "local_petitions/all"
+        "type": "method",
+        "class": "PackageBuilder",
+        "method": "initialize"
       },
-      "user_input": "Constituency.find_by_slug!(params[:id]).mp_url",
-      "confidence": "Weak",
-      "note": ""
-    },
-    {
-      "warning_type": "Cross-Site Scripting",
-      "warning_code": 4,
-      "fingerprint": "22e002a1359fd28418d81e2cadeb49195a5597840a43d97787ac79a868acb51f",
-      "check_name": "LinkToHref",
-      "message": "Potentially unsafe model attribute in link_to href",
-      "file": "app/views/local_petitions/show.html.erb",
-      "line": 11,
-      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
-      "code": "link_to(Constituency.find_by_slug!(params[:id]).mp_name, Constituency.find_by_slug!(params[:id]).mp_url, :rel => \"external\")",
-      "render_path": [{"type":"controller","class":"LocalPetitionsController","method":"show","line":22,"file":"app/controllers/local_petitions_controller.rb"}],
-      "location": {
-        "type": "template",
-        "template": "local_petitions/show"
-      },
-      "user_input": "Constituency.find_by_slug!(params[:id]).mp_url",
-      "confidence": "Weak",
+      "user_input": "treeish",
+      "confidence": "Medium",
       "note": ""
     },
     {
@@ -59,6 +41,6 @@
       "note": ""
     }
   ],
-  "updated": "2018-05-24 09:06:46 +0100",
-  "brakeman_version": "4.2.1"
+  "updated": "2018-07-11 11:51:34 +0100",
+  "brakeman_version": "4.3.1"
 }

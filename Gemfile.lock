@@ -68,7 +68,7 @@ GEM
       aws-sigv4 (~> 1.0)
     aws-sigv4 (1.0.2)
     bcrypt (3.1.11)
-    brakeman (4.2.1)
+    brakeman (4.3.1)
     builder (3.2.3)
     bundler-audit (0.6.0)
       bundler (~> 1.2)
