@@ -4,8 +4,12 @@
 <hr>
 
 <p>
-  <strong>Link:</strong><br>
-  <%= @feedback.petition_link_or_title %>
+  <strong>Link or title:</strong><br>
+  <% if @feedback.petition_link? %>
+    <%= link_to nil, @feedback.petition_link_or_title %>
+  <% else %>
+    <%= @feedback.petition_link_or_title %>
+  <% end %>
 </p>
 
 <p>
