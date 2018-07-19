@@ -42,49 +42,46 @@ When(/^I search for petitions local to me in "(.*?)"$/) do |postcode|
   @my_parish = @parishes.fetch(postcode)
 
   if @parish_api_down
-    stub_any_api_request.to_return(status: 500)
+    stub_any_parish_api_request.to_return(status: 500)
   else
-    sanitized_postcode = PostcodeSanitizer.call(postcode)
-
-    response_body =
-    <<~XML
-      <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-        <soap:Body>
-          <SearchResponse xmlns="http://www.digimap.gg/CAF/2.0">
-            <SearchResult>
-              <ResultCount>2</ResultCount>
-              <AddressList>
-                <Address>
-                  <CAFID>7026</CAFID>
-                  <Active>true</Active>
-                  <DeliveryPointID>69314112</DeliveryPointID>
-                  <USRN>40001873</USRN>
-                  <Timestamp>2008-10-30T00:00:00</Timestamp>
-                  <Business/>
-                  <POBox/>
-                  <SubElementDesc></SubElementDesc>
-                  <BuildingName></BuildingName>
-                  <LocationOnStreet/>
-                  <NameOfTerrace/>
-                  <RoadName></RoadName>
-                  <ParentRoadName/>
-                  <Locality/>
-                  <Parish>#{@my_parish.name}</Parish>
-                  <Island>Jersey</Island>
-                  <PostCode>#{postcode}</PostCode>
-                  <Lon></Lon>
-                  <Lat></Lat>
-                  <X></X>
-                  <Y></Y>
-                </Address>
-              </AddressList>
-            </SearchResult>
-          </SearchResponse>
-        </soap:Body>
-      </soap:Envelope>
-    XML
-
-    stub_parish_api_response(sanitized_postcode, response_body)
+    stub_parish_api_for(PostcodeSanitizer.call(postcode)).to_return(parish_api_response(:ok){
+      <<~XML
+        <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+          <soap:Body>
+            <SearchResponse xmlns="http://www.digimap.gg/CAF/2.0">
+              <SearchResult>
+                <ResultCount>2</ResultCount>
+                <AddressList>
+                  <Address>
+                    <CAFID>7026</CAFID>
+                    <Active>true</Active>
+                    <DeliveryPointID>69314112</DeliveryPointID>
+                    <USRN>40001873</USRN>
+                    <Timestamp>2008-10-30T00:00:00</Timestamp>
+                    <Business/>
+                    <POBox/>
+                    <SubElementDesc></SubElementDesc>
+                    <BuildingName></BuildingName>
+                    <LocationOnStreet/>
+                    <NameOfTerrace/>
+                    <RoadName></RoadName>
+                    <ParentRoadName/>
+                    <Locality/>
+                    <Parish>#{@my_parish.name}</Parish>
+                    <Island>Jersey</Island>
+                    <PostCode>#{postcode}</PostCode>
+                    <Lon></Lon>
+                    <Lat></Lat>
+                    <X></X>
+                    <Y></Y>
+                  </Address>
+                </AddressList>
+              </SearchResult>
+            </SearchResponse>
+          </soap:Body>
+        </soap:Envelope>
+      XML
+    })
   end
 
   within :css, '.local-to-you' do

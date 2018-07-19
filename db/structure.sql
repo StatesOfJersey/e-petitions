@@ -542,6 +542,18 @@ ALTER SEQUENCE petitions_id_seq OWNED BY petitions.id;
 
 
 --
+-- Name: postcodes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE postcodes (
+    postcode character varying(10) NOT NULL,
+    parish character varying(30) NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    expires_at timestamp without time zone
+);
+
+
+--
 -- Name: rate_limits; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1034,6 +1046,14 @@ ALTER TABLE ONLY petition_emails
 
 ALTER TABLE ONLY petitions
     ADD CONSTRAINT petitions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: postcodes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY postcodes
+    ADD CONSTRAINT postcodes_pkey PRIMARY KEY (postcode);
 
 
 --
@@ -1682,6 +1702,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180525102341'),
 ('20180604101626'),
 ('20180620094258'),
-('20180621150425');
+('20180621150426');
 
 
