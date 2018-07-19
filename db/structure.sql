@@ -254,7 +254,8 @@ CREATE TABLE government_responses (
     summary character varying(500) NOT NULL,
     details text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    responded_on date
 );
 
 
@@ -1702,6 +1703,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180525102341'),
 ('20180604101626'),
 ('20180620094258'),
-('20180621150426');
+('20180621150426'),
+('20180623131406');
 
 

@@ -331,6 +331,7 @@ FactoryBot.define do
 
   factory :government_response do
     association :petition, factory: :awaiting_petition
+    responded_on { 1.day.ago.to_date }
     details "Government Response Details"
     summary "Government Response Summary"
   end
