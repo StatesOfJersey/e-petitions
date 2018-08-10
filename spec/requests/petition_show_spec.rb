@@ -200,5 +200,20 @@ RSpec.describe "API request to show a petition", type: :request, show_exceptions
         )
       )
     end
+
+    it "doesn't include the signatures by parish data in rejected petitions" do
+      petition = FactoryBot.create :rejected_petition
+
+      FactoryBot.create :parish, :st_saviour, id: 1
+      FactoryBot.create :parish, :st_clement, id: 2
+
+      FactoryBot.create :parish_petition_journal, parish_id: 1, signature_count: 123, petition: petition
+      FactoryBot.create :parish_petition_journal, parish_id: 2, signature_count: 456, petition: petition
+
+      get "/petitions/#{petition.id}.json"
+      expect(response).to be_success
+
+      expect(attributes.keys).not_to include("signatures_by_parish")
+    end
   end
 end

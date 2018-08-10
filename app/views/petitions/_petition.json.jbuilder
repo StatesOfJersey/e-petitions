@@ -63,7 +63,7 @@ json.attributes do
     json.debate nil
   end
 
-  if petition_page?
+  if petition_page? && petition.published?
     json.signatures_by_parish petition.signatures_by_parish do |parish|
       json.name parish.name
       json.signature_count parish.signature_count
