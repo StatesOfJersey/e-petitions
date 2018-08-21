@@ -67,6 +67,8 @@ en-GB:
       petition_email_deleted: "Deleted other parliamentary business successfully"
       petition_email_not_deleted: "Unable to delete other parliamentary business - please contact support"
       petition_not_found: "Cannot find petition with id: %{query}"
+      petition_taken_down: "The petition has been taken down"
+      petition_taken_down_with_notifications: "The petition has been taken down and the creator & sponsors have been notified"
       petition_updated: "Petition has been successfully updated"
       preview_email_sent: "Preview email successfully sent"
       rate_limits_updated: "Rate limits updated successfully"

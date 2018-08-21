@@ -114,7 +114,7 @@ RSpec.describe Admin::TakeDownController, type: :controller, admin: true do
       let!(:pending_sponsor) { FactoryBot.create(:sponsor, :pending, petition: petition, email: "sandyfisher@hotmail.com") }
 
       def do_patch(overrides = {})
-        params = { petition_id: petition.id, petition: take_down_attributes }
+        params = { petition_id: petition.id, petition: take_down_attributes, save_and_email: "Save and email creator & sponsors" }
         patch :update, params: params.merge(overrides)
       end
 
@@ -138,6 +138,10 @@ RSpec.describe Admin::TakeDownController, type: :controller, admin: true do
 
           it 'redirects to the admin show page for the petition' do
             expect(response).to redirect_to("https://moderate.petitions.gov.je/admin/petitions/#{petition.id}")
+          end
+
+          it 'tells the moderator that the creator and sponsor were emailed' do
+            expect(flash[:notice]).to eq "The petition has been taken down and the creator & sponsors have been notified"
           end
 
           it "sends an email to the petition creator" do
@@ -179,6 +183,10 @@ RSpec.describe Admin::TakeDownController, type: :controller, admin: true do
 
           it 'redirects to the admin show page for the petition' do
             expect(response).to redirect_to("https://moderate.petitions.gov.je/admin/petitions/#{petition.id}")
+          end
+
+          it 'tells the moderator that the creator and sponsor were emailed' do
+            expect(flash[:notice]).to eq "The petition has been taken down and the creator & sponsors have been notified"
           end
 
           it "sends an email to the petition creator" do
