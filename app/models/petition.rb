@@ -335,12 +335,23 @@ class Petition < ActiveRecord::Base
       untagged.in_moderation
     end
 
-    def open_or_signed_within(from, to)
-      open_state.where(open_at: from..to).or(
-        where(last_signed_at: from..to)).by_most_recent
+    def open_or_signed_since(time)
+      open_state.where(open_at_or_last_signed_at_since(time)).by_most_recent
     end
 
     private
+
+    def open_at
+      arel_table[:open_at]
+    end
+
+    def last_signed_at
+      arel_table[:last_signed_at]
+    end
+
+    def open_at_or_last_signed_at_since(time)
+      open_at.gteq(time).or(last_signed_at.gteq(time))
+    end
 
     def moderation_threshold_reached_at
       arel_table[:moderation_threshold_reached_at]

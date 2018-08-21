@@ -1,13 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe AdminMailer, '#petitions_report', type: :mailer do
-  let!(:recent_open_petition_1) { FactoryBot.create :open_petition, action: 'Plant more trees', signature_count: 1, last_signed_at: Time.current.beginning_of_day - 1.minute }
-  let!(:recent_open_petition_2) { FactoryBot.create :open_petition, action: 'Plant more flowers', signature_count: 2, last_signed_at: Time.current.beginning_of_day - 1.week + 1.minute }
-  let!(:recent_open_petition_3) { FactoryBot.create :open_petition, open_at: Time.current.beginning_of_day - 1.week + 1.minute, action: 'Plant more hedges', last_signed_at: nil }
+  let(:now) { Time.current }
+
+  let!(:recent_open_petition_1) { FactoryBot.create :open_petition, action: 'Plant more trees', signature_count: 1, last_signed_at: now.beginning_of_day - 1.minute }
+  let!(:recent_open_petition_2) { FactoryBot.create :open_petition, action: 'Plant more flowers', signature_count: 2, last_signed_at: now.beginning_of_day - 1.week + 1.minute }
+  let!(:recent_open_petition_3) { FactoryBot.create :open_petition, open_at: now.beginning_of_day - 1.week + 1.minute, action: 'Plant more hedges', last_signed_at: nil }
 
   let!(:recent_rejected_petition) { FactoryBot.create :rejected_petition, action: 'Plant more cabbages' }
-  let!(:older_open_petition_signed) { FactoryBot.create :open_petition, action: 'Plant more mushrooms', open_at: (Time.current.beginning_of_day - 1.week) - 1.minute, last_signed_at: (Time.current.beginning_of_day - 1.week) - 1.minute }
-  let!(:older_open_petition_unsigned) { FactoryBot.create :open_petition, action: 'Plant more wheat', open_at: (Time.current.beginning_of_day - 1.week) - 1.minute, last_signed_at: nil }
+  let!(:older_open_petition_signed) { FactoryBot.create :open_petition, action: 'Plant more mushrooms', open_at: (now.beginning_of_day - 1.week) - 1.minute, last_signed_at: (now.beginning_of_day - 1.week) - 1.minute }
+  let!(:older_open_petition_unsigned) { FactoryBot.create :open_petition, action: 'Plant more wheat', open_at: (now.beginning_of_day - 1.week) - 1.minute, last_signed_at: nil }
 
   let(:mail) { AdminMailer.petitions_report }
 
