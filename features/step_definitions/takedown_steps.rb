@@ -1,7 +1,7 @@
 When(/^I take down the petition with a reason code "([^"]*)"$/) do |reason_code|
   click_on 'Take this petition down'
   select reason_code, :from => :petition_rejection_code
-  click_button "Email petition creator"
+  click_button "Save and email creator & sponsors"
 end
 
 Then(/^I should not be able to take down the petition$/) do

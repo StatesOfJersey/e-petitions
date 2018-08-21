@@ -7,8 +7,14 @@ class Admin::TakeDownController < Admin::AdminController
 
   def update
     if @petition.reject(rejection_params[:rejection])
-      send_notifications
-      redirect_to [:admin, @petition]
+      if send_email_to_creator_and_sponsors?
+        send_notifications
+        message = :petition_taken_down_with_notifications
+      else
+        message = :petition_taken_down
+      end
+
+      redirect_to [:admin, @petition], notice: message
     else
       render 'admin/petitions/show'
     end
@@ -22,6 +28,10 @@ class Admin::TakeDownController < Admin::AdminController
 
   def rejection_params
     params.require(:petition).permit(rejection: [:code, :details])
+  end
+
+  def send_email_to_creator_and_sponsors?
+    params.key?(:save_and_email)
   end
 
   def send_notifications
