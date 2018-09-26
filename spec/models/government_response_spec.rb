@@ -28,7 +28,7 @@ RSpec.describe GovernmentResponse, type: :model do
     it { is_expected.to validate_presence_of(:petition) }
     it { is_expected.to validate_presence_of(:summary) }
     it { is_expected.to validate_length_of(:summary).is_at_most(200) }
-    it { is_expected.to validate_length_of(:details).is_at_most(6000) }
+    it { is_expected.to validate_length_of(:details).is_at_most(10000) }
   end
 
   describe "callbacks" do

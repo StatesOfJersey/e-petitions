@@ -3,7 +3,7 @@ class GovernmentResponse < ActiveRecord::Base
 
   validates :petition, presence: true
   validates :summary, presence: true, length: { maximum: 200 }
-  validates :details, length: { maximum: 6000 }, allow_blank: true
+  validates :details, length: { maximum: 10000 }, allow_blank: true
   validates :responded_on, presence: true
 
   after_create do

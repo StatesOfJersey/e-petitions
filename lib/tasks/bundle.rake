@@ -1,6 +1,8 @@
 namespace :bundle do
   desc "Audit bundle for any known vulnerabilities"
   task :audit do
-    system "bundle-audit check --update"
+    unless system "bundle-audit check --update"
+      exit 1
+    end
   end
 end
