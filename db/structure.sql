@@ -667,7 +667,8 @@ CREATE TABLE public.signatures (
     uuid uuid,
     email_count integer DEFAULT 0 NOT NULL,
     sponsor boolean DEFAULT false NOT NULL,
-    creator boolean DEFAULT false NOT NULL
+    creator boolean DEFAULT false NOT NULL,
+    signed_token character varying
 );
 
 
@@ -1705,6 +1706,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180604101626'),
 ('20180620094258'),
 ('20180621150426'),
-('20180623131406');
+('20180623131406'),
+('20181202102751');
 
 
