@@ -1222,6 +1222,16 @@ RSpec.describe Signature, type: :model do
         expect{ signature.validate! }.to change{ petition.reload.signature_count }.by(0)
       end
 
+      it "generates a signed_token if it's missing" do
+        signature.update_column(:signed_token, nil)
+
+        expect {
+          signature.validate!
+        }.to change {
+          signature.reload[:signed_token]
+        }.from(nil).to(be_present)
+      end
+
       it 'tells the relevant parish petition journal to record a new signature' do
         expect(ParishPetitionJournal).to receive(:record_new_signature_for).with(signature)
         signature.validate!
@@ -1593,6 +1603,38 @@ RSpec.describe Signature, type: :model do
         expect(Parish).not_to receive(:find_by_postcode)
         expect(Parish).to receive(:find).with("1").and_call_original
         expect(parish.name).to eq("St. Saviour")
+      end
+    end
+  end
+
+  describe "#signed_token" do
+    let(:signature) { FactoryBot.create(:validated_signature) }
+
+    context "when the underlying column is nil" do
+      before do
+        signature.update_column(:signed_token, nil)
+      end
+
+      it "generates and saves a new token" do
+        expect {
+          signature.signed_token
+        }.to change {
+          signature.reload[:signed_token]
+        }.from(nil).to(be_present)
+      end
+    end
+
+    context "when another process has updated the column" do
+      let(:token) { Authlogic::Random.friendly_token }
+
+      before do
+        signature.update_column(:signed_token, nil)
+      end
+
+      it "returns the token from the database" do
+        expect(signature).to receive(:signed_token?).and_return(true)
+        expect(signature).to receive(:read_attribute).with(:signed_token).and_return(token)
+        expect(signature.signed_token).to eq(token)
       end
     end
   end
