@@ -31,6 +31,7 @@ class Signature < ActiveRecord::Base
   validates :name, presence: true, length: { maximum: 255 }
   validates :email, presence: true, email: { allow_blank: true }, on: :create
   validates :postcode, presence: true, postcode: true
+  validates :postcode, length: { maximum: 255 }, allow_blank: true
   validates :jersey_resident, acceptance: true, unless: :persisted?, allow_nil: false
   validates :parish_id, length: { maximum: 255 }
 

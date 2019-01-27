@@ -171,6 +171,7 @@ class PetitionCreator
     end
 
     errors.add(:postcode, :blank) unless postcode.present?
+    errors.add(:postcode, :too_long, count: 255) if postcode.length > 255
 
     if postcode.present?
       postcode_validator.validate(self)

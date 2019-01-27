@@ -254,18 +254,26 @@ RSpec.describe Signature, type: :model do
         s = FactoryBot.build(:signature, :postcode => 'JE11AA')
         expect(s).to have_valid(:postcode)
       end
+
       it "recognises special postcodes" do
         expect(FactoryBot.build(:signature, :postcode => 'JE5 2BB')).to have_valid(:postcode)
         expect(FactoryBot.build(:signature, :postcode => 'JE2 5BW')).to have_valid(:postcode)
       end
+
       it "does not allow prefix of postcode only" do
         s = FactoryBot.build(:signature, :postcode => 'JE1')
         expect(s).not_to have_valid(:postcode)
       end
+
       it "does not allow unrecognised postcodes" do
         expect(FactoryBot.build(:signature, :postcode => '90210')).not_to have_valid(:postcode)
         expect(FactoryBot.build(:signature, :postcode => 'JE9 1AA')).not_to have_valid(:postcode)
         expect(FactoryBot.build(:signature, :postcode => 'JE1 123')).not_to have_valid(:postcode)
+      end
+
+      it "does not allow postcodes longer than 255 characters" do
+        s = FactoryBot.build(:signature, :postcode => "1" * 256)
+        expect(s).not_to have_valid(:postcode)
       end
     end
 
