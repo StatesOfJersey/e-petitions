@@ -5,6 +5,7 @@ class Signature < ActiveRecord::Base
   include PerishableTokenGenerator
 
   has_perishable_token
+  has_perishable_token called: 'signed_token'
   has_perishable_token called: 'unsubscribe_token'
 
   PENDING_STATE = 'pending'
@@ -31,6 +32,7 @@ class Signature < ActiveRecord::Base
   validates :name, presence: true, length: { maximum: 255 }
   validates :email, presence: true, email: { allow_blank: true }, on: :create
   validates :postcode, presence: true, postcode: true
+  validates :postcode, length: { maximum: 255 }, allow_blank: true
   validates :jersey_resident, acceptance: true, unless: :persisted?, allow_nil: false
   validates :parish_id, length: { maximum: 255 }
 
@@ -359,6 +361,10 @@ class Signature < ActiveRecord::Base
           attributes[:parish_id] = new_parish_id
         end
 
+        unless signed_token?
+          attributes[:signed_token] = Authlogic::Random.friendly_token
+        end
+
         update_columns(attributes)
       end
     end
@@ -431,6 +437,10 @@ class Signature < ActiveRecord::Base
     end
   end
 
+  def signed_token
+    super || generate_and_save_signed_token
+  end
+
   def get_email_sent_at_for(timestamp)
     self[column_name_for(timestamp)]
   end
@@ -466,6 +476,20 @@ class Signature < ActiveRecord::Base
 
   def generate_uuid
     Digest::UUID.uuid_v5(Digest::UUID::URL_NAMESPACE, "mailto:#{email}")
+  end
+
+  def generate_and_save_signed_token
+    token = Authlogic::Random.friendly_token
+
+    retry_lock do
+      if signed_token?
+        token = read_attribute(:signed_token)
+      else
+        update_column(:signed_token, token)
+      end
+    end
+
+    token
   end
 
   def column_name_for(timestamp)
