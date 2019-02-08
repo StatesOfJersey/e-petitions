@@ -1,6 +1,6 @@
 class SignaturesController < ApplicationController
-  before_action :respond_with_forbidden_if_ip_blocked, only: [:new, :confirm, :create, :thank_you, :verify, :signed]
   before_action :retrieve_petition, only: [:new, :confirm, :create, :thank_you]
+  before_action :respond_with_forbidden_if_ip_blocked, only: [:new, :confirm, :create, :thank_you, :verify, :signed]
   before_action :retrieve_signature, only: [:verify, :unsubscribe, :signed]
   before_action :verify_token, only: [:verify]
   before_action :verify_signed_token, only: [:signed]

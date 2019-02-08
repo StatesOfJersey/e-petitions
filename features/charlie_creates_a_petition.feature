@@ -54,6 +54,11 @@ Scenario: Charlie creates a petition with invalid postcode SW14 9RQ
   And I press "Continue"
   Then I should not see the text "Your parish is"
 
+Scenario: Charlie cannot create a petition if his IP is blocked
+  Given my IP address is blocked
+  When I start a new petition
+  Then I should see "We've detected that your IP address is from outside Jersey"
+
 @javascript
 Scenario: Charlie tries to submit an invalid petition
   Given I am on the new petition page

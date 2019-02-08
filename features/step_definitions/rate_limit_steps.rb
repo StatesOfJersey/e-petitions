@@ -10,6 +10,10 @@ Given(/^the domain "(.*?)" is allowed$/) do |domain|
   RateLimit.first_or_create!.update!(allowed_domains: domain)
 end
 
+Given(/^my IP address is blocked$/) do
+  RateLimit.first_or_create!.update!(allowed_ips: "", blocked_ips: "127.0.0.1")
+end
+
 Given(/^there is a signature already from this IP address$/) do
   steps %Q(
     When I go to the new signature page for "Do something!"

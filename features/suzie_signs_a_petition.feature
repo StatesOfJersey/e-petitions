@@ -54,6 +54,11 @@ Feature: Suzie signs a petition
     And I try to sign
     Then I should see an error
 
+  Scenario: Suzie cannot sign if her IP is blocked
+    Given my IP address is blocked
+    When I decide to sign the petition
+    Then I should see "We've detected that your IP address is from outside Jersey"
+
   Scenario: Suzie receives a duplicate signature email if she tries to sign but she has already signed and validated
     When I have already signed the petition with an uppercase email
     And I decide to sign the petition
