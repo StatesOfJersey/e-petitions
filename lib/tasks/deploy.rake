@@ -17,4 +17,4 @@ namespace :deploy do
   end
 end
 
-task deploy: 'deploy:staging'
+task deploy: 'deploy:preview'

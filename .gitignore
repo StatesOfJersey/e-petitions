@@ -31,5 +31,8 @@
 # Dotenv 2.0 uses a .env.local for local overrides
 .env.local
 
+# Ignore any environment specific deployment configs
+.deploy.*
+
 # Add back any keep files that might have been excluded by the above
 !.keep
