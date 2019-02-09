@@ -12,7 +12,7 @@ Before do
 end
 
 Before do
-  RateLimit.create!(
+  RateLimit.first_or_create!(
     burst_rate: 10, burst_period: 60,
     sustained_rate: 20, sustained_period: 300,
     allowed_domains: "example.com", allowed_ips: "127.0.0.1"
@@ -21,6 +21,8 @@ end
 
 After do
   Site.reload
+  RateLimit.first.update(allowed_ips: "127.0.0.1", blocked_ips: "")
+  page.driver.options[:headers] = { "REMOTE_ADDR" => "127.0.0.1" }
 end
 
 Before('@admin') do
