@@ -9,20 +9,6 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
---
 -- Name: intarray; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -433,7 +419,8 @@ CREATE TABLE public.parishes (
     name character varying(100) NOT NULL,
     slug character varying(100) NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    example_postcode character varying(10)
 );
 
 
@@ -520,7 +507,8 @@ CREATE TABLE public.petitions (
     tags integer[] DEFAULT '{}'::integer[] NOT NULL,
     locked_at timestamp without time zone,
     locked_by_id integer,
-    moderation_lag integer
+    moderation_lag integer,
+    anonymized_at timestamp without time zone
 );
 
 
@@ -668,7 +656,8 @@ CREATE TABLE public.signatures (
     email_count integer DEFAULT 0 NOT NULL,
     sponsor boolean DEFAULT false NOT NULL,
     creator boolean DEFAULT false NOT NULL,
-    signed_token character varying
+    signed_token character varying,
+    anonymized_at timestamp without time zone
 );
 
 
@@ -1262,6 +1251,13 @@ CREATE UNIQUE INDEX index_notes_on_petition_id ON public.notes USING btree (peti
 
 
 --
+-- Name: index_parishes_on_example_postcode; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_parishes_on_example_postcode ON public.parishes USING btree (example_postcode);
+
+
+--
 -- Name: index_parishes_on_slug; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1287,6 +1283,13 @@ CREATE INDEX index_petitions_on_action ON public.petitions USING gin (to_tsvecto
 --
 
 CREATE INDEX index_petitions_on_additional_details ON public.petitions USING gin (to_tsvector('english'::regconfig, additional_details));
+
+
+--
+-- Name: index_petitions_on_anonymized_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_petitions_on_anonymized_at ON public.petitions USING btree (anonymized_at);
 
 
 --
@@ -1364,6 +1367,13 @@ CREATE INDEX index_petitions_on_tags ON public.petitions USING gin (tags public.
 --
 
 CREATE UNIQUE INDEX index_rejections_on_petition_id ON public.rejections USING btree (petition_id);
+
+
+--
+-- Name: index_signatures_on_anonymized_at_and_petition_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_signatures_on_anonymized_at_and_petition_id ON public.signatures USING btree (anonymized_at, petition_id);
 
 
 --
@@ -1707,6 +1717,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180620094258'),
 ('20180621150426'),
 ('20180623131406'),
-('20181202102751');
+('20181202102751'),
+('20190303093156'),
+('20190303094325'),
+('20190303114938');
 
 

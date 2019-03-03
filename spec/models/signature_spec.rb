@@ -1013,6 +1013,28 @@ RSpec.describe Signature, type: :model do
     end
   end
 
+  describe ".not_anonymized" do
+    subject do
+      described_class.not_anonymized
+    end
+
+    context "when there are no signatures not anonymized" do
+      let!(:signature) { FactoryBot.create(:signature, anonymized_at: 1.week.ago) }
+
+      it "returns an empty array" do
+        expect(subject.to_a).to eq([])
+      end
+    end
+
+    context "when there are signatures not anonymized" do
+      let!(:signature) { FactoryBot.create(:signature, anonymized_at: nil) }
+
+      it "returns an array of signatures" do
+        expect(subject.to_a).to eq([signature])
+      end
+    end
+  end
+
   describe "#number" do
     let(:attributes) { FactoryBot.attributes_for(:petition) }
     let(:creator) { FactoryBot.create(:pending_signature, creator: true) }
@@ -1379,6 +1401,91 @@ RSpec.describe Signature, type: :model do
         }.to change {
           petition.creator.errors[:name]
         }.from([]).to(["Bob has already signed this petition using aliceandbob@example.com"])
+      end
+    end
+  end
+
+  describe "#anonymized?" do
+    context "when anonymized_at is nil" do
+      let(:signature) { FactoryBot.build(:signature, anonymized_at: nil) }
+
+      it "return false" do
+        expect(signature.anonymized?).to eq(false)
+      end
+    end
+
+    context "when anonymized_at is not nil" do
+      let(:signature) { FactoryBot.build(:signature, anonymized_at: 1.week.ago) }
+
+      it "return true" do
+        expect(signature.anonymized?).to eq(true)
+      end
+    end
+  end
+
+  describe "#anonymize!" do
+    let!(:timestamp) { Time.current.beginning_of_day }
+
+    it "anonymizes the name" do
+      signature = FactoryBot.create(:signature, name: "Jo Public")
+
+      expect {
+        signature.anonymize!(timestamp)
+      }.to change {
+        signature.reload.name
+      }.from("Jo Public").to("Signature #{signature.id}")
+    end
+
+    it "anonymizes the email" do
+      signature = FactoryBot.create(:signature, email: "jo.public@gmail.com")
+
+      expect {
+        signature.anonymize!(timestamp)
+      }.to change {
+        signature.reload.email
+      }.from("jo.public@gmail.com").to("signature-#{signature.id}@example.com")
+    end
+
+    it "anonymizes the ip address" do
+      signature = FactoryBot.create(:signature, ip_address: "12.34.56.78")
+
+      expect {
+        signature.anonymize!(timestamp)
+      }.to change {
+        signature.reload.ip_address
+      }.from("12.34.56.78").to("192.168.1.1")
+    end
+
+    it "sets the anonymized_at timestamp" do
+      signature = FactoryBot.create(:signature)
+
+      expect {
+        signature.anonymize!(timestamp)
+      }.to change {
+        signature.reload.anonymized_at
+      }.from(nil).to(timestamp)
+    end
+
+    it "anonymizes the postcode" do
+      parish = FactoryBot.create(:parish, id: 1234, example_postcode: "JE19ZZ")
+      signature = FactoryBot.create(:signature, postcode: "JE11AA", parish_id: "1234")
+
+      expect {
+        signature.anonymize!(timestamp)
+      }.to change {
+        signature.reload.postcode
+      }.from("JE11AA").to("JE19ZZ")
+    end
+
+    context "when the parish is missing" do
+      it "sets the postcode to the States Greffe postcode" do
+        signature = FactoryBot.create(:signature, postcode: "JE19ZZ", parish_id: nil)
+
+        expect {
+          signature.anonymize!(timestamp)
+        }.to change {
+          signature.reload.postcode
+        }.from("JE19ZZ").to("JE11DD")
       end
     end
   end

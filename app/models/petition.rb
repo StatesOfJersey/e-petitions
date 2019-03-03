@@ -277,6 +277,16 @@ class Petition < ActiveRecord::Base
       limit(limit)
     end
 
+    def anonymize_petitions!(time = Time.current)
+      in_need_of_anonymizing(time).find_each do |petition|
+        petition.anonymize!
+      end
+    end
+
+    def in_need_of_anonymizing(time = Time.current)
+      where(state: CLOSED_STATE, anonymized_at: nil).where(arel_table[:closed_at].lt(6.months.ago(time)))
+    end
+
     def close_petitions!(time = Time.current)
       in_need_of_closing(time).find_each do |petition|
         petition.close!
@@ -550,6 +560,10 @@ class Petition < ActiveRecord::Base
     end
   end
 
+  def anonymize!(time = Time.current)
+    AnonymizePetitionJob.perform_later(self, time.iso8601)
+  end
+
   def validate_creator!
     if pending?
       creator && creator.validate! && reload
@@ -607,6 +621,10 @@ class Petition < ActiveRecord::Base
 
   def visible?
     state.in?(VISIBLE_STATES)
+  end
+
+  def anonymized?
+    anonymized_at?
   end
 
   def closed_for_signing?(now = Time.current)

@@ -8,6 +8,7 @@ RSpec.describe Parish, type: :model do
   describe "schema" do
     it { is_expected.to have_db_column(:name).of_type(:string).with_options(null: false, limit: 100) }
     it { is_expected.to have_db_column(:slug).of_type(:string).with_options(null: false, limit: 100) }
+    it { is_expected.to have_db_column(:example_postcode).of_type(:string).with_options(null: true, limit: 10) }
   end
 
   describe "associations" do
