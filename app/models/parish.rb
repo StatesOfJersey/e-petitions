@@ -1,4 +1,19 @@
 class Parish < ActiveRecord::Base
+  EXAMPLE_POSTCODES = {
+    "Grouville"    => "JE39GA",
+    "St. Brelade"  => "JE38BS",
+    "St. Clement"  => "JE26FP",
+    "St. Helier"   => "JE23NN",
+    "St. John"     => "JE34EJ",
+    "St. Lawrence" => "JE31NG",
+    "St. Martin"   => "JE36HW",
+    "St. Mary"     => "JE33AS",
+    "St. Ouen"     => "JE32HY",
+    "St. Peter"    => "JE37AH",
+    "St. Saviour"  => "JE27LF",
+    "Trinity"      => "JE35JB"
+  }
+
   has_many :signatures
   has_many :petitions, through: :signatures
 
@@ -6,6 +21,7 @@ class Parish < ActiveRecord::Base
 
   before_validation if: :name_changed? do
     self.slug = name.parameterize
+    self.example_postcode ||= EXAMPLE_POSTCODES[name]
   end
 
   class << self

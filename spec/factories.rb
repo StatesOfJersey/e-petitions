@@ -289,19 +289,20 @@ FactoryBot.define do
     end
   end
 
-  sequence(:mp_id) { |n| (4321 + n).to_s }
-  sequence(:ons_code) { |n| '%08d' % n }
   sequence(:parish_id) { |n| (1234 + n).to_s }
 
   factory :parish do
     name { Faker::Address.county }
+    example_postcode { Faker::Address.postcode.tr(' ', '') }
 
     trait :st_saviour do
       name 'St. Saviour'
+      example_postcode 'JE27LF'
     end
 
     trait :st_clement do
       name 'St. Clement'
+      example_postcode 'JE26FP'
     end
   end
 

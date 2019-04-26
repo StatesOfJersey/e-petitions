@@ -255,6 +255,10 @@ class Signature < ActiveRecord::Base
       where(id: id).where(validated_at.not_eq(nil)).exists?
     end
 
+    def not_anonymized
+      where(arel_table[:anonymized_at].eq(nil))
+    end
+
     private
 
     def ip_search?(query)
@@ -403,6 +407,26 @@ class Signature < ActiveRecord::Base
 
   def mark_seen_signed_confirmation_page!
     update seen_signed_confirmation_page: true
+  end
+
+  def anonymized?
+    anonymized_at?
+  end
+
+  def anonymize!(timestamp)
+    self.name = "Signature #{id}"
+    self.email = "signature-#{id}@example.com"
+    self.ip_address = "192.168.1.1"
+    self.anonymized_at = timestamp
+
+    if parish
+      self.postcode = parish.example_postcode
+    else
+      # set unknown parishes to the States Greffe postcode
+      self.postcode = "JE11DD"
+    end
+
+    save!
   end
 
   def save(*args)

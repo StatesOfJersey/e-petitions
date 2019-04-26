@@ -40,3 +40,7 @@ end
 every :day, at: '7.15am' do
   rake "jpets:petitions:debated", output: nil
 end
+
+every :day, at: '7.30am' do
+  rake "jpets:petitions:anonymize", output: nil
+end
