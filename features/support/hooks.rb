@@ -34,3 +34,11 @@ Before('~@admin') do
   Capybara.app_host = 'https://petitions.gov.je'
   Capybara.default_host = 'https://petitions.gov.je'
 end
+
+Before('@javascript') do
+  @javascript = true
+end
+
+Before('~@javascript') do
+  @javascript = false
+end

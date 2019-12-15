@@ -1,9 +1,10 @@
 require 'email_spec/cucumber'
 require 'rspec/core/pending'
-require 'capybara/poltergeist'
-require 'webrick/httpproxy'
+require 'multi_test'
 
-Capybara.javascript_driver = :poltergeist
+MultiTest.disable_autorun
+
+Capybara.javascript_driver = ENV.fetch("JS_DRIVER", "chrome_headless").to_sym
 Capybara.default_max_wait_time = 5
 Capybara.server_port = 3443
 Capybara.app_host = "https://127.0.0.1:3443"
@@ -11,15 +12,37 @@ Capybara.default_host = "https://petitions.gov.je"
 Capybara.default_selector = :xpath
 Capybara.automatic_label_click = true
 
-Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app,
-    phantomjs_logger: File.open(File::NULL, 'w'),
-    phantomjs_options: [
-      '--ignore-ssl-errors=yes',
-      '--local-to-remote-url-access=yes',
-      '--proxy=127.0.0.1:8443'
-    ]
+Capybara.register_driver :chrome do |app|
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    chromeOptions: {
+      args: [
+        "allow-insecure-localhost",
+        "window-size=1280,960",
+        "proxy-server=127.0.0.1:8443"
+      ],
+      w3c: false
+    },
+    accept_insecure_certs: true
   )
+
+  Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: capabilities)
+end
+
+Capybara.register_driver :chrome_headless do |app|
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    chromeOptions: {
+      args: [
+        "headless",
+        "allow-insecure-localhost",
+        "window-size=1280,960",
+        "proxy-server=127.0.0.1:8443"
+      ],
+      w3c: false
+    },
+    accept_insecure_certs: true
+  )
+
+  Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: capabilities)
 end
 
 Capybara.register_server :jpets do |app, port|
@@ -27,6 +50,7 @@ Capybara.register_server :jpets do |app, port|
 end
 
 Capybara.server = :jpets
+Capybara.default_normalize_ws = true
 
 pid = Process.spawn('bin/local_proxy', out: 'log/proxy.log', err: 'log/proxy.log')
 Process.detach(pid)
@@ -49,6 +73,16 @@ World Module.new {
   def strip_tags(html)
     @sanitizer ||= Rails::Html::FullSanitizer.new
     @sanitizer.sanitize(html, encode_special_chars: false)
+  end
+}
+
+World Module.new {
+  def click_details(name)
+    if @javascript
+      page.find("//details/summary[contains(., '#{name}')]").click
+    else
+      page.find("//summary[contains(., '#{name}')]/..").click
+    end
   end
 }
 
@@ -98,3 +132,22 @@ Cucumber::Rails::World.file_fixture_path = "#{::Rails.root}/spec/fixtures"
 # run background jobs inline with delayed job
 ActiveJob::Base.queue_adapter = :delayed_job
 Delayed::Worker.delay_jobs = false
+
+
+# Monkey patch Cucumber::Rails to accept Capybara 3.x changes
+# https://github.com/cucumber/cucumber-rails/commit/286f37f
+module Cucumber
+  module Rails
+    module Capybara
+      module JavascriptEmulation
+        def click_with_javascript_emulation(*)
+          if link_with_non_get_http_method?
+            ::Capybara::RackTest::Form.new(driver, js_form(element_node.document, self[:href], emulated_method)).submit(self)
+          else
+            click_without_javascript_emulation
+          end
+        end
+      end
+    end
+  end
+end

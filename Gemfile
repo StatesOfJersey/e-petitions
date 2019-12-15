@@ -5,7 +5,7 @@ ruby '~> 2.5.1'
 # Load environment variables
 gem 'dotenv-rails', :require => 'dotenv/rails-now'
 
-gem 'rails', '5.1.6.2'
+gem 'rails', '5.2.4'
 
 gem 'rake'
 gem 'pg'
@@ -57,10 +57,10 @@ group :test do
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'capybara'
-  gem 'poltergeist'
   gem 'factory_bot_rails'
   gem 'email_spec'
   gem 'launchy'
+  gem 'webdrivers', '~> 3.8.1'
   gem 'webmock'
   gem 'rails-controller-testing'
 end

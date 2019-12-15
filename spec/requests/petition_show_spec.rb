@@ -11,13 +11,13 @@ RSpec.describe "API request to show a petition", type: :request, show_exceptions
   describe "format" do
     it "responds to JSON" do
       get "/petitions/#{petition.id}.json"
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it "sets CORS headers" do
       get "/petitions/#{petition.id}.json"
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(access_control_allow_origin).to eq('*')
       expect(access_control_allow_methods).to eq('GET')
       expect(access_control_allow_headers).to eq('Origin, X-Requested-With, Content-Type, Accept')
@@ -35,7 +35,7 @@ RSpec.describe "API request to show a petition", type: :request, show_exceptions
     it "returns a link to itself" do
       get "/petitions/#{petition.id}.json"
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(links).to include("self" => "https://petitions.gov.je/petitions/#{petition.id}.json")
     end
   end
@@ -43,7 +43,7 @@ RSpec.describe "API request to show a petition", type: :request, show_exceptions
   describe "data" do
     it "returns the petition with the expected fields" do
       get "/petitions/#{petition.id}.json"
-      expect(response).to be_success
+      expect(response).to be_successful
 
       expect(attributes).to match(
         a_hash_including(
@@ -63,7 +63,7 @@ RSpec.describe "API request to show a petition", type: :request, show_exceptions
       petition = FactoryBot.create :closed_petition
 
       get "/petitions/#{petition.id}.json"
-      expect(response).to be_success
+      expect(response).to be_successful
 
       expect(attributes).to match(
         a_hash_including(
@@ -79,7 +79,7 @@ RSpec.describe "API request to show a petition", type: :request, show_exceptions
           rejection_details: "This is a duplication of another petition"
 
       get "/petitions/#{petition.id}.json"
-      expect(response).to be_success
+      expect(response).to be_successful
 
       expect(attributes).to match(
         a_hash_including(
@@ -99,7 +99,7 @@ RSpec.describe "API request to show a petition", type: :request, show_exceptions
           response_details: "Details of what the government said"
 
       get "/petitions/#{petition.id}.json"
-      expect(response).to be_success
+      expect(response).to be_successful
 
       expect(attributes).to match(
         a_hash_including(
@@ -123,7 +123,7 @@ RSpec.describe "API request to show a petition", type: :request, show_exceptions
           debate_threshold_reached_at: 1.day.ago
 
       get "/petitions/#{petition.id}.json"
-      expect(response).to be_success
+      expect(response).to be_successful
 
       expect(attributes).to match(
         a_hash_including(
@@ -138,7 +138,7 @@ RSpec.describe "API request to show a petition", type: :request, show_exceptions
       petition = FactoryBot.create :scheduled_debate_petition
 
       get "/petitions/#{petition.id}.json"
-      expect(response).to be_success
+      expect(response).to be_successful
 
       expect(attributes).to match(
         a_hash_including(
@@ -157,7 +157,7 @@ RSpec.describe "API request to show a petition", type: :request, show_exceptions
           debate_pack_url: "http://researchbriefings.parliament.uk/ResearchBriefing/Summary/CDP-2014-1234"
 
       get "/petitions/#{petition.id}.json"
-      expect(response).to be_success
+      expect(response).to be_successful
 
       expect(attributes).to match(
         a_hash_including(
@@ -183,7 +183,7 @@ RSpec.describe "API request to show a petition", type: :request, show_exceptions
       FactoryBot.create :parish_petition_journal, parish_id: 2, signature_count: 456, petition: petition
 
       get "/petitions/#{petition.id}.json"
-      expect(response).to be_success
+      expect(response).to be_successful
 
       expect(attributes).to match(
         a_hash_including(
@@ -211,7 +211,7 @@ RSpec.describe "API request to show a petition", type: :request, show_exceptions
       FactoryBot.create :parish_petition_journal, parish_id: 2, signature_count: 456, petition: petition
 
       get "/petitions/#{petition.id}.json"
-      expect(response).to be_success
+      expect(response).to be_successful
 
       expect(attributes.keys).not_to include("signatures_by_parish")
     end

@@ -31,7 +31,8 @@ Feature: Suzie views a petition
     Given an open petition exists with action: "Defence review", additional_details: "<i>We<i> like http://www.google.com and bambi@gmail.com"
     When I go to the petition page for "Defence review"
     Then the markup should be valid
-    And I should see "<i>We<i>"
+    When I click to see more details
+    Then I should see "<i>We<i>"
     And I should see a link called "http://www.google.com" linking to "http://www.google.com"
     And I should see a link called "bambi@gmail.com" linking to "mailto:bambi@gmail.com"
 
@@ -40,9 +41,9 @@ Feature: Suzie views a petition
     Given an open petition "Spend more money on Defence" with response "Defence is the best Offence" and response summary "Oh yes please"
     When I view the petition
     Then I should see "Oh yes please"
-    And I should not see "Defence is the best Offence"
+    And I should not see the response "Defence is the best Offence"
     When I expand "Read the response in full"
-    Then I should see "Defence is the best Offence"
+    Then I should see the response "Defence is the best Offence"
 
   Scenario: Suzie sees reason for rejection if appropriate
     Given a petition "Please bring back Eldorado" has been rejected with the reason "We like http://www.google.com and bambi@gmail.com"
@@ -126,9 +127,10 @@ Feature: Suzie views a petition
     Then I should not see "At 1,000 signatures..."
     Then I should see "At 5,000 signatures..."
     Then I should see "Oh yes please"
-    And I should not see "Defence is the best Offence"
+    And I should not see the response "Defence is the best Offence"
     When I expand "Read the response in full"
-    Then I should see "Defence is the best Offence"
+    Then I should see the response "Defence is the best Offence"
+
 
   @javascript
   Scenario: Suzie does not see information about a future signature targets when viewing an open petition which has passed the threshold for response and debate
