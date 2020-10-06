@@ -399,13 +399,13 @@ When(/^I click to see more details$/) do
 end
 
 Then(/^I should see the response "([^"]*)"$/) do |response|
-  within :xpath, '//details/div', visible: true do
+  within :xpath, "//details[summary/.='Read the response in full']/div", visible: true do
     expect(page).to have_content(response)
   end
 end
 
 Then(/^I should not see the response "([^"]*)"$/) do |response|
-  within :xpath, '//details/div', visible: false do
-    expect(page).to have_content(response)
+  within :xpath, "//details[summary/.='Read the response in full']" do
+    expect(page).to have_no_content(response)
   end
 end
