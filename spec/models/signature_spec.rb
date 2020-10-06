@@ -1692,7 +1692,7 @@ RSpec.describe Signature, type: :model do
         let(:postcode) { "JE1 1AA" }
 
         before do
-          stub_parish_api_for("JE11AA").to_return(parish_api_response(:internal_system_error))
+          stub_parish_api_for("JE11AA").to_return(parish_api_response(:internal_server_error))
         end
 
         it "returns nil" do

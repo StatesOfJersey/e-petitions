@@ -31,7 +31,7 @@ RSpec.describe LocalPetitionsController, type: :controller do
       end
 
       it "responds successfully" do
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       it "renders the index template" do
@@ -54,7 +54,7 @@ RSpec.describe LocalPetitionsController, type: :controller do
       end
 
       it "responds successfully" do
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       it "renders the index template" do
@@ -69,7 +69,7 @@ RSpec.describe LocalPetitionsController, type: :controller do
       end
 
       it "responds successfully" do
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       it "renders the index template" do

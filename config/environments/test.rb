@@ -14,7 +14,9 @@ Rails.application.configure do
 
   # Configure static file server for tests with Cache-Control for performance.
   config.public_file_server.enabled = true
-  config.public_file_server.headers = 'public, max-age=3600'
+  config.public_file_server.headers = {
+    "Cache-Control" => "public, max-age=#{1.hour.to_i}"
+  }
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
@@ -53,5 +55,8 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   # Use webmock to disable net connections except for localhost and exceptions
-  WebMock.disable_net_connect!(allow_localhost: true)
+  WebMock.disable_net_connect!(
+    allow_localhost: true,
+    allow: 'chromedriver.storage.googleapis.com'
+  )
 end

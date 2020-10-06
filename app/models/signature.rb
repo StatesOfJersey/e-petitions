@@ -115,11 +115,7 @@ class Signature < ActiveRecord::Base
     end
 
     def fraudulent_domains
-      where(state: FRAUDULENT_STATE).
-      select("SUBSTRING(email FROM POSITION('@' IN email) + 1) AS domain").
-      group("SUBSTRING(email FROM POSITION('@' IN email) + 1)").
-      order("COUNT(*) DESC").
-      count(:all)
+      where(state: FRAUDULENT_STATE).select(domain_index.as("domain")).group(domain_index).order(count_star.desc).count(:all)
     end
 
     def invalidate!(signature_ids, now = Time.current, invalidation_id = nil)
@@ -188,11 +184,11 @@ class Signature < ActiveRecord::Base
     end
 
     def trending_domains(since: 1.hour.ago, limit: 20)
-      select("SUBSTRING(email FROM POSITION('@' IN email) + 1) AS domain").
+      select(domain_index.as("domain")).
       where(arel_table[:validated_at].gt(since)).
       where(arel_table[:invalidated_at].eq(nil)).
-      group("SUBSTRING(email FROM POSITION('@' IN email) + 1)").
-      order("COUNT(*) DESC").
+      group(domain_index).
+      order(count_star.desc).
       limit(limit).
       count(:all)
     end
@@ -202,7 +198,7 @@ class Signature < ActiveRecord::Base
       where(arel_table[:validated_at].gt(since)).
       where(arel_table[:invalidated_at].eq(nil)).
       group(:ip_address).
-      order("COUNT(*) DESC").
+      order(count_star.desc).
       limit(limit).
       count(:all)
     end
@@ -271,6 +267,14 @@ class Signature < ActiveRecord::Base
 
     def validated_at
       arel_table[:validated_at]
+    end
+
+    def domain_index
+      Arel.sql("SUBSTRING(email FROM POSITION('@' IN email) + 1)")
+    end
+
+    def count_star
+      arel_table[Arel.star].count
     end
   end
 

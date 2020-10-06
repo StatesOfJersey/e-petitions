@@ -168,8 +168,8 @@ end
 
 Then(/^I should see the petition details$/) do
   expect(page).to have_content(@petition.action)
-  expect(page).to have_content(@petition.additional_details)
   expect(page).to have_content(@petition.background) if @petition.background?
+  expect(page).to have_content(@petition.additional_details) if @petition.additional_details?
 end
 
 Then(/^I should see the vote count, closed and open dates$/) do
@@ -394,3 +394,18 @@ When (/^I search all petitions for "(.*?)"$/) do |search_term|
   end
 end
 
+When(/^I click to see more details$/) do
+  click_details "More details"
+end
+
+Then(/^I should see the response "([^"]*)"$/) do |response|
+  within :xpath, "//details[summary/.='Read the response in full']/div", visible: true do
+    expect(page).to have_content(response)
+  end
+end
+
+Then(/^I should not see the response "([^"]*)"$/) do |response|
+  within :xpath, "//details[summary/.='Read the response in full']" do
+    expect(page).to have_no_content(response)
+  end
+end
