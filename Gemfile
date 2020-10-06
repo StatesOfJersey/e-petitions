@@ -5,7 +5,7 @@ ruby '~> 2.5.1'
 # Load environment variables
 gem 'dotenv-rails', :require => 'dotenv/rails-now'
 
-gem 'rails', '5.2.4'
+gem 'rails', '5.2.4.4'
 
 gem 'rake'
 gem 'pg'
