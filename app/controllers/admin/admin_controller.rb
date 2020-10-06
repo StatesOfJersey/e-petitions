@@ -9,7 +9,6 @@ module Admin
 
     before_action :set_appsignal_namespace
     before_action :do_not_cache
-    before_action :respond_with_forbidden_if_ip_blocked
 
     layout 'admin'
 
@@ -24,12 +23,6 @@ module Admin
 
     def set_appsignal_namespace
       Appsignal.set_namespace("admin")
-    end
-
-    def respond_with_forbidden_if_ip_blocked
-      if ip_blocked?
-        raise AccessDenied, "You are not permitted to access this page"
-      end
     end
   end
 end
