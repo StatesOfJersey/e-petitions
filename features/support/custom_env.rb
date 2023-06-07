@@ -1,6 +1,35 @@
 require 'email_spec/cucumber'
 require 'rspec/core/pending'
 require 'multi_test'
+require 'faker'
+require 'webdrivers/chromedriver'
+
+# Monkey patch the webdrivers gem to handle name change as
+# dependencies elsewhere prevent us from upgrading selenium
+# https://github.com/titusfortner/webdrivers/issues/237
+module Webdrivers
+  Chromedriver.class_eval do
+    def self.apple_filename(driver_version)
+      if apple_m1_compatible?(driver_version)
+        driver_version >= normalize_version('106.0.5249.61') ? 'mac_arm64' : 'mac64_m1'
+      else
+        'mac64'
+      end
+    end
+
+    def self.driver_filename(driver_version)
+      if System.platform == 'win' || System.wsl_v1?
+        'win32'
+      elsif System.platform == 'linux'
+        'linux64'
+      elsif System.platform == 'mac'
+        apple_filename(driver_version)
+      else
+        raise 'Failed to determine driver filename to download for your OS.'
+      end
+    end
+  end
+end
 
 MultiTest.disable_autorun
 
@@ -28,17 +57,21 @@ Capybara.register_driver :chrome do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: capabilities)
 end
 
+chromeArguments = %w[
+  headless
+  allow-insecure-localhost
+  window-size=1280,960
+  proxy-server=127.0.0.1:8443
+]
+
+if File.exist?("/.dockerenv")
+  # Running as root inside Docker
+  chromeArguments += %w[no-sandbox disable-gpu]
+end
+
 Capybara.register_driver :chrome_headless do |app|
   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    chromeOptions: {
-      args: [
-        "headless",
-        "allow-insecure-localhost",
-        "window-size=1280,960",
-        "proxy-server=127.0.0.1:8443"
-      ],
-      w3c: false
-    },
+    chromeOptions: { args: chromeArguments, w3c: false },
     accept_insecure_certs: true
   )
 

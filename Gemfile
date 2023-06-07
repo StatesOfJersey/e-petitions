@@ -1,9 +1,7 @@
 source 'https://rubygems.org'
 
-ruby '~> 2.5.1'
-
 # Load environment variables
-gem 'dotenv-rails', :require => 'dotenv/rails-now'
+gem 'dotenv-rails', require: 'dotenv/rails-now'
 
 gem 'rails', '5.2.4.4'
 
@@ -23,7 +21,7 @@ gem 'sass-rails', '~> 5.0'
 gem 'textacular'
 gem 'uglifier'
 gem 'bcrypt'
-gem 'faker'
+gem 'faker', require: false
 gem 'slack-notifier'
 gem 'daemons'
 gem 'jquery-rails'
@@ -45,7 +43,8 @@ group :development, :test do
   gem 'brakeman', require: false
   gem 'bundler-audit'
   gem 'rspec-rails'
-  gem 'jasmine-rails'
+  gem 'jasmine'
+  gem 'jasmine_selenium_runner', require: false
   gem 'pry'
 end
 
@@ -60,7 +59,7 @@ group :test do
   gem 'factory_bot_rails'
   gem 'email_spec'
   gem 'launchy'
-  gem 'webdrivers', '~> 3.8.1'
+  gem 'webdrivers'
   gem 'webmock'
   gem 'rails-controller-testing'
 end

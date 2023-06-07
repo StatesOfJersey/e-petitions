@@ -36,11 +36,11 @@
 }
 
 // Disabled buttons
-.button[disabled="disabled"] {
-  background: $button-colour;
+.button[disabled] {
+  background: $petitions-button-colour;
 }
 
-.button[disabled="disabled"]:focus {
+.button[disabled]:focus {
   outline: none;
 }
 
