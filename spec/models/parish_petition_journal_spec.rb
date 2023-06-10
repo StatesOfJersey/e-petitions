@@ -232,9 +232,9 @@ RSpec.describe ParishPetitionJournal, type: :model do
   end
 
   describe ".reset!" do
-    let(:petition_1) { FactoryBot.create(:petition, creator_attributes: {parish_id: parish_1}) }
+    let(:petition_1) { FactoryBot.create(:open_petition, creator_attributes: {parish_id: parish_1}) }
     let(:parish_1) { FactoryBot.generate(:parish_id) }
-    let(:petition_2) { FactoryBot.create(:petition, creator_attributes: {parish_id: parish_1}) }
+    let(:petition_2) { FactoryBot.create(:open_petition, creator_attributes: {parish_id: parish_1}) }
     let(:parish_2) { FactoryBot.generate(:parish_id) }
 
     before do

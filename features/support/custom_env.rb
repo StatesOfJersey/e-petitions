@@ -97,8 +97,8 @@ at_exit do
 end
 
 World Module.new {
-  def t(*args)
-    I18n.t(*args)
+  def t(*args, **kwargs)
+    I18n.t(*args, **kwargs)
   end
 }
 

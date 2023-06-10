@@ -122,7 +122,7 @@ class Site < ActiveRecord::Base
     end
 
     def petition_report_due_at
-      (Time.current.beginning_of_week + petition_report_day_of_week.days).change(hour: petition_report_hour_of_day)
+      (Time.current.beginning_of_week(:sunday) + petition_report_day_of_week.days).change(hour: petition_report_hour_of_day)
     end
 
     def defaults

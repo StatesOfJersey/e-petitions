@@ -19,11 +19,11 @@ class ParishApi
       SocketError
     ]
 
-    def fetch(*args, &block)
-      Postcode.transaction { super(*args, &block) }
+    def fetch(name, options = nil, &block)
+      Postcode.transaction { super(name, options, &block) }
     rescue *EXCEPTIONS => e
       Appsignal.send_exception(e)
-      read_entry(*args).try(:value)
+      read_entry(name, **options).try(:value)
     end
 
     def cleanup(options = nil)

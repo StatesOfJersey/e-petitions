@@ -19,7 +19,7 @@ RSpec.describe 'Requests for pages when we do not support the format on that pag
     it 'supports html' do
       get url, params: params
       expect(response.status).to eq 200
-      expect(response.content_type).to eq "text/html"
+      expect(response.content_type).to eq "text/html; charset=utf-8"
     end
 
     it 'does not support json via accepts header' do
@@ -38,7 +38,7 @@ RSpec.describe 'Requests for pages when we do not support the format on that pag
       it 'supports json via extension' do
         get url + '.json', params: params
         expect(response.status).to eq 200
-        expect(response.content_type).to eq "application/json"
+        expect(response.content_type).to eq "application/json; charset=utf-8"
       end
 
       it 'does not support xml via extension' do
@@ -50,13 +50,13 @@ RSpec.describe 'Requests for pages when we do not support the format on that pag
     it 'supports html' do
       get url, params: params
       expect(response.status).to eq 200
-      expect(response.content_type).to eq "text/html"
+      expect(response.content_type).to eq "text/html; charset=utf-8"
     end
 
     it 'supports json via accepts header' do
       get url, params: params, headers: { 'Accept' => 'application/json' }
       expect(response.status).to eq 200
-      expect(response.content_type).to eq "application/json"
+      expect(response.content_type).to eq "application/json; charset=utf-8"
     end
 
     it 'does not support xml via accepts header' do
@@ -70,13 +70,13 @@ RSpec.describe 'Requests for pages when we do not support the format on that pag
       it 'supports json via extension' do
         get url + '.json', params: params
         expect(response.status).to eq 200
-        expect(response.content_type).to eq "application/json"
+        expect(response.content_type).to eq "application/json; charset=utf-8"
       end
 
       it 'supports csv via extension' do
         get url + '.csv', params: params
         expect(response.status).to eq 200
-        expect(response.content_type).to eq "text/csv"
+        expect(response.content_type).to eq "text/csv; charset=utf-8"
       end
 
       it 'does not support xml via extension' do
@@ -88,19 +88,19 @@ RSpec.describe 'Requests for pages when we do not support the format on that pag
     it 'supports html' do
       get url, params: params
       expect(response.status).to eq 200
-      expect(response.content_type).to eq "text/html"
+      expect(response.content_type).to eq "text/html; charset=utf-8"
     end
 
     it 'supports json via accepts header' do
       get url, params: params, headers: { 'Accept' => 'application/json' }
       expect(response.status).to eq 200
-      expect(response.content_type).to eq "application/json"
+      expect(response.content_type).to eq "application/json; charset=utf-8"
     end
 
     it 'supports csv via accepts header' do
       get url, params: params, headers: { 'Accept' => 'text/csv' }
       expect(response.status).to eq 200
-      expect(response.content_type).to eq "text/csv"
+      expect(response.content_type).to eq "text/csv; charset=utf-8"
     end
 
     it 'does not support xml via accepts header' do
@@ -132,7 +132,7 @@ RSpec.describe 'Requests for pages when we do not support the format on that pag
     it 'supports html' do
       post url, params: params
       expect(response.status).to eq 200
-      expect(response.content_type).to eq "text/html"
+      expect(response.content_type).to eq "text/html; charset=utf-8"
     end
 
     it 'does not support json via accepts header' do
@@ -316,7 +316,7 @@ RSpec.describe 'Requests for pages when we do not support the format on that pag
     it 'supports xml via extension' do
       get url + '.xml', params: params
       expect(response.status).to eq 200
-      expect(response.content_type).to eq "application/xml"
+      expect(response.content_type).to eq "application/xml; charset=utf-8"
     end
 
     it 'does not response without an extension' do
@@ -337,7 +337,7 @@ RSpec.describe 'Requests for pages when we do not support the format on that pag
     it 'supports xml via extension' do
       get url + '.json', params: params
       expect(response.status).to eq 200
-      expect(response.content_type).to eq "application/json"
+      expect(response.content_type).to eq "application/json; charset=utf-8"
     end
 
     it 'does not response without an extension' do
@@ -401,13 +401,13 @@ RSpec.describe 'Requests for pages when we do not support the format on that pag
     it 'supports json via extension' do
       get url + '.json', params: params
       expect(response.status).to eq 200
-      expect(response.content_type).to eq "application/json"
+      expect(response.content_type).to eq "application/json; charset=utf-8"
     end
 
     it 'supports json via accepts header' do
       get url, params: params, headers: { 'Accept' => 'application/json' }
       expect(response.status).to eq 200
-      expect(response.content_type).to eq "application/json"
+      expect(response.content_type).to eq "application/json; charset=utf-8"
     end
 
     it 'does not support xml via extension' do

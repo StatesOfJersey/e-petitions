@@ -9,7 +9,7 @@ RSpec.describe AdminMailer, '#petitions_report', type: :mailer do
 
   let!(:recent_rejected_petition) { FactoryBot.create :rejected_petition, action: 'Plant more cabbages' }
   let!(:older_open_petition_signed) { FactoryBot.create :open_petition, action: 'Plant more mushrooms', open_at: (now.beginning_of_day - 1.week) - 1.minute, last_signed_at: (now.beginning_of_day - 1.week) - 1.minute }
-  let!(:older_open_petition_unsigned) { FactoryBot.create :open_petition, action: 'Plant more wheat', open_at: (now.beginning_of_day - 1.week) - 1.minute, last_signed_at: nil }
+  let!(:older_open_petition_unsigned) { FactoryBot.create :open_petition, action: 'Plant more wheat', open_at: (now.beginning_of_day - 1.week) - 1.minute, last_signed_at: nil, increment: false }
 
   let(:mail) { AdminMailer.petitions_report }
 

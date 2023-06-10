@@ -11,6 +11,11 @@ module SectionHelpers
       expect(page).to have_xpath("//h1", :count => 1)
       "#{prefix}h1"
 
+    # Home page
+    when /^debate threshold section$/
+      expect(page).to have_xpath("//section[@aria-labelledby='debate-threshold-heading']")
+      "#{prefix}section[@aria-labelledby='debate-threshold-heading']"
+
     else
       raise "Can't find mapping from \"#{section_name}\" to a section."
     end

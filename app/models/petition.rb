@@ -28,6 +28,8 @@ class Petition < ActiveRecord::Base
 
   DEBATE_STATES = %w[pending awaiting scheduled debated not_debated]
 
+  self.cache_timestamp_format = :stepped_cache_key
+
   has_perishable_token called: 'sponsor_token'
 
   before_save :update_debate_state, if: :scheduled_debate_date_changed?
@@ -63,10 +65,10 @@ class Petition < ActiveRecord::Base
   facet :tagged_in_moderation,         -> { tagged_in_moderation.by_most_recent_moderation_threshold_reached }
   facet :untagged_in_moderation,       -> { untagged_in_moderation.by_most_recent_moderation_threshold_reached }
 
-  has_one :creator, -> { creator }, class_name: 'Signature'
+  has_one :creator, -> { creator }, class_name: 'Signature', inverse_of: :petition
   accepts_nested_attributes_for :creator, update_only: true
 
-  belongs_to :locked_by, class_name: 'AdminUser'
+  belongs_to :locked_by, class_name: 'AdminUser', optional: true
 
   has_one :debate_outcome, dependent: :destroy
   has_one :email_requested_receipt, dependent: :destroy
@@ -418,29 +420,32 @@ class Petition < ActiveRecord::Base
   end
 
   def increment_signature_count!(time = Time.current)
-    updates = ""
-
-    if pending?
-      updates = "state = '#{VALIDATED_STATE}', "
-    end
+    updates = []
 
     if at_threshold_for_moderation? && collecting_sponsors?
-      updates = "state = '#{SPONSORED_STATE}', "
-      updates << "moderation_threshold_reached_at = :now, "
+      updates << "state = '#{SPONSORED_STATE}'"
+      updates << "moderation_threshold_reached_at = :now"
+    elsif pending?
+      updates << "state = '#{VALIDATED_STATE}'"
     end
 
     if at_threshold_for_response?
-      updates << "response_threshold_reached_at = :now, "
+      updates << "response_threshold_reached_at = :now"
     end
 
     if at_threshold_for_debate?
-      updates << "debate_threshold_reached_at = :now, "
-      updates << "debate_state = 'awaiting', "
+      updates << "debate_threshold_reached_at = :now"
+
+      if debate_state == 'pending'
+        updates << "debate_state = 'awaiting'"
+      end
     end
 
-    updates << "signature_count = signature_count + 1, "
-    updates << "last_signed_at = :now, "
+    updates << "signature_count = signature_count + 1"
+    updates << "last_signed_at = :now"
     updates << "updated_at = :now"
+
+    updates = updates.join(", ")
 
     if update_all([updates, now: time]) > 0
       self.reload
@@ -448,19 +453,24 @@ class Petition < ActiveRecord::Base
   end
 
   def decrement_signature_count!(time = Time.current)
-    updates = ""
+    updates = []
 
     if below_threshold_for_debate?
-      updates << "debate_threshold_reached_at = NULL, "
-      updates << "debate_state = 'pending', "
+      updates << "debate_threshold_reached_at = NULL"
+
+      if debate_state == 'awaiting'
+        updates << "debate_state = 'pending'"
+      end
     end
 
     if below_threshold_for_response?
-      updates << "response_threshold_reached_at = NULL, "
+      updates << "response_threshold_reached_at = NULL"
     end
 
-    updates << "signature_count = greatest(signature_count - 1, 1), "
+    updates << "signature_count = greatest(signature_count - 1, 1)"
     updates << "updated_at = :now"
+
+    updates = updates.join(", ")
 
     if update_all([updates, now: time]) > 0
       self.reload
@@ -677,24 +687,6 @@ class Petition < ActiveRecord::Base
 
   def deadline
     open_at && (closed_at || Site.closed_at_for_opening(open_at))
-  end
-
-  def cache_key(*timestamp_names)
-    case
-    when new_record?
-      "petitions/new"
-    when timestamp_names.any?
-      timestamp = max_updated_column_timestamp(timestamp_names)
-      timestamp = timestamp.change(sec: (timestamp.sec.div(5) * 5))
-      timestamp = timestamp.utc.to_s(cache_timestamp_format)
-      "petitions/#{id}-#{timestamp}"
-    when timestamp = max_updated_column_timestamp
-      timestamp = timestamp.change(sec: (timestamp.sec.div(5) * 5))
-      timestamp = timestamp.utc.to_s(cache_timestamp_format)
-      "petitions/#{id}-#{timestamp}"
-    else
-      "petitions/#{id}"
-    end
   end
 
   def update_last_petition_created_at

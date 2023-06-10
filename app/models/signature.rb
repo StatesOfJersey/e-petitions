@@ -1,5 +1,6 @@
 require 'active_support/core_ext/digest/uuid'
 require 'postcode_sanitizer'
+require 'mail'
 
 class Signature < ActiveRecord::Base
   include PerishableTokenGenerator
@@ -26,7 +27,7 @@ class Signature < ActiveRecord::Base
   }
 
   belongs_to :petition
-  belongs_to :invalidation
+  belongs_to :invalidation, optional: true
 
   validates :state, inclusion: { in: STATES }
   validates :name, presence: true, length: { maximum: 255 }
@@ -433,7 +434,7 @@ class Signature < ActiveRecord::Base
     save!
   end
 
-  def save(*args)
+  def save(**options)
     super
   rescue ActiveRecord::RecordNotUnique => e
     if creator?

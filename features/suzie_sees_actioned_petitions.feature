@@ -51,5 +51,5 @@ Feature: Suzie sees actioned petitions
     Given a petition "Free the wombles" has been debated yesterday
     And a petition "Ban Badger Baiting" has been debated 12 days ago
     And I am on the home page
-    Then I should see "Ban Badger Baiting"
-    And I should not see "Free the wombles"
+    Then I should see "Ban Badger Baiting" in the debate threshold section
+    And I should not see "Free the wombles" in the debate threshold section
