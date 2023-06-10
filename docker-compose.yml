@@ -44,7 +44,7 @@ services:
       - "127.0.0.1:1080:1080"
 
   memcached:
-    image: memcached:1.5
+    image: memcached:1.6
     expose:
       - "11121"
 
