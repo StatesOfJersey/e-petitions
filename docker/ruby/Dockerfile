@@ -1,9 +1,12 @@
-FROM ruby:2.7
+FROM ruby:3.0
 
 ENV BUNDLE_PATH=/bundle
 
+# Update base image
+RUN apt-get update && apt-get -y upgrade
+
 # Install PostgreSQL client
-RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main' \
+RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main' \
     > /etc/apt/sources.list.d/pgdg.list && \
     wget -q -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc \
     | apt-key add - && apt-get update && \
@@ -17,7 +20,7 @@ RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz
     rm -rf /tmp/node-build-master
 
 # Install Bundler
-RUN gem install bundler -v 1.17.3
+RUN gem install bundler -v 2.3.26
 
 # Install Chromium and Chromium-Driver
 RUN apt-get install -y chromium chromium-driver

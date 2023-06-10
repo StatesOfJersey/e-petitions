@@ -79,7 +79,7 @@ RSpec.shared_examples_for "job to enqueue signatory mailing jobs" do
 end
 
 RSpec.shared_examples_for "a job to send an signatory email" do
-  let(:job) { described_class.new(arguments) }
+  let(:job) { described_class.new(**arguments) }
 
   context "when the petition has not been updated" do
     let(:mail_object) { double(:mail_object) }

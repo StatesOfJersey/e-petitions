@@ -34,6 +34,7 @@ gem 'kt-paperclip'
 gem 'maxminddb'
 gem 'redcarpet'
 gem 'scrypt'
+gem 'webrick'
 
 gem 'aws-sdk-codedeploy'
 gem 'aws-sdk-s3'
