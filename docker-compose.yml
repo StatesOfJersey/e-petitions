@@ -7,6 +7,7 @@ x-application: &application
     - .:/app
     - bundle:/bundle
     - cache:/cache
+    - node_modules:/app/node_modules
   tmpfs:
     - /tmp/pids/
   depends_on:
@@ -76,3 +77,4 @@ volumes:
   bundle:
   db:
   cache:
+  node_modules:
