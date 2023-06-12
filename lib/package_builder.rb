@@ -4,7 +4,7 @@ require 'aws-sdk-codedeploy'
 require 'aws-sdk-s3'
 require 'faraday'
 require 'erb'
-require 'slack-notifier'
+require 'open3'
 
 class PackageBuilder
   class << self
@@ -20,16 +20,14 @@ class PackageBuilder
   attr_reader :environment, :release, :revision, :tmpdir, :timestamp
   attr_reader :client, :completed
 
-  def initialize(enviroment)
-    Dotenv.overload(".deploy", ".deploy.#{enviroment}")
-
-    @environment  = enviroment.to_s
-    @revision     = `git rev-parse #{treeish}`.strip
-    @tmpdir       = Dir.mktmpdir
-    @timestamp    = Time.current.getutc
-    @release      = @timestamp.strftime('%Y%m%d%H%M%S')
-    @client       = nil
-    @completed    = false
+  def initialize(environment)
+    @environment = environment.to_s
+    @revision    = current_revision
+    @tmpdir      = Dir.mktmpdir
+    @timestamp   = Time.current.getutc
+    @release     = @timestamp.strftime('%Y%m%d%H%M%S')
+    @client      = nil
+    @completed   = false
   end
 
   def build!
@@ -84,7 +82,7 @@ class PackageBuilder
   private
 
   def application_name
-    "#{ENV.fetch('AWS_DEPLOYMENT_APP_NAME', 'jpets')}-#{environment}"
+    "#{ENV.fetch('AWS_DEPLOYMENT_APP_NAME', 'jpets-app')}-#{environment}"
   end
 
   def archive_file
@@ -109,7 +107,7 @@ class PackageBuilder
     args.concat ['.']
 
     info "Building package ..."
-    Kernel.system(*args)
+    run(*args)
   end
 
   def ci?
@@ -124,15 +122,12 @@ class PackageBuilder
     args.concat [treeish]
 
     info "Creating archive ..."
-    Kernel.system(*args)
+    run(*args)
   end
 
   def create_deployments!
     create_deployment!("Workers")
-    create_deployment!("Webservers") do
-      notify_appsignal
-      notify_slack
-    end
+    create_deployment!("Webservers")
   end
 
   def create_deployment!(deployment_group_name, &block)
@@ -151,12 +146,26 @@ class PackageBuilder
     { region: region, profile: profile }
   end
 
-  def deploy_branch?
-    ENV.fetch('TRAVIS_BRANCH', 'master') == 'master'
+  def current_revision
+    output, error, status = Open3.capture3("git", "rev-parse", treeish)
+
+    if status.success?
+      output.strip
+    else
+      raise RuntimeError, error
+    end
+  end
+
+  def master_ref?
+    ENV.fetch('GITHUB_REF', '') == 'refs/heads/master'
+  end
+
+  def tag_ref?
+    ENV.fetch('GITHUB_REF', '') =~ /\Arefs\/tags\/v[0-9]{8}-[0-9]{1}\z/
   end
 
   def deploy_build?
-    !pull_request? && deploy_branch?
+    main_ref? || tag_ref?
   end
 
   def deployment_config(deployment_group_name)
@@ -204,7 +213,7 @@ class PackageBuilder
     args.concat ['-xf', archive_file]
 
     info "Extracting archive ..."
-    Kernel.system(*args)
+    run(*args)
   end
 
   def info(message)
@@ -216,11 +225,12 @@ class PackageBuilder
   end
 
   def package_gems
-    args = %w[bundle package --all --all-platforms --no-install]
+    args = %w[bundle package --no-install]
 
     info "Packaging gems ..."
-    Bundler.with_clean_env do
-      Kernel.system(*args)
+
+    with_build_env do
+      run(*args)
     end
   end
 
@@ -232,77 +242,16 @@ class PackageBuilder
     File.join('pkg', package_name)
   end
 
-  def prefix
-    ENV.fetch('AWS_PREFIX', 'jpets')
-  end
-
   def profile
-    ENV.fetch('AWS_PROFILE', 'jpets')
+    ENV.fetch('AWS_PROFILE', 'jersey-petitions')
   end
 
   def deploy_release?
     ENV.fetch('RELEASE', '1').to_i.nonzero?
   end
 
-  def notify_appsignal
-    if appsignal_push_api_key
-      conn = Faraday.new(url: "https://push.appsignal.com")
-
-      response = conn.post do |request|
-        request.url '/1/markers'
-
-        request.headers['Content-Type'] = 'application/json'
-
-        request.params = {
-          api_key: appsignal_push_api_key,
-          name: application_name,
-          environment: 'production'
-        }
-
-        request.body = <<-JSON.strip_heredoc
-          {
-            "revision": "#{revision}",
-            "repository": "master",
-            "user": "#{username}"
-          }
-        JSON
-      end
-
-      if response.success?
-        info "Notified AppSignal of deployment of #{revision}"
-      end
-    end
-  end
-
-  def appsignal_push_api_key
-    ENV.fetch('APPSIGNAL_PUSH_API_KEY', nil)
-  end
-
   def username
     ENV['USER'] || ENV['USERNAME'] || 'unknown'
-  end
-
-  def notify_slack
-    if slack_webhook
-      notifier = Slack::Notifier.new(slack_webhook)
-      notifier.ping slack_message, slack_options
-    end
-  end
-
-  def slack_webhook
-    ENV.fetch('SLACK_WEBHOOK_URL', nil)
-  end
-
-  def slack_message
-    "Deployed revision <#{commit_url}|#{short_revision}> to <#{website_url}>"
-  end
-
-  def slack_options
-    { channel: '#jersey_petitions', username: 'deploy', icon_emoji: ':tada:' }
-  end
-
-  def pull_request?
-    ENV.fetch('TRAVIS_PULL_REQUEST', 'false') != 'false'
   end
 
   def region
@@ -310,11 +259,11 @@ class PackageBuilder
   end
 
   def release_bucket
-    "#{prefix}-#{environment}-releases"
+    "jersey-petitions-deployments"
   end
 
   def release_key
-    "#{prefix}-#{release}.tar.gz"
+    "#{environment}/#{release}.tar.gz"
   end
 
   def remove_archive
@@ -322,15 +271,15 @@ class PackageBuilder
     args.concat [archive_file]
 
     info "Removing archive ..."
-    Kernel.system(*args)
+    run(*args)
   end
 
   def remove_artifacts
     args = %w[rm -rf]
-    args.concat %w[.bundle log tmp]
+    args.concat %w[.bundle log tmp vendor/bundle]
 
     info "Removing build artifacts ..."
-    Kernel.system(*args)
+    run(*args)
   end
 
   def revision_file
@@ -339,18 +288,6 @@ class PackageBuilder
 
   def short_revision
     revision.first(7)
-  end
-
-  def commit_url
-    "https://github.com/StatesOfJersey/e-petitions/commit/#{revision}"
-  end
-
-  def website_url
-    if environment == "production"
-      "https://petitions.gov.je/"
-    else
-      "https://beta-petitions.gov.je/"
-    end
   end
 
   def skip_build?
@@ -500,5 +437,30 @@ class PackageBuilder
 
   def script_file_path(name)
     File.expand_path("../package_builder/scripts/#{name}.sh", __FILE__)
+  end
+
+  def with_build_env
+    # Force specific_platform to be true
+    # https://github.com/rubygems/bundler/issues/5863
+    env = Bundler.original_env
+    env["BUNDLE_SPECIFIC_PLATFORM"] = "true"
+    env["BUNDLE_CACHE_ALL"] = "true"
+    env["BUNDLE_CACHE_ALL_PLATFORMS"] = "true"
+
+    # Ensure that we pick up the archive's Gemfile
+    env.delete("BUNDLE_GEMFILE")
+
+    backup = ENV.to_hash
+    ENV.replace(env)
+
+    yield
+  ensure
+    ENV.replace(backup)
+  end
+
+  def run(*args)
+    unless Kernel.system(*args)
+      abort("Error running `#{args.join(' ')}`")
+    end
   end
 end
