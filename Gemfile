@@ -35,6 +35,7 @@ gem 'maxminddb'
 gem 'redcarpet'
 gem 'scrypt'
 gem 'webrick'
+gem 'puma'
 
 gem 'aws-sdk-codedeploy'
 gem 'aws-sdk-s3'
@@ -60,8 +61,4 @@ group :test do
   gem 'selenium-webdriver'
   gem 'webmock'
   gem 'rails-controller-testing'
-end
-
-group :production do
-  gem 'puma', '~> 4.3'
 end
