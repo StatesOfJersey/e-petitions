@@ -39,7 +39,7 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = false
 
   # Set default_url_options for links in emails
-  config.action_mailer.default_url_options = { host: ENV.fetch('JPETITIONS_HOST') }
+  config.action_mailer.default_url_options = { host: ENV.fetch('EPETITIONS_HOST') }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

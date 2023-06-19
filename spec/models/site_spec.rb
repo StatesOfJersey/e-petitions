@@ -256,17 +256,17 @@ RSpec.describe Site, type: :model do
 
     describe "for url" do
       it "defaults to 'https://petitions.gov.je'" do
-        allow(ENV).to receive(:fetch).with("JPETITIONS_PROTOCOL", "https").and_return("https")
-        allow(ENV).to receive(:fetch).with("JPETITIONS_HOST", "petitions.gov.je").and_return("petitions.gov.je")
-        allow(ENV).to receive(:fetch).with("JPETITIONS_PORT", '443').and_return(443)
+        allow(ENV).to receive(:fetch).with("EPETITIONS_PROTOCOL", "https").and_return("https")
+        allow(ENV).to receive(:fetch).with("EPETITIONS_HOST", "petitions.gov.je").and_return("petitions.gov.je")
+        allow(ENV).to receive(:fetch).with("EPETITIONS_PORT", '443').and_return(443)
 
         expect(defaults[:url]).to eq("https://petitions.gov.je")
       end
 
       it "allows overriding via environment variables" do
-        allow(ENV).to receive(:fetch).with("JPETITIONS_PROTOCOL", "https").and_return("http")
-        allow(ENV).to receive(:fetch).with("JPETITIONS_HOST", "petitions.gov.je").and_return("localhost")
-        allow(ENV).to receive(:fetch).with("JPETITIONS_PORT", '443').and_return("3000")
+        allow(ENV).to receive(:fetch).with("EPETITIONS_PROTOCOL", "https").and_return("http")
+        allow(ENV).to receive(:fetch).with("EPETITIONS_HOST", "petitions.gov.je").and_return("localhost")
+        allow(ENV).to receive(:fetch).with("EPETITIONS_PORT", '443').and_return("3000")
 
         expect(defaults[:url]).to eq("http://localhost:3000")
       end
@@ -274,17 +274,17 @@ RSpec.describe Site, type: :model do
 
     describe "for moderate_url" do
       it "defaults to 'https://moderate.petitions.gov.je'" do
-        allow(ENV).to receive(:fetch).with("JPETITIONS_PROTOCOL", "https").and_return("https")
+        allow(ENV).to receive(:fetch).with("EPETITIONS_PROTOCOL", "https").and_return("https")
         allow(ENV).to receive(:fetch).with("MODERATE_HOST", "moderate.petitions.gov.je").and_return("moderate.petitions.gov.je")
-        allow(ENV).to receive(:fetch).with("JPETITIONS_PORT", '443').and_return(443)
+        allow(ENV).to receive(:fetch).with("EPETITIONS_PORT", '443').and_return(443)
 
         expect(defaults[:moderate_url]).to eq("https://moderate.petitions.gov.je")
       end
 
       it "allows overriding via environment variables" do
-        allow(ENV).to receive(:fetch).with("JPETITIONS_PROTOCOL", "https").and_return("http")
+        allow(ENV).to receive(:fetch).with("EPETITIONS_PROTOCOL", "https").and_return("http")
         allow(ENV).to receive(:fetch).with("MODERATE_HOST", "moderate.petitions.gov.je").and_return("localhost")
-        allow(ENV).to receive(:fetch).with("JPETITIONS_PORT", '443').and_return("3000")
+        allow(ENV).to receive(:fetch).with("EPETITIONS_PORT", '443').and_return("3000")
 
         expect(defaults[:moderate_url]).to eq("http://localhost:3000")
       end
@@ -292,63 +292,63 @@ RSpec.describe Site, type: :model do
 
     describe "for email_from" do
       it "defaults to 'no-reply@petitions.gov.je'" do
-        allow(ENV).to receive(:fetch).with("JPETITIONS_PROTOCOL", "https").and_return("https")
-        allow(ENV).to receive(:fetch).with("JPETITIONS_HOST", "petitions.gov.je").and_return("petitions.gov.je")
-        allow(ENV).to receive(:fetch).with("JPETITIONS_PORT", '443').and_return(443)
+        allow(ENV).to receive(:fetch).with("EPETITIONS_PROTOCOL", "https").and_return("https")
+        allow(ENV).to receive(:fetch).with("EPETITIONS_HOST", "petitions.gov.je").and_return("petitions.gov.je")
+        allow(ENV).to receive(:fetch).with("EPETITIONS_PORT", '443').and_return(443)
 
         expect(defaults[:email_from]).to eq(%{"Petitions: Jersey States Assembly" <no-reply@gov.je>})
       end
 
       it "allows overriding via the url environment variables" do
-        allow(ENV).to receive(:fetch).with("JPETITIONS_PROTOCOL", "https").and_return("http")
-        allow(ENV).to receive(:fetch).with("JPETITIONS_HOST", "petitions.gov.je").and_return("localhost")
-        allow(ENV).to receive(:fetch).with("JPETITIONS_PORT", '443').and_return("3000")
+        allow(ENV).to receive(:fetch).with("EPETITIONS_PROTOCOL", "https").and_return("http")
+        allow(ENV).to receive(:fetch).with("EPETITIONS_HOST", "petitions.gov.je").and_return("localhost")
+        allow(ENV).to receive(:fetch).with("EPETITIONS_PORT", '443').and_return("3000")
 
         expect(defaults[:email_from]).to eq(%{"Petitions: Jersey States Assembly" <no-reply@localhost>})
       end
 
-      it "allows overriding via the JPETITIONS_FROM environment variables" do
-        allow(ENV).to receive(:fetch).with("JPETITIONS_FROM", %{"Petitions: Jersey States Assembly" <no-reply@gov.je>}).and_return("no-reply@petitions.gov.je")
+      it "allows overriding via the EPETITIONS_FROM environment variables" do
+        allow(ENV).to receive(:fetch).with("EPETITIONS_FROM", %{"Petitions: Jersey States Assembly" <no-reply@gov.je>}).and_return("no-reply@petitions.gov.je")
         expect(defaults[:email_from]).to eq("no-reply@petitions.gov.je")
       end
     end
 
     describe "for feedback_email" do
       it "defaults to 'petitions@gov.je'" do
-        allow(ENV).to receive(:fetch).with("JPETITIONS_PROTOCOL", "https").and_return("https")
-        allow(ENV).to receive(:fetch).with("JPETITIONS_HOST", "petitions.gov.je").and_return("petitions.gov.je")
-        allow(ENV).to receive(:fetch).with("JPETITIONS_PORT", '443').and_return(443)
+        allow(ENV).to receive(:fetch).with("EPETITIONS_PROTOCOL", "https").and_return("https")
+        allow(ENV).to receive(:fetch).with("EPETITIONS_HOST", "petitions.gov.je").and_return("petitions.gov.je")
+        allow(ENV).to receive(:fetch).with("EPETITIONS_PORT", '443').and_return(443)
 
         expect(defaults[:feedback_email]).to eq(%{"Petitions: Jersey States Assembly" <petitions@gov.je>})
       end
 
       it "allows overriding via the url environment variables" do
-        allow(ENV).to receive(:fetch).with("JPETITIONS_PROTOCOL", "https").and_return("http")
-        allow(ENV).to receive(:fetch).with("JPETITIONS_HOST", "petitions.gov.je").and_return("localhost")
-        allow(ENV).to receive(:fetch).with("JPETITIONS_PORT", '443').and_return("3000")
+        allow(ENV).to receive(:fetch).with("EPETITIONS_PROTOCOL", "https").and_return("http")
+        allow(ENV).to receive(:fetch).with("EPETITIONS_HOST", "petitions.gov.je").and_return("localhost")
+        allow(ENV).to receive(:fetch).with("EPETITIONS_PORT", '443').and_return("3000")
 
         expect(defaults[:feedback_email]).to eq(%{"Petitions: Jersey States Assembly" <petitions@localhost>})
       end
 
-      it "allows overriding via the JPETITIONS_FEEDBACK environment variables" do
-        allow(ENV).to receive(:fetch).with("JPETITIONS_FEEDBACK", %{"Petitions: Jersey States Assembly" <petitions@gov.je>}).and_return("committee@petitions.gov.je")
+      it "allows overriding via the EPETITIONS_FEEDBACK environment variables" do
+        allow(ENV).to receive(:fetch).with("EPETITIONS_FEEDBACK", %{"Petitions: Jersey States Assembly" <petitions@gov.je>}).and_return("committee@petitions.gov.je")
         expect(defaults[:feedback_email]).to eq("committee@petitions.gov.je")
       end
     end
 
     describe "for petition_report_email" do
       it "defaults to 'petitions@gov.je'" do
-        allow(ENV).to receive(:fetch).with("JPETITIONS_PROTOCOL", "https").and_return("https")
-        allow(ENV).to receive(:fetch).with("JPETITIONS_HOST", "petitions.gov.je").and_return("petitions.gov.je")
-        allow(ENV).to receive(:fetch).with("JPETITIONS_PORT", '443').and_return(443)
+        allow(ENV).to receive(:fetch).with("EPETITIONS_PROTOCOL", "https").and_return("https")
+        allow(ENV).to receive(:fetch).with("EPETITIONS_HOST", "petitions.gov.je").and_return("petitions.gov.je")
+        allow(ENV).to receive(:fetch).with("EPETITIONS_PORT", '443').and_return(443)
 
         expect(defaults[:petition_report_email]).to eq(%{"Petitions: Jersey States Assembly" <petitions@gov.je>})
       end
 
       it "allows overriding via the url environment variables" do
-        allow(ENV).to receive(:fetch).with("JPETITIONS_PROTOCOL", "https").and_return("http")
-        allow(ENV).to receive(:fetch).with("JPETITIONS_HOST", "petitions.gov.je").and_return("localhost")
-        allow(ENV).to receive(:fetch).with("JPETITIONS_PORT", '443').and_return("3000")
+        allow(ENV).to receive(:fetch).with("EPETITIONS_PROTOCOL", "https").and_return("http")
+        allow(ENV).to receive(:fetch).with("EPETITIONS_HOST", "petitions.gov.je").and_return("localhost")
+        allow(ENV).to receive(:fetch).with("EPETITIONS_PORT", '443').and_return("3000")
 
         expect(defaults[:petition_report_email]).to eq(%{"Petitions: Jersey States Assembly" <petitions@localhost>})
       end
