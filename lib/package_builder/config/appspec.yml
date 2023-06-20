@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: ./source
-    destination: /home/deploy/jpets/releases/<%= release %>
+    destination: /home/deploy/epetitions/releases/<%= release %>
 
 hooks:
   ApplicationStop:

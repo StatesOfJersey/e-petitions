@@ -243,7 +243,7 @@ class PackageBuilder
   end
 
   def profile
-    ENV.fetch('AWS_PROFILE', 'jersey-petitions')
+    "#{ENV.fetch('AWS_PROFILE', 'jersey-petitions')}-#{environment}"
   end
 
   def deploy_release?
@@ -259,11 +259,11 @@ class PackageBuilder
   end
 
   def release_bucket
-    "jersey-petitions-deployments"
+    "jersey-petitions-deployments-#{environment}"
   end
 
   def release_key
-    "#{environment}/#{release}.tar.gz"
+    "#{release}.tar.gz"
   end
 
   def remove_archive
