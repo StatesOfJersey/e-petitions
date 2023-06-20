@@ -51,6 +51,9 @@ module Jpets
     # Remove the error wrapper from around the form element
     config.action_view.field_error_proc = -> (html_tag, instance) { html_tag }
 
+    # Disable the default preload links header
+    config.action_view.preload_links_header = false
+
     # Add additional exceptions to the rescue responses
     config.action_dispatch.rescue_responses.merge!(
       'Site::ServiceUnavailable' => :service_unavailable,
