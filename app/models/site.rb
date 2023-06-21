@@ -8,7 +8,7 @@ class Site < ActiveRecord::Base
   include ActiveSupport::NumberHelper
 
   FALSE_VALUES = [nil, false, 0, '0', 'f', 'F', 'false', 'FALSE', 'off', 'OFF'].to_set
-  FEATURE_FLAGS = %w[]
+  FEATURE_FLAGS = %w[disable_local_petitions]
 
   class << self
     def table_exists?

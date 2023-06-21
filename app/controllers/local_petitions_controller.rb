@@ -2,6 +2,7 @@ require 'postcode_sanitizer'
 require 'csv'
 
 class LocalPetitionsController < ApplicationController
+  before_action :raise_routing_error, if: :local_petitions_disabled?
   before_action :sanitize_postcode, only: :index
   before_action :find_by_postcode, if: :postcode?, only: :index
   before_action :find_by_slug, only: [:show, :all]
@@ -77,5 +78,9 @@ class LocalPetitionsController < ApplicationController
 
   def set_content_disposition
     response.headers['Content-Disposition'] = "attachment; filename=#{csv_filename}"
+  end
+
+  def local_petitions_disabled?
+    Site.disable_local_petitions?
   end
 end

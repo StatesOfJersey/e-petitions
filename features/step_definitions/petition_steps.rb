@@ -262,6 +262,10 @@ Then(/^I should see my parish "([^"]*)"/) do |parish|
   expect(page).to have_text(parish)
 end
 
+Then(/^I should not see my parish "([^"]*)"/) do |parish|
+  expect(page).to_not have_text(parish)
+end
+
 Then(/^I should not see the text "([^"]*)"/) do |text|
   expect(page).to_not have_text(text)
 end

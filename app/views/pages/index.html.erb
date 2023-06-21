@@ -16,7 +16,7 @@
 
   <%= render "pages/home/explanation_petitions" %>
 
-  <% unless no_petitions_yet? %>
+  <% unless no_petitions_yet? || Site.disable_local_petitions? %>
     <%= render "pages/home/local_petitions" %>
   <% end %>
 

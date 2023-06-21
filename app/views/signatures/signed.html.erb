@@ -12,10 +12,12 @@
   <%= render "petitions/threshold_details", petition: @petition %>
 </section>
 
-<% if @signature.parish %>
-  <div class="section-panel" aria-labelledby="contact-your-mp-heading">
-    <p>Your parish is <%= @signature.parish.name %></p>
-  </div>
+<% unless Site.disable_local_petitions? %>
+  <% if @signature.parish %>
+    <div class="section-panel" aria-labelledby="contact-your-mp-heading">
+      <p>Your parish is <%= @signature.parish.name %></p>
+    </div>
+  <% end %>
 <% end %>
 
 <div class="section-panel">

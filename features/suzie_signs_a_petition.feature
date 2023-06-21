@@ -35,6 +35,18 @@ Feature: Suzie signs a petition
     And I can click on a link to return to the petition
     And I should see "2 signatures"
 
+  Scenario: Suzie signs a petition after validating her email when local petitions are disabled
+    Given the site has disabled local petitions
+    When I decide to sign the petition
+    And I fill in my details
+    And I try to sign
+    And I say I am happy with my email address
+    Then I am told to check my inbox to complete signing
+    And "womboid@wimbledon.com" should receive 1 email
+    When I confirm my email address
+    Then I should have signed the petition
+    And I should not see my parish "St. Saviour"
+
   Scenario: Suzie signs a petition with invalid postcode JE1 9ZZ
     When I go to the new signature page for "Do something!"
     And I fill in my details with email "womboid@wimbledon.com"

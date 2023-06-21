@@ -94,4 +94,8 @@ class ApplicationController < ActionController::Base
   def rate_limit
     @rate_limit ||= RateLimit.first_or_create!
   end
+
+  def raise_routing_error
+    raise ActionController::RoutingError, "No route matches #{request.path}"
+  end
 end
