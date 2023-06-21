@@ -122,11 +122,6 @@ a.threshold-panel:hover, a.threshold-panel:focus {
 
   margin-top: em(40, 20);
   margin-bottom: em(10, 20);
-
-  @include media(tablet) {
-    margin-top: em(60, 24);
-    margin-bottom: em(20, 24);
-  }
 }
 
 .search-petitions {
