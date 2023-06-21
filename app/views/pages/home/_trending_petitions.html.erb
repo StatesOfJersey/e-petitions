@@ -1,6 +1,7 @@
 <div class="section-panel-borderless">
   <%= link_to 'View all open petitions', petitions_path(state: 'open'), :class => 'view-all' %> |
-  <%= link_to 'How petitions work', help_path, :class => 'view-all' %>
+  <%= link_to 'Start a petition', check_petitions_path, :class => 'view-all' %>
+
   <% trending_petitions do |petitions| %>
     <section class="trending" aria-labelledby="trending-heading">
       <h2 id="trending-heading">Popular petitions</h2>
