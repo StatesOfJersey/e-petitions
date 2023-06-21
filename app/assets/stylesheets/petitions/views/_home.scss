@@ -71,7 +71,6 @@
     font-size: 24px;
     line-height: 30/24;
     margin-top: 0;
-    padding-left: $text-indent;
   }
 
   p {
@@ -80,20 +79,6 @@
 }
 a.threshold-panel:hover, a.threshold-panel:focus {
   background-color: darken($petitions-panel-colour, 5%);
-}
-.threshold-panel-response {
-  background-image: image-url("graphics/graphic_states-assembly-white.png");
-  background-size: 26px;
-  @include device-pixel-ratio() {
-    background-image: image-url("graphics/graphic_states-assembly-white-2x.png");
-  }
-}
-.threshold-panel-debate {
-  background-image: image-url("graphics/graphic_states-assembly-white.png");
-  background-size: 26px;
-  @include device-pixel-ratio() {
-    background-image: image-url("graphics/graphic_states-assembly-white-2x.png");
-  }
 }
 
 // Threshold petitions
