@@ -1,9 +1,9 @@
 #global-header {
   background-color: $petitions-header-colour;
-  padding-top: $gutter-half;
+  padding-top: $gutter-one-third;
   margin-top: -1px;
   margin-bottom: -1px;
-  padding-bottom: $gutter-half;
+  padding-bottom: $gutter-one-third;
   h1 {
     margin: 0;
   }
@@ -16,7 +16,6 @@
     overflow: visible;
     vertical-align: baseline;
     line-height: 34px;
-    padding-left: $text-indent;
   }
   a {
     text-decoration: none;
