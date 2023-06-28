@@ -1,11 +1,12 @@
 #global-header {
   background-color: $petitions-header-colour;
-  padding-top: $gutter-one-third;
   margin-top: -1px;
   margin-bottom: -1px;
-  padding-bottom: $gutter-one-third;
   h1 {
     margin: 0;
+  }
+  .wrapper {
+    padding: $gutter-one-third 0;
   }
   .proposition {
     color: $white;
@@ -31,10 +32,26 @@
     width: 28px;
     height: 34px;
   }
+  .logo-container {
+    background-color: $white;
+    padding-top: 1px;
+  }
+  .logo {
+    @extend %site-width-container;
+    padding: $gutter-one-third 0;
 
-  .strapline {
-    color: $white;
-    margin: $gutter-one-third -5px 5px $text-indent;
+    @include media(tablet) {
+      padding: $gutter-half 0;
+    }
+
+    svg {
+      display: block;
+      height: 34px;
+
+      @include media(tablet) {
+        height: 56px;
+      }
+    }
   }
 }
 

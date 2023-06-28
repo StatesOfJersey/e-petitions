@@ -294,13 +294,14 @@ a:focus {
 }
 #global-header {
   background-color: #a21926;
-  padding-top: 10px;
   margin-top: -1px;
   margin-bottom: -1px;
-  padding-bottom: 10px;
 }
 #global-header h1 {
   margin: 0;
+}
+#global-header .wrapper {
+  padding: 10px 0;
 }
 #global-header a {
   color: #fff;
@@ -324,9 +325,40 @@ a:focus {
   width: 28px;
   height: 34px;
 }
-#global-header .strapline {
-  color: #ffffff;
-  margin: 10px -5px 5px 50px;
+#global-header .logo {
+  max-width: 630px;
+  margin: 0 15px;
+}
+@media (min-width: 641px) {
+  #global-header .logo {
+    margin: 0 30px;
+  }
+}
+@media (min-width: 690px) {
+  #global-header .logo {
+    margin: 0 auto;
+  }
+}
+#global-header .logo-container {
+  background-color: #fff;
+  padding-top: 1px;
+}
+#global-header .logo {
+  padding: 10px 0;
+}
+@media (min-width: 641px) {
+  #global-header .logo {
+    padding: 15px 0;
+  }
+}
+#global-header .logo svg {
+  display: block;
+  height: 34px;
+}
+@media (min-width: 641px) {
+  #global-header .logo svg {
+    height: 56px;
+  }
 }
 #footer {
   border-top: 10px solid #a21926;
