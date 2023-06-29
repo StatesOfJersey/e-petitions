@@ -10,8 +10,8 @@
   </div>
 </div>
 
-<script>
+<%= javascript_tag(nonce: true) do %>
   $(document).ready(function() {
     $("#edit-lock").editLock(<%= @petition.id %>, <%= current_user.id %>, '/admin/petitions', <%= @petition.moderated? %>);
   });
-</script>
+<% end %>

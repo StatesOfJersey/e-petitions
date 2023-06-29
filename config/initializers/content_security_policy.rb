@@ -15,14 +15,19 @@ Rails.application.configure do
 
     policy.connect_src :self,
       "https://*.google-analytics.com",
-      "https://*.govmetric.com"
+      "https://*.govmetric.com",
+      "https://stats.g.doubleclick.net"
 
-    policy.script_src :self, :unsafe_inline,
+    policy.script_src :self,
       "https://www.googletagmanager.com",
       "https://*.google-analytics.com",
-      "https://*.govmetric.com"
+      "https://*.govmetric.com",
+      "'sha256-6mLTVIrVSkIFgIUkng8vgEXtviyBKsQ/aqh8M4VzbbE='"
 
     policy.style_src :self, :unsafe_inline,
       "https://*.govmetric.com"
   end
+
+  config.content_security_policy_nonce_generator = -> (request) { SecureRandom.base64(16) }
+  config.content_security_policy_nonce_directives = %w[script-src]
 end

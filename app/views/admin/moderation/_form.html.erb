@@ -21,7 +21,7 @@
 
   <%= f.submit 'Email petition creator', :class => 'button', :tabindex => increment %>
 
-  <%= javascript_tag do %>
+  <%= javascript_tag(nonce: true) do %>
     $().ready(function() {
       var $rejection_controls = $('.petition-rejection-controls'),
           $reject_control = $('#petition_moderation_reject'),
