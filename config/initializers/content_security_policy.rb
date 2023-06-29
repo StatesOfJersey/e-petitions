@@ -11,18 +11,33 @@ Rails.application.configure do
 
     policy.img_src :self,
       "https://*.govmetric.com",
-      "https://*.google-analytics.com"
+      "https://*.google-analytics.com",
+      "https://www.google.com",
+      "https://www.google.co.uk",
+      "https://www.facebook.com"
+
+    policy.frame_src :self,
+      "https://consentcdn.cookiebot.com"
 
     policy.connect_src :self,
       "https://*.google-analytics.com",
       "https://*.govmetric.com",
-      "https://stats.g.doubleclick.net"
+      "https://stats.g.doubleclick.net",
+      "https://consentcdn.cookiebot.com",
+      "https://r1.trackedweb.net"
 
     policy.script_src :self,
       "https://www.googletagmanager.com",
       "https://*.google-analytics.com",
       "https://*.govmetric.com",
-      "'sha256-6mLTVIrVSkIFgIUkng8vgEXtviyBKsQ/aqh8M4VzbbE='"
+      "https://consent.cookiebot.com",
+      "https://consentcdn.cookiebot.com",
+      "https://connect.facebook.net",
+      "http://static.trackedweb.net",
+      "'sha256-mIxSZhYvydb3bb/WRxfU47u0yNgvJfNbFPYxUdGcyhU='",
+      "'sha256-eGYiITZn6r/AFy6QrgbyoM4yk3yS1Vo+xgt8ue86jX0='",
+      "'sha256-0A1tzz8+V8RNwqXqQafCMU2Ro3lZAPemg4O8wAJxrOc='",
+      "'sha256-0N4uBNF8Ck58plVdc/HPoTS5KnKsV2l4tIn14GCP7NE='"
 
     policy.style_src :self, :unsafe_inline,
       "https://*.govmetric.com"
