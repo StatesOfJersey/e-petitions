@@ -15,7 +15,7 @@ RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main' \
 # Install NodeJS
 ENV PATH=/usr/local/node/bin:$PATH
 RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
-    /tmp/node-build-master/bin/node-build "18.16.0" /usr/local/node && \
+    /tmp/node-build-master/bin/node-build "18.16.1" /usr/local/node && \
     npm install -g yarn@1.22.19 && \
     rm -rf /tmp/node-build-master
 
