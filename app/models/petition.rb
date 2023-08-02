@@ -3,23 +3,24 @@ require 'textacular/searchable'
 class Petition < ActiveRecord::Base
   include PerishableTokenGenerator
 
-  PENDING_STATE     = 'pending'
-  VALIDATED_STATE   = 'validated'
-  SPONSORED_STATE   = 'sponsored'
-  FLAGGED_STATE     = 'flagged'
-  OPEN_STATE        = 'open'
-  CLOSED_STATE      = 'closed'
-  REJECTED_STATE    = 'rejected'
-  HIDDEN_STATE      = 'hidden'
+  PENDING_STATE      = 'pending'
+  VALIDATED_STATE    = 'validated'
+  SPONSORED_STATE    = 'sponsored'
+  FLAGGED_STATE      = 'flagged'
+  OPEN_STATE         = 'open'
+  CLOSED_STATE       = 'closed'
+  REJECTED_STATE     = 'rejected'
+  HIDDEN_STATE       = 'hidden'
 
-  STATES            = %w[pending validated sponsored flagged open closed rejected hidden]
-  DEBATABLE_STATES  = %w[open closed]
-  VISIBLE_STATES    = %w[open closed rejected]
-  SHOW_STATES       = %w[pending validated sponsored flagged open closed rejected]
-  MODERATED_STATES  = %w[open closed hidden rejected]
-  PUBLISHED_STATES  = %w[open closed]
-  SELECTABLE_STATES = %w[open closed rejected hidden]
-  SEARCHABLE_STATES = %w[open closed rejected]
+  STATES             = %w[pending validated sponsored flagged open closed rejected hidden]
+  DEBATABLE_STATES   = %w[open closed]
+  VISIBLE_STATES     = %w[open closed rejected]
+  SHOW_STATES        = %w[pending validated sponsored flagged open closed rejected]
+  MODERATED_STATES   = %w[open closed hidden rejected]
+  PUBLISHED_STATES   = %w[open closed]
+  RESPONDABLE_STATES = %w[open closed]
+  SELECTABLE_STATES  = %w[open closed rejected hidden]
+  SEARCHABLE_STATES  = %w[open closed rejected]
 
   IN_MODERATION_STATES       = %w[sponsored flagged]
   TODO_LIST_STATES           = %w[pending validated sponsored flagged]
@@ -45,15 +46,15 @@ class Petition < ActiveRecord::Base
   facet :closed,   -> { closed_state.by_most_popular }
   facet :hidden,   -> { hidden_state.by_most_recent }
 
-  facet :awaiting_response,    -> { awaiting_response.by_waiting_for_response_longest }
-  facet :with_response,        -> { with_response.by_most_recent_response }
+  facet :awaiting_response,    -> { respondable.awaiting_response.by_waiting_for_response_longest }
+  facet :with_response,        -> { respondable.with_response.by_most_recent_response }
 
-  facet :awaiting_debate,      -> { awaiting_debate.by_most_relevant_debate_date }
-  facet :awaiting_debate_date, -> { awaiting_debate_date.by_waiting_for_debate_longest }
-  facet :with_debate_outcome,  -> { with_debate_outcome.by_most_recent_debate_outcome }
-  facet :with_debated_outcome, -> { with_debated_outcome.by_most_recent_debate_outcome }
-  facet :debated,              -> { debated.by_most_recent_debate_outcome }
-  facet :not_debated,          -> { not_debated.by_most_recent_debate_outcome }
+  facet :awaiting_debate,      -> { debateable.awaiting_debate.by_most_relevant_debate_date }
+  facet :awaiting_debate_date, -> { debateable.awaiting_debate_date.by_waiting_for_debate_longest }
+  facet :with_debate_outcome,  -> { debateable.with_debate_outcome.by_most_recent_debate_outcome }
+  facet :with_debated_outcome, -> { debateable.with_debated_outcome.by_most_recent_debate_outcome }
+  facet :debated,              -> { debateable.debated.by_most_recent_debate_outcome }
+  facet :not_debated,          -> { debateable.not_debated.by_most_recent_debate_outcome }
 
   facet :collecting_sponsors,  -> { collecting_sponsors.by_most_recent }
   facet :in_moderation,        -> { in_moderation.by_most_recent_moderation_threshold_reached }

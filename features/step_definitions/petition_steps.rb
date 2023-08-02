@@ -60,7 +60,7 @@ Given(/^an open petition "(.*?)" with response "(.*?)" and response summary "(.*
   @petition = FactoryBot.create(:responded_petition, action: petition_action, response_details: details, response_summary: summary)
 end
 
-Given(/^a ?(open|closed)? petition "([^"]*)" exists and has received a Ministers response (\d+) days ago$/) do |state, petition_action, parliament_response_days_ago |
+Given(/^a ?(open|closed|rejected)? petition "([^"]*)" exists and has received a Ministers response (\d+) days ago$/) do |state, petition_action, parliament_response_days_ago |
   petition_attributes = {
     action: petition_action,
     closed_at: state == 'closed' ? 1.day.ago : 6.months.from_now,
@@ -68,7 +68,11 @@ Given(/^a ?(open|closed)? petition "([^"]*)" exists and has received a Ministers
     response_details: "Ministers' Response",
     government_response_at: parliament_response_days_ago.to_i.days.ago
   }
-  FactoryBot.create(:responded_petition, petition_attributes)
+  petition = FactoryBot.create(:responded_petition, petition_attributes)
+
+  if state == "rejected"
+    petition.reject(code: "duplicate")
+  end
 end
 
 Given(/^a petition "(.*?)" exists and hasn't passed the threshold for a ?(response|debate)?$/) do |action, response_or_debate|
@@ -83,6 +87,11 @@ Given(/^a petition "(.*?)" exists and passed the threshold for a response (\d+) 
   FactoryBot.create(:open_petition, action: action, response_threshold_reached_at: amount.days.ago)
 end
 
+Given(/^a rejected petition "(.*?)" exists and passed the threshold for a response (\d+) days? ago$/) do |action, amount|
+  petition = FactoryBot.create(:open_petition, action: action, response_threshold_reached_at: amount.days.ago)
+  petition.reject(code: "duplicate")
+end
+
 Given(/^a petition "(.*?)" passed the threshold for a debate less than a day ago and has no debate date set$/) do |action|
   petition = FactoryBot.create(:awaiting_debate_petition, action: action, debate_threshold_reached_at: 2.hours.ago)
   petition.debate_outcome = nil
@@ -91,6 +100,12 @@ end
 Given(/^a petition "(.*?)" passed the threshold for a debate (\d+) days? ago and has no debate date set$/) do |action, amount|
   petition = FactoryBot.create(:awaiting_debate_petition, action: action, debate_threshold_reached_at: amount.days.ago)
   petition.debate_outcome = nil
+end
+
+Given(/^a rejected petition "(.*?)" passed the threshold for a debate (\d+) days? ago and has no debate date set$/) do |action, amount|
+  petition = FactoryBot.create(:awaiting_debate_petition, action: action, debate_threshold_reached_at: amount.days.ago)
+  petition.debate_outcome = nil
+  petition.reject(code: "duplicate")
 end
 
 Given(/^a petition "(.*?)" passed the threshold for a debate (\d+) days? ago and has a debate in (\d+) days$/) do |action, threshold, debate|

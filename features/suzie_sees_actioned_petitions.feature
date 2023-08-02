@@ -53,3 +53,17 @@ Feature: Suzie sees actioned petitions
     And I am on the home page
     Then I should see "Ban Badger Baiting" in the debate threshold section
     And I should not see "Free the wombles" in the debate threshold section
+
+  Scenario: There was a petition responded to but has since been rejected
+    Given a rejected petition "Free Uncle Bulgaria" exists and has received a Ministers response 15 days ago
+    And a petition "Ban Badger Baiting" exists and has received a Ministers response 10 days ago
+    And I am on the home page
+    Then I should see "Ban Badger Baiting" in the response threshold section
+    And I should not see "Free Uncle Bulgaria" in the response threshold section
+
+  Scenario: There was a petition debated but has since been rejected
+    Given a rejected petition "Free Uncle Bulgaria" has been debated 30 days ago
+    And a petition "Ban Badger Baiting" has been debated 12 days ago
+    And I am on the home page
+    Then I should see "Ban Badger Baiting" in the debate threshold section
+    And I should not see "Free the wombles" in the debate threshold section

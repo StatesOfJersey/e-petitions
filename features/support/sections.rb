@@ -12,6 +12,10 @@ module SectionHelpers
       "#{prefix}h1"
 
     # Home page
+    when /^response threshold section$/
+      expect(page).to have_xpath("//section[@aria-labelledby='response-threshold-heading']")
+      "#{prefix}section[@aria-labelledby='response-threshold-heading']"
+
     when /^debate threshold section$/
       expect(page).to have_xpath("//section[@aria-labelledby='debate-threshold-heading']")
       "#{prefix}section[@aria-labelledby='debate-threshold-heading']"

@@ -10,6 +10,19 @@ Given(/^a petition "(.*?)" has been debated (\d+) days ago?$/) do |petition_acti
   @petition.update(debate_outcome_at: debated_days_ago.days.ago)
 end
 
+Given(/^a rejected petition "(.*?)" has been debated (\d+) days ago?$/) do |petition_action, debated_days_ago|
+  @petition = FactoryBot.create(:debated_petition,
+    action: petition_action,
+    debated_on: debated_days_ago.days.ago.to_date,
+    overview: 'Everyone was in agreement, this petition must be made law!',
+    transcript_url: 'http://transcripts.parliament.example.com/2.html',
+    video_url: 'http://videos.parliament.example.com/2.avi',
+    debate_pack_url: 'http://researchbriefings.parliament.uk/ResearchBriefing/Summary/CDP-2014-1234'
+  )
+  @petition.update(debate_outcome_at: debated_days_ago.days.ago)
+  @petition.reject(code: "duplicate")
+end
+
 Given(/^a petition "(.*?)" has been debated yesterday$/) do |petition_action|
   @petition = FactoryBot.create(:open_petition,
     action: petition_action,
