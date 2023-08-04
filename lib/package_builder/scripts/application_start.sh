@@ -2,4 +2,4 @@
 set -e
 set -o pipefail
 
-service jpets start
+service epetitions start

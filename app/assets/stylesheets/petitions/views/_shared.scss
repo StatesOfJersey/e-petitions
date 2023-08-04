@@ -270,11 +270,11 @@ input.back-page {
     font-size: 24px;
     line-height: 30/24;
     margin: 0 0 em(10, 24) 0;
-    padding: em(5, 24) 0 0 $text-indent;
+    padding: em(5, 24) 0 0 0;
 
     @include media(tablet) {
       margin: 0 0 em(10, 24) 0;
-      padding: em(5, 24) 0 0 $text-indent;
+      padding: em(5, 24) 0 0 0;
     }
   }
   h3 {
@@ -284,15 +284,6 @@ input.back-page {
       margin: em(5, 19) 0;
     }
   }
-}
-.about-item-count-response h2, .about-item-count-debate h2, .about-item-other-business h2 {
-  background-repeat: no-repeat;
-}
-.about-item-count-response h2 {
-  @include background-image("graphics/graphic_states-assembly", 28px, 34px);
-}
-.about-item-count-debate h2, .about-item-other-business h2 {
-  @include background-image("graphics/graphic_states-assembly", 28px, 34px);
 }
 .about-item-scheduled-debate-date {
   @include bold-19;

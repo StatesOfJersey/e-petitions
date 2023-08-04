@@ -49,57 +49,26 @@ RSpec.describe Petition, type: :model do
     it { is_expected.to have_db_column(:background).of_type(:string).with_options(limit: 300, null: true) }
     it { is_expected.to have_db_column(:additional_details).of_type(:text).with_options(null: true) }
 
-    it "should validate the length of :action to within 80 characters" do
-      expect(FactoryBot.build(:petition, :action => 'x' * 80)).to be_valid
-      expect(FactoryBot.build(:petition, :action => 'x' * 81)).not_to be_valid
-    end
+    it { is_expected.to validate_length_of(:action).is_at_most(80) }
+    it { is_expected.to validate_length_of(:background).is_at_most(300) }
+    it { is_expected.to validate_length_of(:additional_details).is_at_most(800) }
 
-    it "should validate the length of :background to within 300 characters" do
-      expect(FactoryBot.build(:petition, :background => 'x' * 300)).to be_valid
-      expect(FactoryBot.build(:petition, :background => 'x' * 301)).not_to be_valid
-    end
+    it { is_expected.to validate_presence_of(:state).with_message("State '' not recognised") }
+    it { is_expected.not_to allow_value("unknown").for(:state) }
 
-    it "should validate the length of :additional_details to within 800 characters" do
-      expect(FactoryBot.build(:petition, :additional_details => 'x' * 800)).to be_valid
-      expect(FactoryBot.build(:petition, :additional_details => 'x' * 801)).not_to be_valid
-    end
-
-    it "does not allow a blank state" do
-      petition = FactoryBot.build(:petition, state: '')
-
-      expect(petition).not_to be_valid
-      expect(petition.errors[:state]).not_to be_empty
-    end
-
-    it "does not allow an unknown state" do
-      petition = FactoryBot.build(:petition, state: 'unknown')
-
-      expect(petition).not_to be_valid
-      expect(petition.errors[:state]).not_to be_empty
-    end
-
-    %w(pending validated sponsored flagged open rejected hidden).each do |state|
-      it "allows state: #{state}" do
-        petition = FactoryBot.build(:"#{state}_petition")
-
-        expect(petition).to be_valid
-        expect(petition.state).to eq(state)
-        expect(petition.errors[:state]).to be_empty
-      end
-    end
+    it { is_expected.to allow_value("pending").for(:state) }
+    it { is_expected.to allow_value("validated").for(:state) }
+    it { is_expected.to allow_value("sponsored").for(:state) }
+    it { is_expected.to allow_value("flagged").for(:state) }
+    it { is_expected.to allow_value("open").for(:state) }
+    it { is_expected.to allow_value("rejected").for(:state) }
+    it { is_expected.to allow_value("hidden").for(:state) }
 
     context "when state is open" do
-      let(:petition) { FactoryBot.build(:open_petition, open_at: nil, closed_at: nil) }
+      subject { FactoryBot.build(:open_petition) }
 
-      it "checks petition is invalid if no open_at date" do
-        expect(petition).not_to be_valid
-        expect(petition.errors[:open_at]).not_to be_empty
-      end
-
-      it "checks petition is valid if there is an open_at date" do
-        petition.open_at = Time.current
-        expect(petition).to be_valid
-      end
+      it { is_expected.not_to allow_value(nil).for(:open_at) }
+      it { is_expected.to allow_value(Time.current).for(:open_at) }
     end
   end
 
@@ -743,7 +712,7 @@ RSpec.describe Petition, type: :model do
 
       let!(:recent_rejected_petition) { FactoryBot.create :rejected_petition, open_at: time + 1.minute, action: 'Plant more cabbages' }
       let!(:older_open_petition_signed) { FactoryBot.create :open_petition, open_at: time - 1.minute, action: 'Plant more mushrooms', last_signed_at: time - 1.minute }
-      let!(:older_open_petition_unsigned) { FactoryBot.create :open_petition, open_at: time - 1.minute, action: 'Plant more wheat', last_signed_at: nil }
+      let!(:older_open_petition_unsigned) { FactoryBot.create :open_petition, open_at: time - 1.minute, action: 'Plant more wheat', last_signed_at: nil, increment: false }
 
       it "returns petitions that have been signed or opened in the supplied period" do
         expect(Petition.open_or_signed_since(time)).to include(recent_open_petition_1, recent_open_petition_2, recent_open_petition_3)
@@ -1480,11 +1449,15 @@ RSpec.describe Petition, type: :model do
 
   describe "#increment_signature_count!" do
     let(:signature_count) { 8 }
+    let(:debate_state) { "pending" }
+
     let(:petition) do
       FactoryBot.create(:open_petition, {
+        debate_state: debate_state,
         signature_count: signature_count,
         last_signed_at: 2.days.ago,
-        updated_at: 2.days.ago
+        updated_at: 2.days.ago,
+        creator_attributes: { validated_at: 5.days.ago }
       })
     end
 
@@ -1509,8 +1482,13 @@ RSpec.describe Petition, type: :model do
         FactoryBot.create(:pending_petition, {
           signature_count: 0,
           last_signed_at: nil,
-          updated_at: 2.days.ago
+          updated_at: 2.days.ago,
+          increment: false
         })
+      end
+
+      before do
+        FactoryBot.create(:validated_signature, petition: petition, sponsor: true, increment: false)
       end
 
       it "records changes the state from 'pending' to 'validated'" do
@@ -1526,10 +1504,11 @@ RSpec.describe Petition, type: :model do
       let(:signature_count) { 5 }
 
       before do
-        expect(Site).to receive(:threshold_for_response).and_return(5)
+        expect(Site).to receive(:threshold_for_moderation).and_return(5)
+        FactoryBot.create(:validated_signature, petition: petition, increment: false)
       end
 
-      context 'having already been validated by the creator' do
+      context "having already been validated by a sponsor" do
         let(:petition) do
           FactoryBot.create(:validated_petition, {
             signature_count: signature_count,
@@ -1539,8 +1518,11 @@ RSpec.describe Petition, type: :model do
         end
 
         it "records the time it happened" do
-          petition.increment_signature_count!
-          expect(petition.moderation_threshold_reached_at).to be_within(1.second).of(Time.current)
+          expect {
+            petition.increment_signature_count!
+          }.to change {
+            petition.moderation_threshold_reached_at
+          }.to be_within(1.second).of(Time.current)
         end
 
         it "records changes the state from 'validated' to 'sponsored'" do
@@ -1552,7 +1534,7 @@ RSpec.describe Petition, type: :model do
         end
       end
 
-      context 'without having been validated by the creator yet' do
+      context "without having been validated by a sponsor yet" do
         let(:petition) do
           FactoryBot.create(:pending_petition, {
             signature_count: signature_count,
@@ -1562,8 +1544,11 @@ RSpec.describe Petition, type: :model do
         end
 
         it "records the time it happened" do
-          petition.increment_signature_count!
-          expect(petition.moderation_threshold_reached_at).to be_within(1.second).of(Time.current)
+          expect {
+            petition.increment_signature_count!
+          }.to change {
+            petition.moderation_threshold_reached_at
+          }.to be_within(1.second).of(Time.current)
         end
 
         it "records changes the state from 'validated' to 'sponsored'" do
@@ -1578,6 +1563,10 @@ RSpec.describe Petition, type: :model do
 
     context "when the signature count is higher than the threshold for moderation" do
       let(:signature_count) { 100 }
+
+      before do
+        FactoryBot.create(:validated_signature, petition: petition, increment: false)
+      end
 
       context "and moderation_threshold_reached_at is nil" do
         let(:petition) do
@@ -1608,35 +1597,110 @@ RSpec.describe Petition, type: :model do
 
       before do
         expect(Site).to receive(:threshold_for_response).and_return(10)
+        FactoryBot.create(:validated_signature, petition: petition, increment: false)
       end
 
       it "records the time it happened" do
-        petition.increment_signature_count!
-        expect(petition.response_threshold_reached_at).to be_within(1.second).of(Time.current)
+        expect {
+          petition.increment_signature_count!
+        }.to change {
+          petition.response_threshold_reached_at
+        }.to be_within(1.second).of(Time.current)
       end
     end
 
-    context "when the signature count crosses the threshold for a debate" do
-      let(:signature_count) { 99 }
+    context "when the petition hasn't been debated" do
+      let(:debate_state) { "pending" }
 
-      before do
-        expect(Site).to receive(:threshold_for_debate).and_return(100)
+      context "when the signature count crosses the threshold for a debate" do
+        let(:signature_count) { 99 }
+
+        before do
+          expect(Site).to receive(:threshold_for_debate).and_return(100)
+          FactoryBot.create(:validated_signature, petition: petition, increment: false)
+        end
+
+        it "records the time it happened" do
+          expect {
+            petition.increment_signature_count!
+          }.to change {
+            petition.debate_threshold_reached_at
+          }.to be_within(1.second).of(Time.current)
+        end
+
+        it "sets the debate_state to 'awaiting'" do
+          expect {
+            petition.increment_signature_count!
+          }.to change {
+            petition.debate_state
+          }.from("pending").to("awaiting")
+        end
       end
+    end
 
-      it "records the time it happened" do
-        petition.increment_signature_count!
-        expect(petition.debate_threshold_reached_at).to be_within(1.second).of(Time.current)
+    context "when the petition is awaiting a debate" do
+      let(:debate_state) { "awaiting" }
+
+      context "when the signature count crosses the threshold for a debate" do
+        let(:signature_count) { 99 }
+
+        before do
+          expect(Site).to receive(:threshold_for_debate).and_return(100)
+          FactoryBot.create(:validated_signature, petition: petition, increment: false)
+        end
+
+        it "records the time it happened" do
+          expect {
+            petition.increment_signature_count!
+          }.to change {
+            petition.debate_threshold_reached_at
+          }.to be_within(1.second).of(Time.current)
+        end
+
+        it "doesn't change debate_state" do
+          expect {
+            petition.increment_signature_count!
+          }.not_to change {
+            petition.debate_state
+          }.from("awaiting")
+        end
       end
+    end
 
-      it "sets the debate_state to 'awaiting'" do
-        petition.increment_signature_count!
-        expect(petition.debate_state).to eq("awaiting")
+    context "when the petition has been debated" do
+      let(:debate_state) { "debated" }
+
+      context "when the signature count crosses the threshold for a debate" do
+        let(:signature_count) { 99 }
+
+        before do
+          expect(Site).to receive(:threshold_for_debate).and_return(100)
+          FactoryBot.create(:validated_signature, petition: petition, increment: false)
+        end
+
+        it "records the time it happened" do
+          expect {
+            petition.increment_signature_count!
+          }.to change {
+            petition.debate_threshold_reached_at
+          }.to be_within(1.second).of(Time.current)
+        end
+
+        it "doesn't change debate_state" do
+          expect {
+            petition.increment_signature_count!
+          }.not_to change {
+            petition.debate_state
+          }.from("debated")
+        end
       end
     end
   end
 
   describe "#decrement_signature_count!" do
     let(:signature_count) { 8 }
+    let(:debate_state) { 'awaiting' }
+
     let(:petition) do
       FactoryBot.create(:open_petition, {
         signature_count: signature_count,
@@ -1644,7 +1708,7 @@ RSpec.describe Petition, type: :model do
         updated_at: 2.days.ago,
         response_threshold_reached_at: 2.days.ago,
         debate_threshold_reached_at: 2.days.ago,
-        debate_state: 'awaiting'
+        debate_state: debate_state
       })
     end
 
@@ -1689,14 +1753,54 @@ RSpec.describe Petition, type: :model do
         expect(Site).to receive(:threshold_for_debate).and_return(100)
       end
 
-      it "records the time it happened" do
+      it "resets the timestamp" do
         petition.decrement_signature_count!
         expect(petition.debate_threshold_reached_at).to be_nil
       end
 
-      it "sets the debate_state to 'pending'" do
-        petition.decrement_signature_count!
-        expect(petition.debate_state).to eq("pending")
+      context "and a debate has not been scheduled" do
+        let(:debate_state) { "awaiting" }
+
+        it "sets the debate_state to 'pending'" do
+          petition.decrement_signature_count!
+          expect(petition.debate_state).to eq("pending")
+        end
+      end
+
+      context "and a debate has been scheduled" do
+        let(:debate_state) { "scheduled" }
+
+        it "doesn't change debated_state" do
+          expect {
+            petition.decrement_signature_count!
+          }.not_to change {
+            petition.debate_state
+          }.from("scheduled")
+        end
+      end
+
+      context "and a debate has taken place" do
+        let(:debate_state) { "debated" }
+
+        it "doesn't change debated_state" do
+          expect {
+            petition.decrement_signature_count!
+          }.not_to change {
+            petition.debate_state
+          }.from("debated")
+        end
+      end
+
+      context "and a debate has not taken place" do
+        let(:debate_state) { "not_debated" }
+
+        it "doesn't change debated_state" do
+          expect {
+            petition.decrement_signature_count!
+          }.not_to change {
+            petition.debate_state
+          }.from("not_debated")
+        end
       end
     end
   end
@@ -1738,7 +1842,7 @@ RSpec.describe Petition, type: :model do
       let(:petition) { FactoryBot.create(:sponsored_petition) }
 
       before do
-        expect(Site).not_to receive(:threshold_for_response)
+        expect(Site).not_to receive(:threshold_for_moderation)
       end
 
       it "is falsey" do
@@ -2185,7 +2289,7 @@ RSpec.describe Petition, type: :model do
   end
 
   describe "#signatures_to_email_for" do
-    let!(:petition) { FactoryBot.create(:petition) }
+    let!(:petition) { FactoryBot.create(:open_petition) }
     let!(:creator) { petition.creator }
     let!(:other_signature) { FactoryBot.create(:validated_signature, petition: petition) }
     let(:petition_timestamp) { 5.days.ago }
@@ -2242,10 +2346,6 @@ RSpec.describe Petition, type: :model do
 
     it "rounds down to the nearest 5 seconds" do
       expect(petition.cache_key).to eq("petitions/#{petition.id}-20160629000005000000")
-    end
-
-    it "can use other columns" do
-      expect(petition.cache_key(:open_at, :last_signed_at)).to eq("petitions/#{petition.id}-20160628000015000000")
     end
   end
 

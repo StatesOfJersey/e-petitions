@@ -5,23 +5,31 @@ default: &defaults
   # Your app's name
   name: "<%= ENV['APPSIGNAL_APP_NAME'] %>"
 
+  # Your app's revision
+  revision: "<%= File.exist?('REVISION') ? File.read('REVISION') : '' %>"
+
   # The cuttoff point in ms above which a request is considered slow, default is 200
   # slow_request_threshold: 200
 
   # Actions that should not be monitored by AppSignal
   ignore_actions:
+    - Admin::UserSessionsController#status
     - PetitionsController#count
     - PingController#ping
 
   # Exceptions that should not be recorded by AppSignal
   ignore_errors:
     - ActionDispatch::ParamsParser::ParseError
+    - ActionDispatch::Http::MimeNegotiation::InvalidType
     - ActionController::BadRequest
     - ActionController::InvalidAuthenticityToken
+    - ActionController::ParameterMissing
     - ActionController::RoutingError
     - ActionController::UnknownFormat
     - ActionController::UnknownHttpMethod
     - ActiveRecord::RecordNotFound
+    - Rack::QueryParser::ParameterTypeError
+    - Rack::QueryParser::InvalidParameterError
     - Site::ServiceUnavailable
     - Admin::AccessDenied
 

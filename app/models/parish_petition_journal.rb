@@ -1,6 +1,6 @@
 class ParishPetitionJournal < ActiveRecord::Base
   belongs_to :petition
-  belongs_to :parish
+  belongs_to :parish, optional: true
 
   validates :petition, presence: true
   validates :parish_id, presence: true, length: { maximum: 255 }

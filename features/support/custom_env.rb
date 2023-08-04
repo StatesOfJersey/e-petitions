@@ -1,6 +1,13 @@
 require 'email_spec/cucumber'
 require 'rspec/core/pending'
 require 'multi_test'
+require 'faker'
+
+# Use webmock to disable net connections except for localhost and exceptions
+WebMock.disable_net_connect!(
+  allow_localhost: true,
+  allow: 'chromedriver.storage.googleapis.com'
+)
 
 MultiTest.disable_autorun
 
@@ -28,17 +35,21 @@ Capybara.register_driver :chrome do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: capabilities)
 end
 
+chromeArguments = %w[
+  headless
+  allow-insecure-localhost
+  window-size=1280,960
+  proxy-server=127.0.0.1:8443
+]
+
+if File.exist?("/.dockerenv")
+  # Running as root inside Docker
+  chromeArguments += %w[no-sandbox disable-gpu]
+end
+
 Capybara.register_driver :chrome_headless do |app|
   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    chromeOptions: {
-      args: [
-        "headless",
-        "allow-insecure-localhost",
-        "window-size=1280,960",
-        "proxy-server=127.0.0.1:8443"
-      ],
-      w3c: false
-    },
+    chromeOptions: { args: chromeArguments, w3c: false },
     accept_insecure_certs: true
   )
 
@@ -64,8 +75,8 @@ at_exit do
 end
 
 World Module.new {
-  def t(*args)
-    I18n.t(*args)
+  def t(*args, **kwargs)
+    I18n.t(*args, **kwargs)
   end
 }
 

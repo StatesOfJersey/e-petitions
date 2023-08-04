@@ -4,7 +4,7 @@
 @-o-viewport {
   width: device-width;
 }
-#content:after {
+.grid-row:after, #content:after {
   content: "";
   display: block;
   clear: both;
@@ -61,7 +61,7 @@ main {
 html {
   -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
-    background-color: #dee0e2;
+    background-color: #363636;
 }
 /*
   Force the scrollbar to always display in IE10/11
@@ -71,7 +71,7 @@ html {
 }
 body {
   background: #fff;
-  color: #0b0c0c;
+  color: #1d1d1b;
   line-height: 1.5;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
@@ -213,11 +213,11 @@ p {
   }
 }
 a {
-  color: #9e132c;
+  color: #a21926;
   text-decoration: none;
 }
 a:visited {
-  color: #9e132c;
+  color: #a21926;
 }
 a:hover {
   color: #392f2b;
@@ -229,8 +229,8 @@ a {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0.3);
 }
 a:focus {
-  background-color: #ffbf47;
-  outline: 3px solid #ffbf47;
+  background-color: #f2cc0c;
+  outline: 3px solid #f2cc0c;
 }
 .icon, .graphic {
   background-position: 0 0;
@@ -292,15 +292,31 @@ a:focus {
     padding-bottom: 60px;
   }
 }
+.grid-row {
+  margin: 0 -15px;
+}
+.column-third {
+  padding: 0 15px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+@media (min-width: 641px) {
+  .column-third {
+    float: left;
+    width: 33.3333333333%;
+  }
+}
 #global-header {
-  background-color: #9e132c;
-  padding-top: 15px;
+  background-color: #a21926;
   margin-top: -1px;
   margin-bottom: -1px;
-  padding-bottom: 15px;
 }
 #global-header h1 {
   margin: 0;
+}
+#global-header .wrapper {
+  padding: 10px 0;
 }
 #global-header a {
   color: #fff;
@@ -312,7 +328,6 @@ a:focus {
   vertical-align: baseline;
   text-decoration: none;
   line-height: 34px;
-  padding-left: 50px;
 }
 #global-header a:focus {
   background-color: transparent;
@@ -325,24 +340,58 @@ a:focus {
   width: 28px;
   height: 34px;
 }
-#global-header .strapline {
-  color: #ffffff;
-  margin: 10px -5px 5px 50px;
+#global-header .logo {
+  max-width: 630px;
+  margin: 0 15px;
+}
+@media (min-width: 641px) {
+  #global-header .logo {
+    margin: 0 30px;
+  }
+}
+@media (min-width: 690px) {
+  #global-header .logo {
+    margin: 0 auto;
+  }
+}
+#global-header .logo-container {
+  background-color: #fff;
+  padding-top: 1px;
+}
+#global-header .logo {
+  padding: 10px 0;
+}
+@media (min-width: 641px) {
+  #global-header .logo {
+    padding: 15px 0;
+  }
+}
+#global-header .logo svg {
+  display: block;
+  height: 34px;
+}
+@media (min-width: 641px) {
+  #global-header .logo svg {
+    height: 56px;
+  }
 }
 #footer {
-  border-top: 10px solid #9e132c;
-  background-color: #dee0e2;
-  padding-top: 30px;
-  padding-bottom: 45px;
+  border-top: none;
+  background-color: #363636;
+  padding-top: 20px;
+  padding-bottom: 30px;
 }
 #footer a {
-  color: #0b0c0c;
+  color: #fff;
 }
 #footer a:hover {
   text-decoration: underline;
 }
+#footer a:focus {
+  color: #363636;
+}
 #footer ul {
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 #footer li {
   font-size: 16px;
@@ -355,100 +404,36 @@ a:focus {
     line-height: 1.42857;
   }
 }
-#footer .open-government-licence {
-	clear: left;
-	position: relative;
-}
-#footer .open-government-licence .logo {
-	margin-bottom: 1em;
-	padding-top: 0;
-}
-#footer .open-government-licence .logo a {
-	display: block;
-	width: 41px;
-	height: 17px;
-	overflow: hidden;
-	text-indent: -999em;
-	background-image: url(<%= data_uri('graphics/graphic_open-government-licence.png') %>);
-	background-position: 0 0;
-	background-repeat: no-repeat;
-}
-@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 20 / 10), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-	#footer .open-government-licence .logo a {
-		background-image: url(<%= data_uri('graphics/graphic_open-government-licence-2x.png') %>);
-		background-size: 41px 17px;
-	}
-}
-#footer .open-government-licence p {
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 16px;
-	line-height: 1.25;
-	font-weight: 400;
-	text-transform: none;
-	margin: 0;
-	padding-top: 0.1em;
-}
-@media (max-width: 640px) {
-	#footer .open-government-licence p {
-		font-size: 14px;
-		line-height: 1.42857;
-	}
+#footer hr {
+  background-color: #999999;
+  border: none;
+  height: 1px;
+  margin: 20px 0;
+  padding: 0;
 }
 @media (min-width: 641px) {
-	#footer .wrapper { position: relative; }
+  #footer hr {
+    max-width: 630px;
+    margin: 20px 30px;
+  }
 }
-.graphic-portcullis-large-grey {
-	width: 52px;
-	height: 64px;
-	background-image: url(<%= data_uri('graphics/graphic_portcullis-large-grey.png') %>);
+@media (min-width: 690px) {
+  #footer hr {
+    max-width: 630px;
+    margin: 20px auto;
+  }
 }
-@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 20 / 10), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-	.graphic-portcullis-large-grey {
-		background-image: url(<%= data_uri('graphics/graphic_portcullis-large-grey-2x.png') %>);
-		background-size: 100%;
-	}
+#footer .logo-container {
+  padding: 0 15px;
 }
-.graphic-crest-large-grey {
-	width: 80px;
-	height: 64px;
-	background-image: url(<%= data_uri('graphics/graphic_crest-large-grey.png') %>);
-}
-@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 20 / 10), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-	.graphic-crest-large-grey {
-		background-image: url(<%= data_uri('graphics/graphic_crest-large-grey-2x.png') %>);
-		background-size: 100%;
-	}
-}
-.copyright {
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 16px;
-	line-height: 1.25;
-	font-weight: 400;
-	text-transform: none;
-	margin: 45px 0 0 0;
-	width: 100%;
-	display: block;
-	text-align: center;
-}
-@media (max-width: 640px) {
-	.copyright {
-		font-size: 14px;
-		line-height: 1.42857;
-	}
+#footer .logo {
+  margin: 0 auto;
 }
 @media (min-width: 641px) {
-	.copyright {
-		max-width: 200px;
-		position: absolute;
-		top: 0;
-		right: 0;
-		margin-top: 0;
-		text-align: right;
-	}
+  #footer .logo {
+    max-width: 315px;
+  }
 }
-.copyright .graphic-portcullis-large-grey { margin-right: 45px; }
-.copyright a {
-	display: block;
-	text-decoration: none;
-	margin-top: 15px;
+#footer .logo svg {
+  display: block;
 }

@@ -1,39 +1,65 @@
 # Petitions
 
-This is the code base for the Jersey States Assembly petitions service (https://petitions.gov.je).
-We have open sourced the code for you to use under the terms of licence contained in this repository.
+This is the code base for the [Jersey States Assembly petitions service][1].
 
-We hope you enjoy it!
+## Setup
 
-A few things to know:
+We recommend using [Docker Desktop][2] to get setup quickly. If you'd prefer not to use Docker then you'll need Ruby (2.5+), Node (12+), PostgreSQL (10+) and Memcached (1.5+) installed.
 
-* You will need `ruby 2.5.1`
-* You will need PostgreSQL and Memcached
+### Create the databases
 
-## Set up your development environment
+```
+docker compose run --rm web rake db:setup
+```
 
-* Clone the repo to your local machine
-* Install postgres. Easiest with homebrew using `brew install postgres`
-	* If you like you can add postgres to your LaunchAgent. Follow instructions at end of console output
-* Set up your dev and test databases
-	* `$ psql postgres`
-	* `# CREATE DATABASE jpets_development;`
-	* `# CREATE DATABASE jpets_test;`
-	* `# CREATE USER jpets;`
-	* `# GRANT all privileges ON database jpets_development TO jpets;`
-	* `# GRANT all privileges ON database jpets_test TO jpets;`
-	* `# ALTER USER jpets WITH PASSWORD 'replace_me';`
-	* `# \q` to quit
-* You will need to set up the `config/database.yml`. Copy what is in `config/database.example.yml` and add the password you used earlier for the `jpets` postgres user
-* `$ rake db:structure:load` - load the sql structure into your new databases
+### Create an admin user
 
-## Run the app
+```
+docker compose run --rm web rake jpets:add_sysadmin_user
+```
 
-* `rails s`
+### Load the parish list
 
-## Other info
+```
+docker compose run --rm web rake jpets:parishes:load
+```
 
-* If you want jobs (like emails) to be run, use `$ rake jobs:work`
-* For setting up a sysadmin user
-	* `rake jpets:add_sysadmin_user` - to set up an admin user with email 'admin@example.com' and password 'Letmein1!'
-	* go to `/admin` and log in. You will be asked to change your password. Remember, the password must contain a mix of upper and lower case letters, numbers and special characters.
+### Start the services
+
+```
+docker compose up
+```
+
+Once the services have started you can access the [front end][3], [back end][4] and any [emails sent][5].
+
+## Tests
+
+Before running any tests the database needs to be prepared:
+
+```
+docker compose run --rm web rake db:test:prepare
+```
+
+You can run the full test suite using following command:
+
+```
+docker compose run --rm web rake
+```
+
+Individual specs can be run using the following command:
+
+```
+docker compose run --rm web rspec spec/models/site_spec.rb
+```
+
+Similarly, individual cucumber features can be run using the following command:
+
+```
+docker compose run --rm web cucumber features/suzie_views_a_petition.feature
+```
+
+[1]: https://petitions.gov.je
+[2]: https://www.docker.com/products/docker-desktop
+[3]: http://localhost:3000/
+[4]: http://localhost:3000/admin
+[5]: http://localhost:1080/

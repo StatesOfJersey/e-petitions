@@ -8,11 +8,13 @@ class Site < ActiveRecord::Base
   include ActiveSupport::NumberHelper
 
   FALSE_VALUES = [nil, false, 0, '0', 'f', 'F', 'false', 'FALSE', 'off', 'OFF'].to_set
-  FEATURE_FLAGS = %w[]
+  FEATURE_FLAGS = %w[disable_local_petitions]
 
   class << self
     def table_exists?
       @table_exists ||= connection.table_exists?(table_name)
+    rescue ActiveRecord::NoDatabaseError => e
+      false
     end
 
     def before_remove_const
@@ -120,7 +122,7 @@ class Site < ActiveRecord::Base
     end
 
     def petition_report_due_at
-      (Time.current.beginning_of_week + petition_report_day_of_week.days).change(hour: petition_report_hour_of_day)
+      (Time.current.beginning_of_week(:sunday) + petition_report_day_of_week.days).change(hour: petition_report_hour_of_day)
     end
 
     def defaults
@@ -154,7 +156,7 @@ class Site < ActiveRecord::Base
     end
 
     def default_scheme
-      ENV.fetch('JPETITIONS_PROTOCOL', 'https')
+      ENV.fetch('EPETITIONS_PROTOCOL', 'https')
     end
 
     def default_protocol
@@ -162,7 +164,7 @@ class Site < ActiveRecord::Base
     end
 
     def default_url
-      if ENV.fetch('JPETITIONS_PROTOCOL', 'https') == 'https'
+      if ENV.fetch('EPETITIONS_PROTOCOL', 'https') == 'https'
         URI::HTTPS.build(default_url_components).to_s
       else
         URI::HTTP.build(default_url_components).to_s
@@ -174,7 +176,7 @@ class Site < ActiveRecord::Base
     end
 
     def default_host
-      ENV.fetch('JPETITIONS_HOST', 'petitions.gov.je')
+      ENV.fetch('EPETITIONS_HOST', 'petitions.gov.je')
     end
 
     def default_domain(tld_length = 1)
@@ -182,7 +184,7 @@ class Site < ActiveRecord::Base
     end
 
     def default_moderate_url
-      if ENV.fetch('JPETITIONS_PROTOCOL', 'https') == 'https'
+      if ENV.fetch('EPETITIONS_PROTOCOL', 'https') == 'https'
         URI::HTTPS.build(default_moderate_url_components).to_s
       else
         URI::HTTP.build(default_moderate_url_components).to_s
@@ -198,15 +200,15 @@ class Site < ActiveRecord::Base
     end
 
     def default_port
-      ENV.fetch('JPETITIONS_PORT', '443').to_i
+      ENV.fetch('EPETITIONS_PORT', '443').to_i
     end
 
     def default_email_from
-      ENV.fetch('JPETITIONS_FROM', %{"Petitions: Jersey States Assembly" <no-reply@#{default_domain}>})
+      ENV.fetch('EPETITIONS_FROM', %{"Petitions: Jersey States Assembly" <no-reply@#{default_domain}>})
     end
 
     def default_feedback_email
-      ENV.fetch('JPETITIONS_FEEDBACK', %{"Petitions: Jersey States Assembly" <petitions@#{default_domain}>})
+      ENV.fetch('EPETITIONS_FEEDBACK', %{"Petitions: Jersey States Assembly" <petitions@#{default_domain}>})
     end
 
     def default_username
@@ -363,7 +365,7 @@ class Site < ActiveRecord::Base
   end
 
   def password_digest
-    BCrypt::Password.new(super)
+    super.present? ? BCrypt::Password.new(super) : nil
   end
 
   def password=(new_password)

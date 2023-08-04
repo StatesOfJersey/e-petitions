@@ -59,6 +59,9 @@ module NavigationHelpers
     when /^the all local petitions JSON page$/
       all_local_petition_url(@my_parish.slug, :json)
 
+    when /^the parish page for "([^\"]*)"$/
+      local_petition_url(Parish.find_by!(name: $1).slug)
+
     else
       begin
         page_name =~ /^the (.*) page$/

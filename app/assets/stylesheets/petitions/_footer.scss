@@ -1,96 +1,69 @@
 /* Global footer */
 
 #footer {
-  border-top: 10px solid $states-assembly-red;
-  background-color: $panel-colour;
-  padding-top: $gutter;
-  padding-bottom: $gutter *1.5;
+  border-top: none;
+  background-color: $petitions-footer-colour;
+  padding-top: $gutter-two-thirds;
+  padding-bottom: $gutter;
 
   a {
-    color: $black;
+    color: $white;
 
     &:hover {
       text-decoration: underline;
     }
+
+    &:focus {
+      color: $petitions-footer-colour;
+    }
   }
 
   ul {
-    margin-bottom: $gutter;
+    margin-bottom: $gutter-half;
   }
+
   li {
     @include core-16;
     margin-bottom: $gutter-one-third;
   }
 
-  .open-government-licence {
-    clear: left;
-    position: relative;
+  hr {
+    background-color: #999999;
+    border: none;
+    height: 1px;
+    margin: $gutter-two-thirds 0;
+    padding: 0;
 
-    @include ie(6) {
-      zoom: 1;
+    @include media(tablet) {
+      max-width: $site-width;
+      margin: $gutter-two-thirds $gutter;
     }
 
-    .logo {
-      margin-bottom: 1em;
-      padding-top: 0;
-
-      a {
-        display: block;
-        width: 41px;
-        height: 17px;
-        overflow:hidden;
-        text-indent: -999em;
-        @include background-image("graphics/graphic_open-government-licence", 41px, 17px);
-        background-position: 0 0;
-        background-repeat: no-repeat;
-      }
-    }
-
-    p {
-      @include core-16;
-      margin: 0;
-      padding-top: 0.1em;
+    @include media($site-width + $gutter * 2) {
+      max-width: $site-width;
+      margin: $gutter-two-thirds auto;
     }
   }
 
-  @include media(tablet) {
-    .wrapper {
-      position: relative;
+  .logo-container {
+    padding: 0 $gutter-half;
+  }
+
+  .logo {
+    margin: 0 auto;
+
+    @include media(tablet) {
+      max-width: $site-width * 0.5;
+    }
+
+    svg {
+      display: block;
     }
   }
 }
 
-.copyright {
-  @include core-16;
-
-  margin: $gutter*1.5 0 0 0;
-  width: 100%;
-  display: block;
-  text-align: center;
-
-  @include media(tablet) {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin-top: 0;
-    text-align: right;
-  }
-
-  @include ie-lte(7) {
-    float: right;
-    height: 150px;
-    width: 24%;
-  }
-
-  .graphic-portcullis-large-grey {
-    margin-right: $gutter *1.5;
-  }
-
-  a {
+.gm_sidebar {
+  img {
     display: block;
-    text-decoration: none;
-
-    margin-top: $gutter-half;
-
   }
 }

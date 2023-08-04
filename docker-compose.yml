@@ -1,0 +1,80 @@
+version: "3.7"
+
+x-application: &application
+  image: jersey-petitions/ruby
+  build: docker/ruby
+  volumes:
+    - .:/app
+    - bundle:/bundle
+    - cache:/cache
+    - node_modules:/app/node_modules
+  tmpfs:
+    - /tmp/pids/
+  depends_on:
+    - postgres
+    - mailcatcher
+    - memcached
+
+x-environment: &environment
+  DATABASE_URL: "postgres://postgres:2nPKkrEePQ5n7yQy@postgres:5432"
+  MEMCACHE_SERVERS: "memcached:11211"
+  SMTP_HOST: "mailcatcher"
+  SMTP_PORT: "1025"
+  SPROCKETS_CACHE: "/cache"
+  PIDFILE: "/tmp/pids/server.pid"
+
+services:
+  postgres:
+    image: postgres:14
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=2nPKkrEePQ5n7yQy
+      - POSTGRES_DB=postgres
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - db:/var/lib/postgresql/data
+
+  mailcatcher:
+    image: jersey-petitions/mailcatcher
+    build: docker/mailcatcher
+    expose:
+      - "1025"
+    ports:
+      - "127.0.0.1:1080:1080"
+
+  memcached:
+    image: memcached:1.6
+    expose:
+      - "11121"
+
+  web:
+    <<: *application
+    environment:
+      <<: *environment
+    command: [
+      "rails", "server",
+      "-b", "0.0.0.0",
+      "-p", "3000"
+    ]
+    ports:
+      - "127.0.0.1:3000:3000"
+    stdin_open: true
+    tty: true
+
+  worker:
+    <<: *application
+    environment:
+      <<: *environment
+    command: [
+      "bin/delayed_job", "start",
+      "-p", "worker",
+      "--daemon_options", "-t"
+    ]
+
+volumes:
+  bundle:
+  db:
+  cache:
+  node_modules:

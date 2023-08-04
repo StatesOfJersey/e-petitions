@@ -109,17 +109,17 @@ And "I have already signed the petition but not validated my email" do
 end
 
 Given /^Suzie has already signed the petition$/ do
-  @suzies_signature = FactoryBot.create(:signature, :petition => @petition, :email => "womboid@wimbledon.com",
+  @suzies_signature = FactoryBot.create(:validated_signature, :petition => @petition, :email => "womboid@wimbledon.com",
          :postcode => "JE1 1AA", :name => "Womboid Wibbledon")
 end
 
 Given /^Eric has already signed the petition with Suzies email$/ do
-  FactoryBot.create(:signature, :petition => @petition, :email => "womboid@wimbledon.com",
+  FactoryBot.create(:validated_signature, :petition => @petition, :email => "womboid@wimbledon.com",
          :postcode => "JE1 1AA", :name => "Eric Wibbledon")
 end
 
 Given /^I have signed the petition with a second name$/ do
-  FactoryBot.create(:signature, :petition => @petition, :email => "womboid@wimbledon.com",
+  FactoryBot.create(:validated_signature, :petition => @petition, :email => "womboid@wimbledon.com",
          :postcode => "JE1 1AA", :name => "Sam Wibbledon")
 end
 

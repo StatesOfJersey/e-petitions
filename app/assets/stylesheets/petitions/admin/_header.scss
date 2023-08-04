@@ -1,4 +1,5 @@
 .admin {
+  $site-width: 1160px;
   #global-header {
     background-color: $black;
     a {
@@ -17,6 +18,9 @@
         display: inline;
         padding: 0;
       }
+    }
+    .logo {
+      @include site-width-container($site-width);
     }
   }
 }

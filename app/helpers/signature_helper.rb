@@ -1,6 +1,6 @@
 module SignatureHelper
   def signature_count(key, count, options = {})
-    t(:"#{key}.html", siganture_count_options(count, number_with_delimiter(count), options))
+    t(:"#{key}.html", **siganture_count_options(count, number_with_delimiter(count), options))
   end
 
   private

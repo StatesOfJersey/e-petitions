@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe HomeHelper, type: :helper do
   describe "#no_petitions_yet?" do
     let(:connection) { Petition.connection }
-    let(:sql) { /^SELECT  1 AS one FROM/ }
+    let(:sql) { /^SELECT 1 AS one FROM/ }
 
     it "performs an exists query" do
       expect(connection).to receive(:select).with(sql, any_args).and_call_original
@@ -71,19 +71,19 @@ RSpec.describe HomeHelper, type: :helper do
 
       context "when the petition count is 1" do
         it "returns a correctly formatted petition count" do
-          expect(helper.petition_count(:with_debated_outcome, 1)).to eq("<span class=\"count\">1</span> petition was debated in the States Assembly")
+          expect(helper.petition_count(:with_debated_outcome, 1)).to eq("<span class=\"count\">1</span> petition was debated by the States Assembly")
         end
       end
 
       context "when the petition count is 100" do
         it "returns a correctly formatted petition count" do
-          expect(helper.petition_count(:with_debated_outcome, 100)).to eq("<span class=\"count\">100</span> petitions were debated in the States Assembly")
+          expect(helper.petition_count(:with_debated_outcome, 100)).to eq("<span class=\"count\">100</span> petitions were debated by the States Assembly")
         end
       end
 
       context "when the petition count is 1000" do
         it "returns a correctly formatted petition count" do
-          expect(helper.petition_count(:with_debated_outcome, 1000)).to eq("<span class=\"count\">1,000</span> petitions were debated in the States Assembly")
+          expect(helper.petition_count(:with_debated_outcome, 1000)).to eq("<span class=\"count\">1,000</span> petitions were debated by the States Assembly")
         end
       end
     end

@@ -1,4 +1,19 @@
 <%= hidden_field_tag :tab, "features" %>
+<%= hidden_field_tag :"site[features]", "" %>
 
-<%= form_row for: [form.object, :disable_constituency_api], class: "inline" do %>
-<% end %>
+<div class="grid-row">
+  <div class="grid-column">
+    <%= form_row for: [form.object, :disable_local_petitions], class: "inline" do %>
+      <%= form.label :disable_local_petitions, "Disable local petitions?", class: "form-label" %>
+      <%= error_messages_for_field @site, :disable_local_petitions %>
+      <div class="multiple-choice">
+        <%= form.radio_button :disable_local_petitions, true %>
+        <%= form.label :disable_local_petitions, "Yes", for: "site_disable_local_petitions_true" %>
+      </div>
+      <div class="multiple-choice">
+        <%= form.radio_button :disable_local_petitions, false %>
+        <%= form.label :disable_local_petitions, "No", for: "site_disable_local_petitions_false" %>
+      </div>
+    <% end %>
+  </div>
+</div>

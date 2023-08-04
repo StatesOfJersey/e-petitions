@@ -17,9 +17,9 @@ en-GB:
       published: "Published petitions"
       awaiting_response: "Petitions waiting for a response from Ministers"
       with_response: "Petitions with response"
-      debated: "Petitions debated in the States Assembly"
-      not_debated: "Petitions not debated in the States Assembly"
-      awaiting_debate: "Petitions waiting for a debate in the States Assembly"
+      debated: "Petitions debated by the States Assembly"
+      not_debated: "Petitions not debated by the States Assembly"
+      awaiting_debate: "Petitions waiting for a debate by the States Assembly"
 
     share_title: "Petition: %{petition}"
 
@@ -41,9 +41,9 @@ en-GB:
       rejected: "Rejected petitions (%{quantity})"
       awaiting_response: "Awaiting response from Ministers (%{quantity})"
       with_response: "Ministers' responses (%{quantity})"
-      debated: "Debated in the States Assembly (%{quantity})"
-      not_debated: "Not debated in the States Assembly (%{quantity})"
-      awaiting_debate: "Awaiting a debate in the States Assembly (%{quantity})"
+      debated: "Debated by the States Assembly (%{quantity})"
+      not_debated: "Not debated by the States Assembly (%{quantity})"
+      awaiting_debate: "Awaiting a debate by the States Assembly (%{quantity})"
 
     list_headers:
       not_debated: "The Petitions team decided not to debate these petitions"
@@ -190,8 +190,8 @@ en-GB:
           other: "<span class=\"count\">%{formatted_count}</span> petitions are waiting to be considered for debate"
       with_debated_outcome:
         html:
-          one: "<span class=\"count\">%{formatted_count}</span> petition was debated in the States Assembly"
-          other: "<span class=\"count\">%{formatted_count}</span> petitions were debated in the States Assembly"
+          one: "<span class=\"count\">%{formatted_count}</span> petition was debated by the States Assembly"
+          other: "<span class=\"count\">%{formatted_count}</span> petitions were debated by the States Assembly"
       awaiting_response_explanation:
         html: "See all petitions waiting for a response from Ministers (%{formatted_count})"
       with_response_explanation:
@@ -199,9 +199,9 @@ en-GB:
       awaiting_debate_explanation:
         html: "See all petitions waiting for a debate (%{formatted_count})"
       debated_explanation:
-        html: "See all petitions debated in the States Assembly (%{formatted_count})"
+        html: "See all petitions debated by the States Assembly (%{formatted_count})"
       not_debated_explanation:
-        html: "See all petitions not debated in the States Assembly (%{formatted_count})"
+        html: "See all petitions not debated by the States Assembly (%{formatted_count})"
 
     action_counts:
       in_moderation:

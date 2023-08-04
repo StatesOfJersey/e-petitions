@@ -6,7 +6,7 @@ module Jpets
   class SSLServer
     class << self
       def build(app, port)
-        Rack::Handler::WEBrick.run(app, defaults.merge(Port: port))
+        Rack::Handler::WEBrick.run(app, **defaults.merge(Port: port))
       end
 
       private

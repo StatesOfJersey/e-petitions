@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  direct(:states_assembly) { "https://statesassembly.gov.je/" }
+
   constraints Site.constraints_for_public do
     controller 'parishes' do
       get '/parishes', action: 'index', as: :parishes

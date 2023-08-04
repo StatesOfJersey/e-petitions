@@ -38,6 +38,17 @@ Feature: Freya searches petitions by parish
     And I should see that closed petitions are identified
     And the petitions I see should be ordered by my fellow parish residents level of support
 
+  Scenario: Searching for local petitions when the feature is disabled
+    Given the site has disabled local petitions
+    And I am on the home page
+    Then I should not see "Local to you"
+
+  @allow-rescue
+  Scenario: Viewing a parish petitions page when the feature is disabled
+    Given the site has disabled local petitions
+    And I am on the parish page for "Saint Martin"
+    Then I will see 404 error page
+
   Scenario: Downloading the JSON data for open local petitions
     Given I am on the home page
     When I search for petitions local to me in "JE3 6AA"

@@ -84,7 +84,7 @@ class ApplicationController < ActionController::Base
   end
 
   def do_not_cache
-    response.headers['Cache-Control'] = 'no-cache, no-store'
+    response.headers['Cache-Control'] = 'no-store'
   end
 
   def ip_blocked?
@@ -93,5 +93,9 @@ class ApplicationController < ActionController::Base
 
   def rate_limit
     @rate_limit ||= RateLimit.first_or_create!
+  end
+
+  def raise_routing_error
+    raise ActionController::RoutingError, "No route matches #{request.path}"
   end
 end

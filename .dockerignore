@@ -1,0 +1,6 @@
+/.bundle
+/.git
+/log/*
+/pkg/*
+/tmp/*
+/node_modules/*

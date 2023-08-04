@@ -199,7 +199,7 @@ class PetitionCreator
   end
 
   def replay_email?
-    stage == "replay_email" && errors.keys == [:email]
+    stage == "replay_email" && errors.attribute_names == [:email]
   end
 
   def done?

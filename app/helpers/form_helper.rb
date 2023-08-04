@@ -1,14 +1,25 @@
 module FormHelper
-  def form_row opts={}, &block
-    css_classes = ['form-group']
-    css_classes.push opts[:class] if opts[:class]
-    css_classes.push 'error' if opts[:for] && opts[:for][0].errors[opts[:for][1]].any?
-    content_tag :div, capture(&block), :class => css_classes.join(' ')
+  def form_row(options, &block)
+    classes = %w[form-group]
+    classes.push options.delete(:class) if options.key?(:class)
+
+    object, field = options.delete(:for)
+
+    if object && (object.errors.attribute_names & Array(field)).present?
+      classes.push 'error'
+    end
+
+    options[:class] = classes.join(' ')
+    content_tag(:div, capture(&block), options)
   end
 
-  def error_messages_for_field(object, field_name, options = {})
-    if errors = object && object.errors[field_name].presence
-      content_tag :span, errors.first, { class: 'error-message' }.merge(options)
+  def error_messages_for_field(object, field, options = {})
+    if object
+      errors = Array(field).map { |f| object.errors[f] }.compact.flatten(1)
+
+      if errors.present?
+        content_tag :span, errors.first, { class: 'error-message' }.merge(options)
+      end
     end
   end
 end
