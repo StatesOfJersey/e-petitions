@@ -4,7 +4,7 @@ This is the code base for the [Jersey States Assembly petitions service][1].
 
 ## Setup
 
-We recommend using [Docker Desktop][2] to get setup quickly. If you'd prefer not to use Docker then you'll need Ruby (2.5+), Node (12+), PostgreSQL (10+) and Memcached (1.5+) installed.
+We recommend using [Docker Desktop][2] to get setup quickly. If you'd prefer not to use Docker then you'll need Ruby (3.0+), Node (18+), PostgreSQL (14+) and Memcached (1.6+) installed.
 
 ### Create the databases
 
