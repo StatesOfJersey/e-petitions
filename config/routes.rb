@@ -82,7 +82,6 @@ Rails.application.routes.draw do
 
       root to: 'admin#index'
 
-      resource :parliament, only: %i[show update]
       resource :search, only: %i[show]
 
       resources :admin_users
