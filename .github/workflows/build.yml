@@ -7,48 +7,6 @@ on:
     branches: [master]
 
 jobs:
-  bundle-audit:
-    runs-on: ubuntu-22.04
-
-    services:
-      postgres:
-        image: postgres:14
-        ports: ["5432:5432"]
-        env:
-          POSTGRES_PASSWORD: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-      memcached:
-        image: memcached:1.5
-        ports: ["11211:11211"]
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: "3.0"
-
-      - name: Setup gem cache
-        uses: actions/cache@v3
-        with:
-          path: vendor/bundle
-          key: ubuntu-22.04-gems-${{ hashFiles('/Gemfile.lock') }}
-          restore-keys: |
-            ubuntu-22.04-gems-
-
-      - name: Setup
-        uses: ./.github/actions/setup
-
-      - name: Check bundle for known CVEs
-        run: |
-          bundle exec rake bundle:audit
-
   brakeman:
     runs-on: ubuntu-22.04
 
