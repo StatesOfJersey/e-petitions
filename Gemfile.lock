@@ -158,7 +158,7 @@ GEM
       launchy (~> 2.1)
       mail (~> 2.7)
     erubi (1.12.0)
-    execjs (2.7.0)
+    execjs (2.8.1)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
@@ -394,7 +394,7 @@ GEM
     timeout (0.4.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    uglifier (4.1.8)
+    uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
     wasabi (3.8.0)
       addressable
