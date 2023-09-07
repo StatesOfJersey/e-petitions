@@ -6,16 +6,12 @@ updates:
       interval: daily
     versioning-strategy: increase-if-necessary
     open-pull-requests-limit: 10
-    allow:
-      - dependency-name: "rails"
-        dependency-type: "direct"
 
   - package-ecosystem: npm
     directory: /
     schedule:
       interval: daily
     versioning-strategy: increase-if-necessary
-    open-pull-requests-limit: 0
 
   # Ruby needs to be upgraded manually in multiple places, so cannot be upgraded by Dependabot.
   - package-ecosystem: docker
@@ -24,10 +20,8 @@ updates:
     directory: /
     schedule:
       interval: weekly
-    open-pull-requests-limit: 0
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule: 
       interval: daily
-    open-pull-requests-limit: 0
