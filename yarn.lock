@@ -446,9 +446,9 @@ jake@^10.8.5:
     minimatch "^3.1.2"
 
 jasmine-browser-runner@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/jasmine-browser-runner/-/jasmine-browser-runner-2.0.0.tgz#43a1df8a1a737a35a314c8030d95198a61f795ed"
-  integrity sha512-b9Q1vfJ1nlm7Dm+juibYQNZGGSM9a9YZjjB5vNZv1YlNd9xoIltSUAH1SPfzsHgJMV4SdUrfRTD7isngREX2Sg==
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/jasmine-browser-runner/-/jasmine-browser-runner-2.2.0.tgz#6450fe0da53a597c44def327e622e48dff2c43be"
+  integrity sha512-EKHp7sUsbKM42qlq44kx497IyQRmAXaNhrVogPAzIEs5LuKXhwSI7DZEjwr22o4rZf4T5pWDcLb3/WtB08f9Lg==
   dependencies:
     ejs "^3.1.6"
     express "^4.16.4"
@@ -757,6 +757,7 @@ statuses@2.0.1:
   integrity sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==
 
 "string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0:
+  name string-width-cjs
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -782,6 +783,7 @@ string_decoder@~1.1.1:
     safe-buffer "~5.1.0"
 
 "strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+  name strip-ansi-cjs
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
