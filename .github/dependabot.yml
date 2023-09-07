@@ -1,0 +1,23 @@
+version: 2
+updates:
+  - package-ecosystem: bundler
+    directory: /
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: daily
+
+  # Ruby needs to be upgraded manually in multiple places, so cannot be upgraded by Dependabot.
+  - package-ecosystem: docker
+    ignore:
+      - dependency-name: ruby
+    directory: /
+    schedule:
+      interval: weekly
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule: 
+      interval: daily
