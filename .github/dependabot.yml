@@ -17,7 +17,13 @@ updates:
   - package-ecosystem: docker
     ignore:
       - dependency-name: ruby
-    directory: /
+    directory: /docker/mailcatcher
+    schedule:
+      interval: weekly
+  - package-ecosystem: docker
+    ignore:
+      - dependency-name: ruby
+    directory: /docker/ruby
     schedule:
       interval: weekly
 
