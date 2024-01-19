@@ -35,7 +35,7 @@ jobs:
           ruby-version: "3.0"
 
       - name: Setup gem cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: vendor/bundle
           key: ubuntu-22.04-gems-${{ hashFiles('/Gemfile.lock') }}
@@ -77,7 +77,7 @@ jobs:
           ruby-version: "3.0"
 
       - name: Setup gem cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: vendor/bundle
           key: ubuntu-22.04-gems-${{ hashFiles('/Gemfile.lock') }}
@@ -123,7 +123,7 @@ jobs:
           ruby-version: "3.0"
 
       - name: Setup gem cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: vendor/bundle
           key: ubuntu-22.04-gems-${{ hashFiles('/Gemfile.lock') }}
@@ -169,7 +169,7 @@ jobs:
           ruby-version: "3.0"
 
       - name: Setup gem cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: vendor/bundle
           key: ubuntu-22.04-gems-${{ hashFiles('/Gemfile.lock') }}
@@ -215,7 +215,7 @@ jobs:
           ruby-version: "3.0"
 
       - name: Setup gem cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: vendor/bundle
           key: ubuntu-22.04-gems-${{ hashFiles('/Gemfile.lock') }}
@@ -261,7 +261,7 @@ jobs:
           ruby-version: "3.0"
 
       - name: Setup gem cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: vendor/bundle
           key: ubuntu-22.04-gems-${{ hashFiles('/Gemfile.lock') }}
@@ -307,7 +307,7 @@ jobs:
           ruby-version: "3.0"
 
       - name: Setup gem cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: vendor/bundle
           key: ubuntu-22.04-gems-${{ hashFiles('/Gemfile.lock') }}
@@ -353,7 +353,7 @@ jobs:
           ruby-version: "3.0"
 
       - name: Setup gem cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: vendor/bundle
           key: ubuntu-22.04-gems-${{ hashFiles('/Gemfile.lock') }}
@@ -399,7 +399,7 @@ jobs:
           ruby-version: "3.0"
 
       - name: Setup gem cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: vendor/bundle
           key: ubuntu-22.04-gems-${{ hashFiles('/Gemfile.lock') }}
@@ -444,7 +444,7 @@ jobs:
           ruby-version: "3.0"
 
       - name: Setup gem cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: vendor/bundle
           key: ubuntu-22.04-gems-${{ hashFiles('/Gemfile.lock') }}
@@ -491,7 +491,7 @@ jobs:
           ruby-version: "3.0"
 
       - name: Setup gem cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: vendor/bundle
           key: ubuntu-22.04-gems-${{ hashFiles('/Gemfile.lock') }}
