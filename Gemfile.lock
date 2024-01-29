@@ -97,6 +97,7 @@ GEM
       aws-sigv4 (~> 1.8)
     aws-sigv4 (1.8.0)
       aws-eventstream (~> 1, >= 1.0.2)
+    base64 (0.2.0)
     bcrypt (3.1.20)
     brakeman (6.1.1)
       racc
@@ -139,7 +140,8 @@ GEM
       rails (>= 3.0.0)
     cucumber-wire (0.0.1)
     daemons (1.4.1)
-    dalli (3.2.6)
+    dalli (3.2.7)
+      base64
     database_cleaner (1.6.2)
     date (3.3.3)
     delayed-web (0.4.9)
