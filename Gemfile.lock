@@ -141,8 +141,7 @@ GEM
       rails (>= 3.0.0)
     cucumber-wire (0.0.1)
     daemons (1.4.1)
-    dalli (3.2.7)
-      base64
+    dalli (3.2.8)
     database_cleaner (1.6.2)
     date (3.3.3)
     delayed-web (0.4.9)
