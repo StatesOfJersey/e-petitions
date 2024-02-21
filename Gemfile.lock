@@ -412,7 +412,7 @@ GEM
       addressable
       httpi (~> 3.0)
       nokogiri (>= 1.13.9)
-    webmock (3.21.2)
+    webmock (3.22.0)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
