@@ -3,7 +3,8 @@ updates:
   - package-ecosystem: bundler
     ignore:
       - dependency-name: "rails"
-        update-types: ["version-update:semver-minor"]
+        versions:
+          - '>= 7.1'
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
     directory: /
