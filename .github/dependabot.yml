@@ -2,6 +2,8 @@ version: 2
 updates:
   - package-ecosystem: bundler
     ignore:
+      - dependency-name: "rails"
+        update-types: ["version-update:semver-minor"]
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
     directory: /
