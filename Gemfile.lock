@@ -72,7 +72,7 @@ GEM
       base64
       gyoku (>= 0.4.0)
       nokogiri
-    appsignal (3.6.0)
+    appsignal (3.6.1)
       rack
     authlogic (6.4.3)
       activemodel (>= 5.2, < 7.2)
