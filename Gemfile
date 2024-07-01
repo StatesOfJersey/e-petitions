@@ -51,7 +51,7 @@ end
 group :test do
   gem 'nokogiri'
   gem 'shoulda-matchers'
-  gem 'cucumber', '~> 2.4.0'
+  gem 'cucumber', '~> 2.99.0'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'capybara'
