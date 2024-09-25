@@ -11,6 +11,14 @@ updates:
       interval: daily
     versioning-strategy: increase-if-necessary
     open-pull-requests-limit: 10
+    groups:
+      aws:
+        applies-to: version-updates
+        patterns:
+          - "aws-*"
+        update-types:
+          - "minor"
+          - "patch"
 
   - package-ecosystem: npm
     directory: /
@@ -34,5 +42,5 @@ updates:
 
   - package-ecosystem: "github-actions"
     directory: "/"
-    schedule: 
+    schedule:
       interval: daily
