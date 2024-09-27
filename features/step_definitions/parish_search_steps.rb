@@ -18,10 +18,6 @@ Given(/^a parish "(.*?)" is found by postcode "(.*?)"$/) do |parish_name, postco
   end
 end
 
-Given(/^the MP has passed away$/) do
-  @mp_passed_away = true
-end
-
 Given(/^(a|few|some|many) residents? in "(.*?)" supports? "(.*?)"$/) do |how_many, parish, petition_action|
   petition = Petition.find_by!(action: petition_action)
   parish = @parishes.fetch(parish)
