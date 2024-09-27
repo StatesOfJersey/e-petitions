@@ -4,7 +4,7 @@ class AnonymizePetitionJob < ApplicationJob
   def perform(petition, time)
     time = time.in_time_zone
 
-    Appsignal.without_instrumentation do
+    Appsignal.ignore_instrumentation_events do
       petition.signatures.not_anonymized.find_each do |signature|
         begin
           signature.anonymize!(time)
