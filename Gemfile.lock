@@ -222,7 +222,7 @@ GEM
     gyoku (1.4.0)
       builder (>= 2.1.2)
       rexml (~> 3.0)
-    hashdiff (1.1.0)
+    hashdiff (1.1.1)
     htmlentities (4.3.4)
     httpi (4.0.4)
       base64
@@ -357,7 +357,7 @@ GEM
     regexp_parser (2.9.2)
     request_store (1.5.1)
       rack (>= 1.4)
-    rexml (3.3.7)
+    rexml (3.3.8)
     rspec-core (3.13.0)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.2)
@@ -433,7 +433,7 @@ GEM
       addressable
       faraday (>= 1.9, < 3)
       nokogiri (>= 1.13.9)
-    webmock (3.23.1)
+    webmock (3.24.0)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
