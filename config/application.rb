@@ -34,14 +34,6 @@ module Jpets
     config.i18n.default_locale = :'en-GB'
     config.i18n.fallbacks = %i[en-GB]
 
-    # Configure the cache store
-    config.cache_store = :mem_cache_store,
-      ENV.fetch('MEMCACHE_SERVERS') { 'localhost:11211' }, {
-        expires_in: 1.day, compress: true, race_condition_ttl: 10,
-        namespace: ENV.fetch('MEMCACHE_NAMESPACE') { 'jpets' },
-        pool_size: ENV.fetch('WEB_CONCURRENCY_MAX_THREADS') { 32 }.to_i
-      }
-
     # Configure Active Record to use cache versioning
     config.active_record.cache_versioning = false
 
