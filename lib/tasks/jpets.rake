@@ -80,13 +80,6 @@ namespace :jpets do
     end
   end
 
-  namespace :cache do
-    desc "Clear the cache"
-    task :clear => :environment do
-      Rails.cache.clear
-    end
-  end
-
   namespace :journals do
     task :reset_constituencies => :environment do
       ParishPetitionJournal.reset!
