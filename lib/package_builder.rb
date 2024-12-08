@@ -276,7 +276,7 @@ class PackageBuilder
 
   def remove_artifacts
     args = %w[rm -rf]
-    args.concat %w[.bundle log tmp vendor/bundle]
+    args.concat %w[.bundle .ruby-version log tmp vendor/bundle]
 
     info "Removing build artifacts ..."
     run(*args)
