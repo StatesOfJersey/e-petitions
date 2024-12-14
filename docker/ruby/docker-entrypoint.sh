@@ -16,5 +16,5 @@ else
   npm install --no-fund --no-audit
   bundle check || bundle install
 
-  bundle exec "$@"
+  exec bundle exec "$@"
 fi
