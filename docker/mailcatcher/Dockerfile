@@ -1,6 +1,6 @@
-FROM ruby:3.0
+FROM ruby:3.2-bookworm
 
-ARG VERSION=0.8.2
+ARG VERSION=0.10.0
 
 RUN gem install mailcatcher -v $VERSION
 

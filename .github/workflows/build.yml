@@ -32,7 +32,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     services:
       postgres:
@@ -55,12 +55,12 @@ jobs:
       - name: Install packages
         shell: bash
         run: |
-          sudo apt-get -yqq install libpq-dev
+          sudo apt-get -yqq install libpq-dev imagemagick libvips
 
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.0"
+          ruby-version: "3.2"
           bundler-cache: true
           cache-version: 1
 
