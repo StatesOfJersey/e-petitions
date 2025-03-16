@@ -8,7 +8,8 @@ Feature: Moderator respond to petition
     Given a sponsored petition "More money for charities"
     And I am logged in as a sysadmin
     When I go to the admin petition page for "More money for charities"
-    Then I should be connected to the server via an ssl connection
+    Then I should be on the admin petition page for "More money for charities"
+    And I should be connected to the server via an ssl connection
     And the markup should be valid
     And I should see the petition details
 
@@ -105,7 +106,8 @@ Feature: Moderator respond to petition
     Given I am logged in as a moderator
     When I look at the next petition on my list
     And I flag the petition
-    Then the petition is not available for searching or viewing
+    Then I should see "Petition has been successfully updated"
+    And the petition is not available for searching or viewing
     And the creator should not receive a notification email
     And the creator should not receive a rejection notification email
     But the petition will still show up in the back-end reporting

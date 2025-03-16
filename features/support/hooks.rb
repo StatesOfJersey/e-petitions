@@ -1,3 +1,9 @@
+Before('@javascript') do
+  unless page.driver.invalid_element_errors.include?(Selenium::WebDriver::Error::UnknownError)
+    page.driver.invalid_element_errors << Selenium::WebDriver::Error::UnknownError
+  end
+end
+
 Before do
   default_url_options[:protocol] = 'https'
 end
