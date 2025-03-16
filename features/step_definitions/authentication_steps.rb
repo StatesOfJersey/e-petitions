@@ -24,4 +24,6 @@ Given /^the admin user is logged in$/ do
   fill_in("Email", :with => @user.email)
   fill_in("Password", :with => "Letmein1!")
   click_button("Sign in")
+
+  expect(page).to have_current_path(admin_root_url)
 end
