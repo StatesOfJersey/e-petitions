@@ -6,7 +6,7 @@ gem 'dotenv-rails', require: 'dotenv/rails-now'
 gem 'rails', '7.0.8.7'
 
 gem 'rake'
-gem 'pg', '< 1.6'
+gem 'pg', '< 1.7'
 gem 'authlogic'
 gem 'will_paginate'
 gem 'json'

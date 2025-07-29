@@ -303,7 +303,11 @@ GEM
       racc (~> 1.4)
     nori (2.7.0)
       bigdecimal
-    pg (1.5.9)
+    pg (1.6.0)
+    pg (1.6.0-aarch64-linux)
+    pg (1.6.0-arm64-darwin)
+    pg (1.6.0-x86_64-darwin)
+    pg (1.6.0-x86_64-linux)
     pry (0.15.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -485,7 +489,7 @@ DEPENDENCIES
   maxminddb
   net-http-persistent
   nokogiri
-  pg (< 1.6)
+  pg (< 1.7)
   pry
   puma
   rails (= 7.0.8.7)
