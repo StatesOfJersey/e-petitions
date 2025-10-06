@@ -52,7 +52,7 @@ RSpec.describe SignatureHelper, type: :helper do
 
     describe "for petitions in your parish" do
       it "returns a HTML-safe string" do
-        expect(helper.signature_count(:signatures_by_parishency, 1, parish: 'North Votingshire')).to be_an(ActiveSupport::SafeBuffer)
+        expect(helper.signature_count(:in_your_parish, 1, parish: 'North Votingshire')).to be_an(ActiveSupport::SafeBuffer)
       end
 
       context "when the signature count is 1" do

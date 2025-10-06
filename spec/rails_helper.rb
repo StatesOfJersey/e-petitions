@@ -16,7 +16,7 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.fixture_paths = "#{::Rails.root}/spec/fixtures"
   config.file_fixture_path = "#{::Rails.root}/spec/fixtures"
   config.include Requests::JsonHelpers, type: :request
 end

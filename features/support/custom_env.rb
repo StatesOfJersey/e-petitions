@@ -138,7 +138,7 @@ World Module.new {
 
 World(RejectionHelper)
 
-Cucumber::Rails::World.fixture_path = "#{::Rails.root}/spec/fixtures"
+Cucumber::Rails::World.fixture_paths = "#{::Rails.root}/spec/fixtures"
 Cucumber::Rails::World.file_fixture_path = "#{::Rails.root}/spec/fixtures"
 
 # run background jobs inline with delayed job

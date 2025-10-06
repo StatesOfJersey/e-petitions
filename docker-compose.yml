@@ -63,11 +63,7 @@ services:
     <<: *application
     environment:
       <<: *environment
-    command: [
-      "bin/delayed_job", "start",
-      "-p", "worker",
-      "--daemon_options", "-t"
-    ]
+    command: [ "rake", "jobs:work" ]
 
 volumes:
   bundle:
