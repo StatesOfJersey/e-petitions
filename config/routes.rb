@@ -89,7 +89,11 @@ Rails.application.routes.draw do
       resources :user_sessions, only: %i[create]
 
       resources :invalidations, except: %i[show] do
-        post :cancel, :count, :start, on: :member
+        member do
+          post :cancel
+          post :count
+          post :start
+        end
       end
 
       resource :moderation_delay, only: %i[new create], path: 'moderation-delay'
@@ -115,8 +119,12 @@ Rails.application.routes.draw do
       resource :holidays, only: %i[edit update]
 
       resources :signatures, only: %i[index destroy] do
-        post :validate, :invalidate, on: :member
-        post :subscribe, :unsubscribe, on: :member
+        member do
+          post :validate
+          post :invalidate
+          post :subscribe
+          post :unsubscribe
+        end
 
         collection do
           delete :destroy, action: :bulk_destroy
