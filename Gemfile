@@ -34,7 +34,7 @@ gem 'maxminddb'
 gem 'redcarpet'
 gem 'scrypt'
 gem 'webrick'
-gem 'puma'
+gem 'puma', '< 8'
 gem 'ffi', force_ruby_platform: true
 
 gem 'aws-sdk-codedeploy'
