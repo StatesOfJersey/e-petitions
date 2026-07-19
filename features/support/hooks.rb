@@ -4,6 +4,30 @@ Before('@javascript') do
   end
 end
 
+Before do |s|
+  message = <<~TEXT
+    ================================================================================
+    =                                                                              =
+    = BEGIN: #{sprintf("%-69s", s.name)} =
+    =                                                                              =
+    ================================================================================
+  TEXT
+
+  Rails.logger.debug(message)
+end
+
+After do |s|
+  message = <<~TEXT
+    ================================================================================
+    =                                                                              =
+    = AFTER: #{sprintf("%-69s", s.name)} =
+    =                                                                              =
+    ================================================================================
+  TEXT
+
+  Rails.logger.debug(message)
+end
+
 Before do
   default_url_options[:protocol] = 'https'
 end
