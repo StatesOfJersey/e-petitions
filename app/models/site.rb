@@ -8,7 +8,10 @@ class Site < ActiveRecord::Base
   include ActiveSupport::NumberHelper
 
   FALSE_VALUES = [nil, false, 0, '0', 'f', 'F', 'false', 'FALSE', 'off', 'OFF'].to_set
-  FEATURE_FLAGS = %w[disable_local_petitions]
+  FEATURE_FLAGS = %w[
+    disable_local_petitions
+    disable_petition_moderation_locking
+  ]
 
   class << self
     def table_exists?
@@ -123,6 +126,14 @@ class Site < ActiveRecord::Base
 
     def petition_report_due_at
       (Time.current.beginning_of_week(:sunday) + petition_report_day_of_week.days).change(hour: petition_report_hour_of_day)
+    end
+
+    def disable_petition_moderation_locking!
+      instance.update!(disable_petition_moderation_locking: true)
+    end
+
+    def enable_petition_moderation_locking!
+      instance.update!(disable_petition_moderation_locking: false)
     end
 
     def defaults

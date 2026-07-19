@@ -55,6 +55,14 @@ After do
   page.driver.options[:headers] = { "REMOTE_ADDR" => "127.0.0.1" }
 end
 
+Before('@locking') do
+  Site.enable_petition_moderation_locking!
+end
+
+Before('not @locking') do
+  Site.disable_petition_moderation_locking!
+end
+
 Before('@admin') do
   Capybara.app_host = 'https://moderate.petitions.gov.je'
   Capybara.default_host = 'https://moderate.petitions.gov.je'
