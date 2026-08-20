@@ -2,7 +2,6 @@
   "name": "e-petitions",
   "private": true,
   "devDependencies": {
-    "jasmine-browser-runner": "^4.0.0",
-    "jasmine-core": "^6.0.0"
+    "jasmine-browser-runner": "^5.0.0"
   }
 }
