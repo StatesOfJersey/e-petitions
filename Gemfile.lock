@@ -86,7 +86,7 @@ GEM
       activesupport (>= 7.2, < 8.2)
       request_store (~> 1.0)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1282.0)
+    aws-partitions (1.1283.0)
     aws-sdk-codedeploy (1.103.0)
       aws-sdk-core (~> 3, >= 3.254.0)
       aws-sigv4 (~> 1.5)
@@ -565,7 +565,7 @@ CHECKSUMS
   appsignal (3.13.1) sha256=de220a1359b393b8da30ab34ab06dadb116673d37c56d62f799c932cd5c87c57
   authlogic (6.6.0) sha256=42525315fccbfcff40cbd62fd068ddee9d13516243e1a1c143f559fc314e85a4
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
-  aws-partitions (1.1282.0) sha256=d6c7c4ad2e4f8cd4ca56445bfbb3958fec0deecd959c1e2bcd3a83c9aa308c18
+  aws-partitions (1.1283.0) sha256=125ba9cb65eb7ec2b0a2041a47d204d403b3f6d9aa62bffa53a6b95b04b1f1de
   aws-sdk-codedeploy (1.103.0) sha256=39d926c67a51f9f6fe469d4c26dfd6b7a71b93c618b90c61e36d46b58505f59f
   aws-sdk-core (3.254.1) sha256=518089e32134c3478cd4ec63d07fb966546a45e9e4cbf5f80d2cf16d5699d29b
   aws-sdk-kms (1.130.0) sha256=a2e83662ca31b77a2a19c9aa2f40a98165a67270c18c718fe1c70d0cbd7cd749
