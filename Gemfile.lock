@@ -305,15 +305,15 @@ GEM
       net-protocol
     nio4r (2.7.5)
     nkf (0.3.0)
-    nokogiri (1.19.4-aarch64-linux-gnu)
+    nokogiri (1.19.6-aarch64-linux-gnu)
       racc (~> 1.4)
-    nokogiri (1.19.4-arm-linux-gnu)
+    nokogiri (1.19.6-arm-linux-gnu)
       racc (~> 1.4)
-    nokogiri (1.19.4-arm64-darwin)
+    nokogiri (1.19.6-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.19.4-x86_64-darwin)
+    nokogiri (1.19.6-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.19.4-x86_64-linux-gnu)
+    nokogiri (1.19.6-x86_64-linux-gnu)
       racc (~> 1.4)
     nori (2.9.1)
       bigdecimal
@@ -666,11 +666,11 @@ CHECKSUMS
   net-smtp (0.5.2) sha256=35103cc04d6b2d94632f9928ede07483c24b70b9c0db1f231fea43909b678f3c
   nio4r (2.7.5) sha256=6c90168e48fb5f8e768419c93abb94ba2b892a1d0602cb06eef16d8b7df1dca1
   nkf (0.3.0) sha256=357a8dbeba38b727b75930f665146546076a394a1c243faf634ff176e3588895
-  nokogiri (1.19.4-aarch64-linux-gnu) sha256=1269fb644a6de405057a53dd5c762b1209b43ca7424f839454d3dbc677c31a8f
-  nokogiri (1.19.4-arm-linux-gnu) sha256=a301313e38bb065d68239e79734bcd6f56fb6efaacebde29e9abf2a4735340ca
-  nokogiri (1.19.4-arm64-darwin) sha256=a46db9853286e6597b36ebc6953817d15acf3a299583eb3f89fdc6f91dd63527
-  nokogiri (1.19.4-x86_64-darwin) sha256=7fd17057d3e1f00e9954a74b3cd76595d3d4a5ef233b7ed9599047c204f70551
-  nokogiri (1.19.4-x86_64-linux-gnu) sha256=379fae440b28915e3f19d752ce2dcf8465ed2b2fbefd2a7ca0dd497bc981a06a
+  nokogiri (1.19.6-aarch64-linux-gnu) sha256=746fca23be3cd3f121cabab65cb44c52049e4cf9f0d36e7e8c3c0eb6cc298c57
+  nokogiri (1.19.6-arm-linux-gnu) sha256=574e50ddd99ed71aaa868027d84eb3b9f051e55fe07ddc844e4fdd654be953fc
+  nokogiri (1.19.6-arm64-darwin) sha256=0a89005ba8cf40c7bd580f4c0873f5f11e5866a99e364764fb59ac6516f560d0
+  nokogiri (1.19.6-x86_64-darwin) sha256=8f15f820fa1373d8685ae48cdd8020d923b4104db74d149d1235ddae956469a6
+  nokogiri (1.19.6-x86_64-linux-gnu) sha256=ad1e228c3bc873e4f4fc4f845d7e37b4d3648af537acd7b5e8463cce5693065b
   nori (2.9.1) sha256=72dd12420ccb3f62c32466c2e4d8ab1cc08ae525c2488f30524be6ee8cb6e606
   pg (1.7.0) sha256=f7b536501284e883d4c9ef86dbde0313063e4aaafc23575b0017b0d572a26afb
   pg (1.7.0-aarch64-linux) sha256=101dd3a261000eb64b03ff41a5890674b735b626dbdce88652969b59fb0b1157
