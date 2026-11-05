@@ -78,8 +78,9 @@ GEM
       base64
       gyoku (>= 0.4.0)
       nokogiri
-    appsignal (3.13.2)
-      rack
+    appsignal (5.0.7)
+      logger
+      rack (>= 2.0.0)
     authlogic (6.6.0)
       activemodel (>= 7.2, < 8.2)
       activerecord (>= 7.2, < 8.2)
@@ -570,7 +571,7 @@ CHECKSUMS
   activesupport (8.0.5.2) sha256=673acec3133cc8108a03d5ae0e3a9d0f5c7f818d02db33bcfed527a6c57bcdd1
   addressable (2.9.2) sha256=9117c7e7d6ee07230e75ce41fb9401ae55354dc654fcd0e862ba41d539e9a610
   akami (1.4.0) sha256=9e98f8396bfd29128f1768f1d107a1f82356881891aef840e1e47df407eaba33
-  appsignal (3.13.2) sha256=8557cc6e1c5d6204ff0b26ae6f9cb315007c0f551f9010c6d37e262097bbceb0
+  appsignal (5.0.7) sha256=7316aa63071f2cba80be44e3571f7a8fe1e3e18781d4a6029016456df8b1a8e0
   authlogic (6.6.0) sha256=42525315fccbfcff40cbd62fd068ddee9d13516243e1a1c143f559fc314e85a4
   aws-eventstream (1.4.1) sha256=ceb6a99c61df4bb00344e54aed0351574beca24f87a0d1487d1d2ed80929ce96
   aws-partitions (1.1301.0) sha256=bf5ae5762a8c3bf62c07bf7372b30e8113858904e478ce187da3e158fd074a44
