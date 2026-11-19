@@ -5,6 +5,9 @@ set -o pipefail
 chown -R deploy:deploy /home/deploy/epetitions/releases/<%= release %>
 
 su - deploy <<'EOF'
+set -e
+set -o pipefail
+
 ln -nfs /home/deploy/epetitions/shared/tmp /home/deploy/epetitions/releases/<%= release %>/tmp
 ln -nfs /home/deploy/epetitions/shared/log /home/deploy/epetitions/releases/<%= release %>/log
 ln -nfs /home/deploy/epetitions/shared/bundle /home/deploy/epetitions/releases/<%= release %>/vendor/bundle
@@ -15,7 +18,7 @@ cd /home/deploy/epetitions/current && bundle config set --local deployment 'true
 cd /home/deploy/epetitions/current && bundle config set --local without 'development test'
 cd /home/deploy/epetitions/current && bundle install --quiet
 cd /home/deploy/epetitions/current && bundle exec rake assets:precompile
-cd /home/deploy/epetitions/current && bundle exec rake db:migrate
+cd /home/deploy/epetitions/current && bundle exec rake db:migrate:wait
 if [ ${SERVER_TYPE} = "worker" ] ; then cd /home/deploy/epetitions/current && bundle exec whenever -w ; else echo not running whenever ; fi
 EOF
 
