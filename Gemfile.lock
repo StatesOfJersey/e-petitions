@@ -75,7 +75,7 @@ GEM
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
       uri (>= 0.13.1)
-    addressable (2.9.2)
+    addressable (2.10.0)
       public_suffix (>= 2.0.2, < 8.0)
     akami (1.4.0)
       base64
@@ -224,7 +224,7 @@ GEM
     gyoku (1.4.0)
       builder (>= 2.1.2)
       rexml (~> 3.0)
-    hashdiff (1.2.2)
+    hashdiff (1.3.0)
     htmlentities (4.4.2)
     httpi (4.0.6)
       base64
@@ -480,7 +480,7 @@ GEM
       addressable
       faraday (>= 1.9, < 3)
       nokogiri (>= 1.13.9)
-    webmock (3.34.0)
+    webmock (3.36.0)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
@@ -570,7 +570,7 @@ CHECKSUMS
   activerecord (8.1.4.1) sha256=bd65599ca0b5d210937f835d42c7aff69d271741c75aab022730be6cbce67e87
   activestorage (8.1.4.1) sha256=0f4e2f114f3584723a80a2c089aacc6170e765a0b2c385c9782e26ed78f05c66
   activesupport (8.1.4.1) sha256=16ac4f341ca65c85a1fcdb8ac73f68891aae9e3c4a6f9c3a27daed8b00017ed7
-  addressable (2.9.2) sha256=9117c7e7d6ee07230e75ce41fb9401ae55354dc654fcd0e862ba41d539e9a610
+  addressable (2.10.0) sha256=5e13b9c001adf01dd65ad6e0d2a91d2bc07885c0ff2b83f48cbcd95e08d9de62
   akami (1.4.0) sha256=9e98f8396bfd29128f1768f1d107a1f82356881891aef840e1e47df407eaba33
   appsignal (5.0.7) sha256=7316aa63071f2cba80be44e3571f7a8fe1e3e18781d4a6029016456df8b1a8e0
   authlogic (6.6.0) sha256=42525315fccbfcff40cbd62fd068ddee9d13516243e1a1c143f559fc314e85a4
@@ -631,7 +631,7 @@ CHECKSUMS
   ffi-compiler (1.4.3) sha256=51dc46db54d87753c6facdcde695e6850c5d7cf986ae9dd33246cb486478f343
   globalid (1.4.0) sha256=037f12fbf1d9d7a014d501c2d5c77356fd4ddd96d7a7991d6700bba96706f427
   gyoku (1.4.0) sha256=389d887384c777f271cb9377bb642f20bbe0c633d1ef5af78569d4db53c1a2cd
-  hashdiff (1.2.2) sha256=e2e287452b42f18d2a8d82dd48c435e214a81dbadccf49344b956842a3b9127f
+  hashdiff (1.3.0) sha256=0b6724b8f3fef3961acc09489b175698ce0b7fd22c9cc5aa559d280cc6b65649
   htmlentities (4.4.2) sha256=bbafbdf69f2eca9262be4efef7e43e6a1de54c95eb600f26984f71d2fe96c5c3
   httpi (4.0.6) sha256=a9c85b24374704c48e1695b122fbbb9ba77499609e370128a35df2baa1a3f6a4
   i18n (1.15.2) sha256=00f9eb62412fe593b2a65a97daa75300d37abb8f7202ec748e94b6d46a9dd1b5
@@ -735,7 +735,7 @@ CHECKSUMS
   uri (1.1.2) sha256=89292e98eabbef6248b0a0ed5e7e398e152f83f17560023a6d94a7f492b169fb
   useragent (0.16.11) sha256=700e6413ad4bb954bb63547fa098dddf7b0ebe75b40cc6f93b8d54255b173844
   wasabi (5.3.0) sha256=78e55b42d6b01b71ce0e5c8cc9b50006fe5adc7210e4dfde540547a872561bc8
-  webmock (3.34.0) sha256=72eed29dc8c00148d592acaedaaa6b869e2e397de57dfc8602b84aa834f46b33
+  webmock (3.36.0) sha256=1b9a5704f23ca67e6eab34edb1a019447a1a02c9a8401f473702ea19c5752000
   webrick (1.9.2) sha256=beb4a15fc474defed24a3bda4ffd88a490d517c9e4e6118c3edce59e45864131
   websocket (1.2.11) sha256=b7e7a74e2410b5e85c25858b26b3322f29161e300935f70a0e0d3c35e0462737
   websocket-driver (0.9.0) sha256=4dfcc6ac0ea1b6771daf5fb54cbbca131e4d5922ea0a65ba2da980370dadbe9f
