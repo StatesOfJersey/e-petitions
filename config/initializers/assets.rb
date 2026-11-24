@@ -34,3 +34,13 @@ Rails.application.config.assets.configure do |env|
     env.logger
   )
 end
+
+# Sprockets 4 defaults to SassC so register the pure Ruby Sass processors instead
+require "sprockets/sass_processor"
+
+Rails.application.config.assets.configure do |env|
+  sass_config = Rails.application.config.assets.sass_config || {}
+
+  env.register_transformer "text/sass", "text/css", Sprockets::SassProcessor.new(sass_config: sass_config)
+  env.register_transformer "text/scss", "text/css", Sprockets::ScssProcessor.new(sass_config: sass_config)
+end

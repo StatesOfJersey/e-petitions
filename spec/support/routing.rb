@@ -209,7 +209,7 @@ RSpec.configure do |config|
     dispatcher = ActionDispatch::Routing::RouteSet::Dispatcher
 
     allow_any_instance_of(dispatcher).to receive(:dispatch).and_return(
-      [200, {'Content-Type' => 'text/html'}, ["OK"]]
+      [200, {'content-type' => 'text/html'}, ["OK"]]
     )
   end
 end

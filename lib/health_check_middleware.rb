@@ -10,7 +10,7 @@ class HealthCheckMiddleware
       [
         200,
         {
-          'Content-Type' => 'application/json',
+          'content-type' => 'application/json',
         },
         [HealthCheck.checkup(env).to_json]
       ]
