@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'seen_cookie_message cookie', type: :request, show_exceptions: true do
   let(:the_past) { Time.utc(2014, 7, 2, 10, 9, 9) }
-  let(:cookies) { response.header["Set-Cookie"].split("\n") }
+  let(:cookies) { Array(response.headers["set-cookie"]) }
 
   subject do
     cookies.find{ |c| c =~ /^seen_cookie_message/ }

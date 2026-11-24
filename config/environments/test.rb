@@ -11,7 +11,7 @@ Rails.application.configure do
   config.eager_load = ENV["CI"].present?
 
   # Configure public file server for tests with Cache-Control for performance.
-  config.public_file_server.headers = { "Cache-Control" => "public, max-age=3600" }
+  config.public_file_server.headers = { "cache-control" => "public, max-age=3600" }
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local = true
@@ -62,4 +62,12 @@ Rails.application.configure do
 
   # Disable asset digests so that test values don't change.
   config.assets.digest = false
+
+  # Compile assets on the calling thread - Sprockets 4 defaults to compiling
+  # them concurrently on a thread pool which means assets that query the
+  # database (e.g. auto-updater.js.erb) use a separate connection outside
+  # of the test transaction and deadlock waiting for uncommitted rows.
+  config.assets.configure do |env|
+    env.export_concurrent = false
+  end
 end

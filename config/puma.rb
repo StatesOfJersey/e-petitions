@@ -14,7 +14,7 @@ if ENV["RAILS_ENV"] == "production"
 
   plugin :appsignal
 
-  on_worker_boot do
+  before_worker_boot do
     # Establish a connection to the database
     ActiveRecord::Base.establish_connection
   end

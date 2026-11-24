@@ -56,7 +56,7 @@ RSpec.describe HealthCheckMiddleware do
       status, headers, body = subject.call(env)
 
       expect(status).to eq 200
-      expect(headers['Content-Type']).to eq 'application/json'
+      expect(headers['content-type']).to eq 'application/json'
       expect(body.first).to eq checkup_data.to_json
     end
   end
